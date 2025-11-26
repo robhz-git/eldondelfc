@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://eldondelfc.io/</loc>
+    <lastmod>2025-11-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+```
+
+**How to add it:**
+1. In your GitHub repository, click **"Add file" → "Create new file"**
+2. Name it: `sitemap.xml`
+3. Paste the XML code above
+4. Commit changes
+
+**Submit to Google:**
+1. In Google Search Console
+2. Go to **"Sitemaps"** (left sidebar)
+3. Enter: `sitemap.xml`
+4. Click **"Submit"**
+
+---
+
+## 🤖 **Step 3: Create robots.txt**
+
+This tells search engines how to crawl your site:
+
+**Create a file called `robots.txt` in your GitHub repository:**
+```
+User-agent: *
+Allow: /
+Sitemap: https://eldondelfc.io/sitemap.xml
