@@ -97,6 +97,88 @@
             display: none;
         }
 
+        .wc-group-card {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.6) 100%);
+            border: 2px solid #ff0000;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .wc-group-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(255, 0, 0, 0.4);
+            border-color: #ff3333;
+        }
+
+        .wc-group-title {
+            color: #ff3333;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .wc-team {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border-left: 4px solid #ff0000;
+            color: #ffffff;
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
+
+        .wc-team:hover {
+            background: rgba(255, 0, 0, 0.2);
+            border-left-color: #ff6666;
+            transform: translateX(5px);
+        }
+
+        .wc-team.host {
+            border-left-color: #00ff00;
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        .wc-team.tbd {
+            opacity: 0.6;
+            font-style: italic;
+            border-left-color: #666;
+        }
+
+        .wc-info-box {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .wc-info-box h3 {
+            color: #ff3333;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .wc-info-box p {
+            color: #cccccc;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .group-of-death {
+            border-color: #ffaa00;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
+        }
+
+        .group-of-death .wc-group-title {
+            color: #ffaa00;
+        }
+
         nav {
             display: flex;
             justify-content: center;
@@ -431,6 +513,7 @@
         <nav>
             <button class="nav-btn active" onclick="showSection('news')">📰 <span class="nav-text">Noticias</span><span class="nav-text-en">News</span></button>
             <button class="nav-btn" onclick="showSection('codes')">🎁 <span class="nav-text">Códigos</span><span class="nav-text-en">Codes</span></button>
+            <button class="nav-btn" onclick="showSection('worldcup')">🏆 <span class="nav-text">Mundial 2026</span><span class="nav-text-en">World Cup 2026</span></button>
             <button class="nav-btn" onclick="showSection('events')">📅 <span class="nav-text">Eventos</span><span class="nav-text-en">Events</span></button>
             <button class="nav-btn" onclick="showSection('guides')">📚 <span class="nav-text">Guías</span><span class="nav-text-en">Guides</span></button>
             <button class="nav-btn" onclick="toggleLanguage()" style="background: rgba(255,0,0,0.3);">🌐 <span id="langToggle">EN</span></button>
@@ -455,6 +538,189 @@
             <div id="codesContent" class="loading">
                 <span class="lang-es">Cargando códigos</span>
                 <span class="lang-en">Loading codes</span>
+            </div>
+        </div>
+
+        <div id="worldcup" class="section">
+            <h2 style="color: #ff3333; font-size: 2em; margin-bottom: 20px; text-align: center;">
+                <span class="lang-es">🏆 Copa Mundial FIFA 2026</span>
+                <span class="lang-en">🏆 FIFA World Cup 2026</span>
+            </h2>
+
+            <div class="wc-info-box">
+                <h3 class="lang-es">⚽ Información del Torneo</h3>
+                <h3 class="lang-en">⚽ Tournament Information</h3>
+                <p class="lang-es">
+                    <strong>📅 Fechas:</strong> 11 de Junio - 19 de Julio, 2026<br>
+                    <strong>🌎 Sedes:</strong> Estados Unidos 🇺🇸, México 🇲🇽, Canadá 🇨🇦<br>
+                    <strong>🎉 Partido Inaugural:</strong> México vs Sudáfrica (11 de Junio, Ciudad de México)<br>
+                    <strong>👥 Equipos:</strong> 48 selecciones en 12 grupos
+                </p>
+                <p class="lang-en">
+                    <strong>📅 Dates:</strong> June 11 - July 19, 2026<br>
+                    <strong>🌎 Hosts:</strong> United States 🇺🇸, Mexico 🇲🇽, Canada 🇨🇦<br>
+                    <strong>🎉 Opening Match:</strong> Mexico vs South Africa (June 11, Mexico City)<br>
+                    <strong>👥 Teams:</strong> 48 nations in 12 groups
+                </p>
+            </div>
+
+            <div class="grid">
+                <!-- Group A -->
+                <div class="wc-group-card">
+                    <div class="wc-group-title">
+                        <span class="lang-es">Grupo A</span>
+                        <span class="lang-en">Group A</span>
+                    </div>
+                    <div class="wc-team host">🇲🇽 México</div>
+                    <div class="wc-team">🇿🇦 <span class="lang-es">Sudáfrica</span><span class="lang-en">South Africa</span></div>
+                    <div class="wc-team">🇰🇷 <span class="lang-es">Corea del Sur</span><span class="lang-en">South Korea</span></div>
+                    <div class="wc-team tbd">🏆 UEFA Playoff D</div>
+                </div>
+
+                <!-- Group B -->
+                <div class="wc-group-card">
+                    <div class="wc-group-title">
+                        <span class="lang-es">Grupo B</span>
+                        <span class="lang-en">Group B</span>
+                    </div>
+                    <div class="wc-team host">🇨🇦 Canadá</div>
+                    <div class="wc-team tbd">🏆 UEFA Playoff A</div>
+                    <div class="wc-team">🇶🇦 Qatar</div>
+                    <div class="wc-team">🇨🇭 Suiza</div>
+                </div>
+
+                <!-- Group C -->
+                <div class="wc-group-card">
+                    <div class="wc-group-title">
+                        <span class="lang-es">Grupo C</span>
+                        <span class="lang-en">Group C</span>
+                    </div>
+                    <div class="wc-team">🇧🇷 Brasil</div>
+                    <div class="wc-team">🇲🇦 <span class="lang-es">Marruecos</span><span class="lang-en">Morocco</span></div>
+                    <div class="wc-team">🇭🇹 Haití</div>
+                    <div class="wc-team">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Escocia</div>
+                </div>
+
+                <!-- Group D -->
+                <div class="wc-group-card">
+                    <div class="wc-group-title">
+                        <span class="lang-es">Grupo D</span>
+                        <span class="lang-en">Group D</span>
+                    </div>
+                    <div class="wc-team host">🇺🇸 <span class="lang-es">Estados Unidos</span><span class="lang-en">United States</span></div>
+                    <div class="wc-team">🇵🇾 Paraguay</div>
+                    <div class="wc-team">🇦🇺 Australia</div>
+                    <div class="wc-team tbd">🏆 UEFA Playoff C</div>
+                </div>
+
+                <!-- Group E -->
+                <div class="wc-group-card">
+                    <div class="wc-group-title">
+                        <span class="lang-es">Grupo E</span>
+                        <span class="lang-en">Group E</span>
+                    </div>
+                    <div class="wc-team">🇩🇪 Alemania</div>
+                    <div class="wc-team">🇨🇼 Curaçao</div>
+                    <div class="wc-team">🇨🇮 Costa de Marfil</div>
+                    <div class="wc-team">🇪🇨 Ecuador</div>
+                </div>
+
+                <!-- Group F -->
+                <div class="wc-group-card">
+                    <div class="wc-group-title">
+                        <span class="lang-es">Grupo F</span>
+                        <span class="lang-en">Group F</span>
+                    </div>
+                    <div class="wc-team">🇳🇱 <span class="lang-es">Países Bajos</span><span class="lang-en">Netherlands</span></div>
+                    <div class="wc-team">🇯🇵 <span class="lang-es">Japón</span><span class="lang-en">Japan</span></div>
+                    <div class="wc-team tbd">🏆 UEFA Playoff B</div>
+                    <div class="wc-team">🇹🇳 <span class="lang-es">Túnez</span><span class="lang-en">Tunisia</span></div>
+                </div>
+
+                <!-- Group G -->
+                <div class="wc-group-card">
+                    <div class="wc-group-title">
+                        <span class="lang-es">Grupo G</span>
+                        <span class="lang-en">Group G</span>
+                    </div>
+                    <div class="wc-team">🇧🇪 <span class="lang-es">Bélgica</span><span class="lang-en">Belgium</span></div>
+                    <div class="wc-team">🇪🇬 Egipto</div>
+                    <div class="wc-team">🇮🇷 <span class="lang-es">Irán</span><span class="lang-en">Iran</span></div>
+                    <div class="wc-team">🇳🇿 Nueva Zelanda</div>
+                </div>
+
+                <!-- Group H - Group of Death -->
+                <div class="wc-group-card group-of-death">
+                    <div class="wc-group-title">
+                        <span class="lang-es">Grupo H 🔥 Grupo de la Muerte</span>
+                        <span class="lang-en">Group H 🔥 Group of Death</span>
+                    </div>
+                    <div class="wc-team">🇪🇸 <span class="lang-es">España</span><span class="lang-en">Spain</span></div>
+                    <div class="wc-team">🇨🇻 Cabo Verde</div>
+                    <div class="wc-team">🇸🇦 Arabia Saudita</div>
+                    <div class="wc-team">🇺🇾 Uruguay</div>
+                </div>
+
+                <!-- Group I - Group of Death -->
+                <div class="wc-group-card group-of-death">
+                    <div class="wc-group-title">
+                        <span class="lang-es">Grupo I 🔥 Grupo de la Muerte</span>
+                        <span class="lang-en">Group I 🔥 Group of Death</span>
+                    </div>
+                    <div class="wc-team">🇫🇷 Francia</div>
+                    <div class="wc-team">🇸🇳 Senegal</div>
+                    <div class="wc-team tbd">🏆 <span class="lang-es">Playoff Intercontinental</span><span class="lang-en">Intercontinental Playoff</span></div>
+                    <div class="wc-team">🇳🇴 Noruega</div>
+                </div>
+
+                <!-- Group J -->
+                <div class="wc-group-card">
+                    <div class="wc-group-title">
+                        <span class="lang-es">Grupo J</span>
+                        <span class="lang-en">Group J</span>
+                    </div>
+                    <div class="wc-team">🇦🇷 Argentina</div>
+                    <div class="wc-team">🇩🇿 Argelia</div>
+                    <div class="wc-team">🇦🇹 Austria</div>
+                    <div class="wc-team">🇯🇴 Jordania</div>
+                </div>
+
+                <!-- Group K -->
+                <div class="wc-group-card">
+                    <div class="wc-group-title">
+                        <span class="lang-es">Grupo K</span>
+                        <span class="lang-en">Group K</span>
+                    </div>
+                    <div class="wc-team">🇵🇹 Portugal</div>
+                    <div class="wc-team">🇨🇴 Colombia</div>
+                    <div class="wc-team">🇺🇿 <span class="lang-es">Uzbekistán</span><span class="lang-en">Uzbekistan</span></div>
+                    <div class="wc-team">🇬🇭 Ghana</div>
+                </div>
+
+                <!-- Group L -->
+                <div class="wc-group-card">
+                    <div class="wc-group-title">
+                        <span class="lang-es">Grupo L</span>
+                        <span class="lang-en">Group L</span>
+                    </div>
+                    <div class="wc-team">🏴󠁧󠁢󠁥󠁮󠁧󠁿 <span class="lang-es">Inglaterra</span><span class="lang-en">England</span></div>
+                    <div class="wc-team">🇭🇷 Croacia</div>
+                    <div class="wc-team">🇵🇦 <span class="lang-es">Panamá</span><span class="lang-en">Panama</span></div>
+                    <div class="wc-team">🇬🇭 <span class="lang-es">Costa Rica</span><span class="lang-en">Costa Rica</span></div>
+                </div>
+            </div>
+
+            <div class="wc-info-box" style="margin-top: 40px;">
+                <h3 class="lang-es">⚠️ Equipos Pendientes</h3>
+                <h3 class="lang-en">⚠️ Teams To Be Decided</h3>
+                <p class="lang-es">
+                    Los playoffs de UEFA y el playoff intercontinental se jugarán en <strong>Marzo 2026</strong>.<br>
+                    Esta página se actualizará cuando se definan todos los equipos.
+                </p>
+                <p class="lang-en">
+                    UEFA playoffs and intercontinental playoff will be played in <strong>March 2026</strong>.<br>
+                    This page will be updated when all teams are confirmed.
+                </p>
             </div>
         </div>
 
