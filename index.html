@@ -370,27 +370,33 @@
 
     <script>
         function copyCode() {
-            const code = document.getElementById('daily-code').innerText;
-            navigator.clipboard.writeText(code);
-            const status = document.getElementById('copy-status');
-            status.innerText = "¡CÓDIGO COPIADO! VE A REDEEM.FCM.EA.COM";
-            setTimeout(() => { status.innerText = ""; }, 4000);
+        const code = document.getElementById('daily-code').innerText;
+        navigator.clipboard.writeText(code);
+        const status = document.getElementById('copy-status');
+        status.innerText = "¡CÓDIGO COPIADO! VE A REDEEM.FCM.EA.COM";
+        setTimeout(() => { status.innerText = ""; }, 4000);
+    }
+
+    // Función para cambiar entre pestañas de noticias
+    function showNews(category) {
+        // 1. Ocultar todos los feeds
+        document.getElementById('mundial-news').style.display = 'none';
+        document.getElementById('champions-news').style.display = 'none';
+
+        // 2. Quitar clase activa de todos los botones
+        document.querySelectorAll('.news-tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // 3. Mostrar el feed seleccionado y activar su botón
+        if (category === 'mundial') {
+            document.getElementById('mundial-news').style.display = 'grid';
+            event.currentTarget.classList.add('active');
+        } else if (category === 'champions') {
+            document.getElementById('champions-news').style.display = 'grid';
+            event.currentTarget.classList.add('active');
         }
-
-        function showNews(category) {
-            document.getElementById('mundial-news').style.display = 'none';
-            document.getElementById('champions-news').style.display = 'none';
-
-            document.querySelector('.news-tab-btn.active').classList.remove('active');
-
-            if (category === 'mundial') {
-                document.getElementById('mundial-news').style.display = 'grid';
-                document.querySelector('.news-tab-btn:nth-child(1)').classList.add('active');
-            } else if (category === 'champions') {
-                document.getElementById('champions-news').style.display = 'grid';
-                document.querySelector('.news-tab-btn:nth-child(2)').classList.add('active');
-            }
-        }
+    }
     </script>
 </body>
 </html>
