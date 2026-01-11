@@ -1,0 +1,68 @@
+name: Automatizacion ElDonDelFC Full
+on:
+  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Instalar dependencias
+        run: pip install requests beautifulsoup4 feedparser
+
+      - name: Actualizar Codigos y Noticias
+        run: |
+          python << END
+          import requests
+          from bs4 import BeautifulSoup
+          import feedparser
+          import re
+
+          # 1. ACTUALIZAR CÓDIGO
+          try:
+              res = requests.get("https://www.fcmobileforum.com/fcmobile-redeem-codes")
+              soup = BeautifulSoup(res.text, 'html.parser')
+              code = soup.find('strong', string=re.compile(r'^[A-Z0-9]+$')).text.strip()
+          except:
+              code = "FELICESREYES"
+
+          # 2. OBTENER NOTICIAS MUNDIAL (RSS FIFA)
+          mundial_html = ""
+          d = feedparser.parse("https://www.fifa.com/fifaplus/es/rss-feeds/world-cup-2026")
+          for entry in d.entries[:3]: # Tomamos las 3 más recientes
+              mundial_html += f'<div class="news-item"><h4>{entry.title}</h4><p>{entry.summary[:100]}...</p><a href="{entry.link}" target="_blank">Leer más</a></div>'
+
+          # 3. OBTENER NOTICIAS CHAMPIONS (RSS UEFA)
+          champions_html = ""
+          c = feedparser.parse("https://es.uefa.com/rssfeed/uefachampionsleague/rss.xml")
+          for entry in c.entries[:2]:
+              champions_html += f'<div class="news-item"><h4>{entry.title}</h4><p>{entry.summary[:100]}...</p><a href="{entry.link}" target="_blank">Leer más</a></div>'
+
+          # 4. INYECTAR EN INDEX.HTML
+          with open('index.html', 'r', encoding='utf-8') as f:
+              html = f.read()
+
+          html = re.sub(r'<div class="code-box" id="daily-code">.*?</div>', f'<div class="code-box" id="daily-code">{code}</div>', html)
+          html = re.sub(r'<div class="news-feed" id="mundial-news">.*?</div>\s*</div>', f'<div class="news-feed" id="mundial-news">{mundial_html}</div>', html, flags=re.DOTALL)
+          html = re.sub(r'<div class="news-feed" id="champions-news" style="display:none;">.*?</div>', f'<div class="news-feed" id="champions-news" style="display:none;">{champions_html}</div>', html, flags=re.DOTALL)
+
+          with open('index.html', 'w', encoding='utf-8') as f:
+              f.write(html)
+          END
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'ElDonBot'
+          git config --global user.email 'bot@eldondelfc.io'
+          git add index.html
+          git commit -m "🚀 Noticias y códigos actualizados" || exit 0
+          git push
