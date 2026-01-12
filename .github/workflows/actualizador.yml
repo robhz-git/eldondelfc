@@ -1,4 +1,4 @@
-name: Actualizador Definitivo
+name: Actualizador ElDonDelFC
 on:
   schedule:
     - cron: '0 */6 * * *'
@@ -9,66 +9,53 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Python Setup
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - name: Deps
+      - name: Install Deps
         run: pip install requests beautifulsoup4
-      - name: Update
+      - name: Run Bot
         run: |
           python << END
           import requests
           from bs4 import BeautifulSoup
           import re
 
-          h = {'User-Agent': 'Mozilla/5.0'}
+          # Engañamos a la web para que crea que somos un navegador real
+          h = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'}
 
-          # CÓDIGO FC MOBILE
-          def get_code():
+          def get_fc_code():
               try:
                   r = requests.get("https://www.fcmobileforum.com/fcmobile-redeem-codes", headers=h, timeout=20)
                   s = BeautifulSoup(r.text, 'html.parser')
-                  for tr in s.find_all('tr'):
-                      tds = tr.find_all('td')
-                      if len(tds) >= 2 and "active" in tds[1].text.lower():
-                          code = tds[0].text.strip()
-                          if code.isupper() and " " not in code: return code
-                  return "REVISA TIKTOK"
-              except: return "REVISA TIKTOK"
+                  # Buscamos en la tabla de códigos activos
+                  for row in s.find_all('tr'):
+                      cells = row.find_all('td')
+                      if len(cells) >= 2 and "active" in cells[1].text.lower():
+                          code = cells[0].get_text().strip()
+                          if code.isupper() and len(code) > 4:
+                              return code
+                  return "REVISA EL LINK"
+              except:
+                  return "REVISA EL LINK"
 
-          # NOTICIAS
-          def get_news(q):
-              url = f"https://news.google.com/rss/search?q={q}&hl=es-419&gl=MX&ceid=MX:es-419"
-              try:
-                  r = requests.get(url, timeout=20)
-                  s = BeautifulSoup(r.content, "xml")
-                  html = ""
-                  for i in s.find_all('item')[:3]:
-                      title = i.title.text.rsplit(" - ", 1)[0]
-                      html += f'<div class="news-item"><h4>{title}</h4><a href=\"{i.link.text}\" target=\"_blank\">Leer más</a></div>'
-                  return html if html else "<h4>Buscando...</h4>"
-              except: return "<h4>Error de carga</h4>"
-
-          code = get_code()
-          n_mundial = get_news("FIFA World Cup 2026")
-          n_champ = get_news("Champions League ESPN")
+          new_code = get_fc_code()
 
           with open('index.html', 'r', encoding='utf-8') as f:
-              c = f.read()
+              content = f.read()
 
-          # Inyectar con Regex simplificado (buscamos el ID exacto)
-          c = re.sub(r'<div id="daily-code" class="code-box">.*?</div>', f'<div id="daily-code" class="code-box">{code}</div>', c)
-          c = re.sub(r'<div id="mundial-news">.*?</div>', f'<div id="mundial-news">{n_mundial}</div>', c, flags=re.DOTALL)
-          c = re.sub(r'<div id="champions-news" style="display:none;">.*?</div>', f'<div id="champions-news" style="display:none;">{n_champ}</div>', c, flags=re.DOTALL)
+          # Inyectamos el código en el div con ID daily-code
+          content = re.sub(r'<div id="daily-code" class="code-display">.*?</div>', 
+                           f'<div id="daily-code" class="code-display">{new_code}</div>', content)
 
           with open('index.html', 'w', encoding='utf-8') as f:
-              f.write(c)
+              f.write(content)
           END
-      - name: Push
+      - name: Deploy
         run: |
-          git config --global user.name 'Bot'
-          git config --global user.email 'bot@bot.com'
+          git config --global user.name 'ElDonBot'
+          git config --global user.email 'bot@eldondelfc.io'
           git add index.html
-          git commit -m "Update" || exit 0
+          git commit -m "🤖 Bot: Código actualizado satisfactoriamente" || exit 0
           git push
