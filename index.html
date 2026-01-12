@@ -12,7 +12,7 @@
             --bg-dark: #070707;
             --neon-red: #ff003c;
             --gold: #d4af37;
-            --glass: rgba(15, 15, 15, 0.9);
+            --glass: rgba(15, 15, 15, 0.92);
         }
 
         body {
@@ -20,7 +20,11 @@
             color: white;
             font-family: 'Rajdhani', sans-serif;
             margin: 0;
-            background-image: radial-gradient(circle at center, #1a1a1a 0%, var(--bg-dark) 100%);
+            /* FONDO DE CIRCUITOS INTEGRADOS */
+            background-image: 
+                radial-gradient(circle at center, transparent 0%, var(--bg-dark) 85%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='152' height='152' viewBox='0 0 152 152'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.07'%3E%3Cpath d='M152 150v2H0v-2h28v-8H8v-20H0v-2h8V80h42v20h20v42H30v8h122zm-20-46v-20h8v20h-8zM52 30V10h8v20h-8zM0 102h8v20H0v-20zm52 30h8v20h-8v-20zm100-22h-8v20h8v-20zm-100-62h8v20h-8V48zm88 62h8v20h-8v-20zm-88-22h8v20h-8v-20zm88-22h8v20h-8V64zm-88-22h8v20h-8V42zm88-22h8v20h-8V20zm-44 40h8v20h-8V60zm0 42h8v20h-8v-20zm0-84h8v20h-8V18zm0 126h8v20h-8v-20zM18 52h8v20h-8V52zm88 0h8v20h-8V52zm-88 42h8v20h-8V94zm88 0h8v20h-8V94zM18 10h8v20h-8V10zm88 0h8v20h-8V10zm-88 84h8v20h-8V94zm88 0h8v20h-8V94zM18 136h8v20h-8v-20zm88 0h8v20h-8v-20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
             min-height: 100vh;
         }
 
@@ -28,94 +32,95 @@
             display: grid;
             grid-template-columns: 1fr 320px;
             gap: 20px;
-            max-width: 1100px;
+            max-width: 1150px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 30px 20px;
         }
 
         .content-area { display: flex; flex-direction: column; gap: 20px; }
 
         .card {
             background: var(--glass);
-            border: 1px solid #222;
-            padding: 20px;
-            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
         }
 
-        /* FIX: Caja de código centrada y limpia */
         .code-box {
             background: #000;
             border: 2px dashed var(--neon-red);
-            padding: 15px;
-            font-size: 2rem;
+            padding: 20px;
+            font-size: 2.2rem;
             margin: 15px 0;
             color: var(--neon-red);
             font-family: 'Orbitron', sans-serif;
             text-align: center;
-            min-height: 50px;
+            text-shadow: 0 0 10px var(--neon-red);
         }
 
         .btn-action {
             background: var(--gold);
             color: black;
             border: none;
-            padding: 12px;
+            padding: 14px;
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
-            border-radius: 6px;
+            border-radius: 8px;
             width: 100%;
             font-family: 'Orbitron', sans-serif;
-            transition: 0.2s;
+            transition: 0.3s;
+            margin-top: auto; /* Empuja el botón al final */
         }
 
-        .btn-action:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn-action:hover { background: #fff; transform: translateY(-3px); }
 
-        /* FIX: Sección de botones inferiores alineados */
         .action-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
-        /* Sidebar y Avatar */
+        .card-desc {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        /* Sidebar */
         .sidebar {
             position: sticky;
             top: 20px;
             height: fit-content;
             background: var(--glass);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #222;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
             text-align: center;
         }
 
-        .avatar-sidebar { width: 100%; max-width: 200px; margin-bottom: 15px; }
+        .avatar-sidebar { width: 100%; max-width: 220px; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3)); }
 
         .social-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            margin-bottom: 8px;
-            background: #1a1a1a;
-            border-radius: 6px;
-            font-size: 0.8rem;
+            display: flex; align-items: center; gap: 12px; color: white;
+            text-decoration: none; padding: 12px; margin-bottom: 10px;
+            background: rgba(255,255,255,0.05); border-radius: 8px; transition: 0.3s;
         }
+        .social-link:hover { background: var(--neon-red); transform: translateX(5px); }
 
-        .social-link:hover { background: var(--neon-red); }
-
-        /* News Tabs */
-        .news-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
-        .tab-btn { background: #111; color: #777; border: 1px solid #333; padding: 5px 10px; cursor: pointer; }
+        /* News */
+        .news-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { background: #111; color: #666; border: 1px solid #333; padding: 8px 15px; cursor: pointer; border-radius: 5px; }
         .tab-btn.active { background: var(--neon-red); color: white; }
+        .news-item { border-bottom: 1px solid #222; padding: 15px 0; }
+        .news-item h4 { margin: 0 0 8px 0; color: var(--gold); font-size: 1rem; }
+        .news-item a { color: var(--neon-red); text-decoration: none; font-size: 0.8rem; font-weight: bold; }
 
-        @media (max-width: 850px) {
+        @media (max-width: 900px) {
             .main-container { grid-template-columns: 1fr; }
             .action-grid { grid-template-columns: 1fr; }
         }
@@ -125,13 +130,14 @@
 
     <div class="main-container">
         <div class="content-area">
+            
             <div class="card">
-                <h4 style="color:var(--gold); margin:0">CÓDIGO DE RECOMPENSA</h4>
+                <h3 style="color:var(--gold); margin:0; font-family:'Orbitron'; font-size: 1rem;">CÓDIGO DE RECOMPENSA</h3>
                 <div class="code-box" id="daily-code">CARGANDO...</div>
-                <button class="btn-action" onclick="copyCode()">COPIAR CÓDIGO</button>
+                <button class="btn-action" onclick="copyCode()">COPIAR Y CANJEAR</button>
             </div>
 
-            <div class="card" style="min-height: 250px;">
+            <div class="card" style="min-height: 300px;">
                 <div class="news-tabs">
                     <button class="tab-btn active" onclick="showNews('mundial')">MUNDIAL 2026</button>
                     <button class="tab-btn" onclick="showNews('champions')">CHAMPIONS</button>
@@ -142,15 +148,17 @@
 
             <div class="action-grid">
                 <div class="card">
-                    <h4 style="margin:0 0 15px 0">ACADEMIA 1V1</h4>
+                    <h3 style="margin:0 0 10px 0; font-family:'Orbitron'; font-size: 1rem;">ACADEMIA 1V1</h3>
+                    <p class="card-desc">Mejora tu nivel competitivo, revisa tu plantilla y aprende tácticas avanzadas con sesiones personalizadas.</p>
                     <a href="LINK_CALENDARIO" target="_blank" style="text-decoration:none;">
-                        <button class="btn-action">RESERVAR</button>
+                        <button class="btn-action">RESERVAR SESIÓN</button>
                     </a>
                 </div>
                 <div class="card">
-                    <h4 style="margin:0 0 15px 0">APOYO</h4>
+                    <h3 style="margin:0 0 10px 0; font-family:'Orbitron'; font-size: 1rem;">APOYO</h3>
+                    <p class="card-desc">Apóyame para crear más y mejor contenido para toda la comunidad de FC Mobile.</p>
                     <a href="LINK_PAYPAL" target="_blank" style="text-decoration:none;">
-                        <button class="btn-action" style="background:var(--neon-red); color:white;">DONAR</button>
+                        <button class="btn-action" style="background:var(--neon-red); color:white;">DONAR AHORA</button>
                     </a>
                 </div>
             </div>
@@ -158,7 +166,7 @@
 
         <aside class="sidebar">
             <img src="avatar.png" alt="ElDonDelFC" class="avatar-sidebar">
-            <div style="font-family:'Orbitron'; color:var(--gold); font-size:0.7rem; letter-spacing:2px; margin-bottom:20px;">COMMANDER • EXPERT</div>
+            <div style="font-family:'Orbitron'; color:var(--gold); font-size:0.7rem; letter-spacing:3px; margin-bottom:25px;">COMMANDER • EXPERT</div>
             <div class="social-sidebar">
                 <a href="https://www.tiktok.com/@eldondelfc" class="social-link"><i class="fab fa-tiktok"></i> TIKTOK</a>
                 <a href="https://www.youtube.com/@eldondelfc" class="social-link"><i class="fab fa-youtube"></i> YOUTUBE</a>
@@ -173,7 +181,7 @@
             const code = document.getElementById('daily-code').innerText;
             if(code !== "CARGANDO...") {
                 navigator.clipboard.writeText(code);
-                alert("Copiado: " + code);
+                alert("Copiado al portapapeles: " + code);
             }
         }
         function showNews(cat) {
