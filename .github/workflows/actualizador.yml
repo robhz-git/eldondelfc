@@ -28,49 +28,67 @@ jobs:
 
           headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
 
-          # 1. BUSCAR CÓDIGO REAL
+          # 1. EXTRACCIÓN MEJORADA DEL CÓDIGO (ESPECÍFICO PARA FCMOBILEFORUM)
           try:
               res = requests.get("https://www.fcmobileforum.com/fcmobile-redeem-codes", headers=headers, timeout=20)
               soup = BeautifulSoup(res.text, 'html.parser')
-              valid_code = "CONSULTA TIKTOK"
-              for tag in soup.find_all(['strong', 'b']):
-                  text = tag.get_text().strip()
-                  if text.isupper() and 5 < len(text) < 16 and " " not in text:
-                      if not any(x in text for x in ["CODE", "REDEEM", "ACTIVE"]):
-                          valid_code = text
-                          break
-          except:
-              valid_code = "VER RECIENTES"
+              
+              # Buscamos primero dentro de las tablas de la página
+              tables = soup.find_all('table')
+              found_code = None
+              
+              for table in tables:
+                  rows = table.find_all('tr')
+                  for row in rows:
+                      cells = row.find_all('td')
+                      for cell in cells:
+                          text = cell.get_text().strip()
+                          # Los códigos de FC Mobile suelen ser una sola palabra en mayúsculas
+                          if text.isupper() and 4 < len(text) < 15 and " " not in text:
+                              if not any(x in text for x in ["CODE", "REDEEM", "EXPIRED", "STATUS", "NEW"]):
+                                  found_code = text
+                                  break
+                      if found_code: break
+                  if found_code: break
+              
+              # Si no estaba en una tabla, buscamos en negritas
+              if not found_code:
+                  for bold in soup.find_all(['strong', 'b']):
+                      text = bold.get_text().strip()
+                      if text.isupper() and 4 < len(text) < 15 and " " not in text:
+                          if not any(x in text for x in ["CODE", "REDEEM", "EXPIRED"]):
+                              found_code = text
+                              break
 
-          # 2. NOTICIAS MULTI-FUENTE (ESPN, MARCA, AS, ETC.)
-          def get_latest_news(topic):
-              # Buscamos en Google News para traer ESPN, FIFA, y más medios globales
-              url = f"https://news.google.com/rss/search?q={topic}&hl=es-419&gl=MX&ceid=MX:es-419"
+              valid_code = found_code if found_code else "SIN CÓDIGOS HOY"
+          except:
+              valid_code = "VERIFICANDO..."
+
+          # 2. NOTICIAS MULTI-FUENTE (ESPN, FIFA, MARCA)
+          def get_news(query):
+              url = f"https://news.google.com/rss/search?q={query}&hl=es-419&gl=MX&ceid=MX:es-419"
               try:
                   res = requests.get(url, timeout=15)
                   soup = BeautifulSoup(res.content, "xml")
-                  items = soup.find_all('item')
                   html = ""
-                  for item in items[:4]: # Traemos las 4 más recientes
-                      title = item.title.text
+                  for item in soup.find_all('item')[:3]:
+                      title = item.title.text.split(" - ")[0]
                       link = item.link.text
-                      # Extraemos la fuente (ej. ESPN) si viene en el título
-                      html += f'<div class="news-item"><h4>{title}</h4><a href="{link}" target="_blank">Leer en fuente oficial</a></div>'
-                  return html
+                      html += f'<div class="news-item"><h4>{title}</h4><a href=\"{link}\" target=\"_blank\">Leer más</a></div>'
+                  return html if html else "<h4>Buscando noticias...</h4>"
               except:
-                  return "<h4>Cargando titulares...</h4>"
+                  return "<h4>Error de conexión</h4>"
 
-          mundial = get_latest_news("Mundial 2026 FIFA ESPN")
-          champions = get_latest_news("UEFA Champions League ESPN Marca")
+          mundial_html = get_news("Mundial 2026 FIFA ESPN")
+          champions_html = get_news("Champions League ESPN Marca")
 
-          # 3. ACTUALIZAR EL ARCHIVO
+          # 3. ACTUALIZAR INDEX.HTML
           with open('index.html', 'r', encoding='utf-8') as f:
               content = f.read()
 
-          # Reemplazo seguro usando regex para no romper el diseño
           content = re.sub(r'<div class="code-box" id="daily-code">.*?</div>', f'<div class="code-box" id="daily-code">{valid_code}</div>', content)
-          content = re.sub(r'<div id="mundial-news" class="news-feed">.*?</div>', f'<div id="mundial-news" class="news-feed">{mundial}</div>', content, flags=re.DOTALL)
-          content = re.sub(r'<div id="champions-news" class="news-feed" style="display:none;">.*?</div>', f'<div id="champions-news" class="news-feed" style="display:none;">{champions}</div>', content, flags=re.DOTALL)
+          content = re.sub(r'<div id="mundial-news" class="news-feed">.*?</div>', f'<div id="mundial-news" class="news-feed">{mundial_html}</div>', content, flags=re.DOTALL)
+          content = re.sub(r'<div id="champions-news" class="news-feed" style="display:none;">.*?</div>', f'<div id="champions-news" class="news-feed" style="display:none;">{champions_html}</div>', content, flags=re.DOTALL)
 
           with open('index.html', 'w', encoding='utf-8') as f:
               f.write(content)
@@ -81,5 +99,5 @@ jobs:
           git config --global user.name 'ElDonBot'
           git config --global user.email 'bot@eldondelfc.io'
           git add index.html
-          git commit -m "🤖 Bot: Noticias multi-fuente y fix de diseño" || exit 0
+          git commit -m "🤖 Bot: Extracción de tablas y multi-noticias" || exit 0
           git push
