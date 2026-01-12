@@ -1,4 +1,4 @@
-name: Automatizacion ElDonDelFC Full
+name: Actualizador Definitivo
 on:
   schedule:
     - cron: '0 */6 * * *'
@@ -8,94 +8,67 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Configurar Python
+      - uses: actions/checkout@v3
+      - name: Python Setup
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-
-      - name: Instalar dependencias
+      - name: Deps
         run: pip install requests beautifulsoup4
-
-      - name: Actualizar Codigos y Noticias
+      - name: Update
         run: |
           python << END
           import requests
           from bs4 import BeautifulSoup
           import re
-          import time
 
-          headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+          h = {'User-Agent': 'Mozilla/5.0'}
 
-          # 1. EXTRACCIÓN FILTRADA DEL CÓDIGO (SOLO ACTIVOS)
-          def get_active_code():
+          # CÓDIGO FC MOBILE
+          def get_code():
               try:
-                  res = requests.get("https://www.fcmobileforum.com/fcmobile-redeem-codes", headers=headers, timeout=20)
-                  soup = BeautifulSoup(res.text, 'html.parser')
-                  # Buscamos en las filas de las tablas
-                  rows = soup.find_all('tr')
-                  for row in rows:
-                      cells = row.find_all('td')
-                      if len(cells) >= 2:
-                          code_text = cells[0].get_text().strip()
-                          status_text = cells[1].get_text().strip().lower()
-                          # Si el estado es "active", este es nuestro código
-                          if "active" in status_text and code_text.isupper() and " " not in code_text:
-                              return code_text
-                  
-                  # Respaldo: Si no hay tabla, buscar el primer strong que no sea palabra común
-                  for tag in soup.find_all(['strong', 'b']):
-                      t = tag.get_text().strip()
-                      if t.isupper() and 5 < len(t) < 15 and not any(x in t for x in ["CODE", "ACTIVE", "EXPIRED"]):
-                          return t
-              except:
-                  pass
-              return "SIN CÓDIGOS ACTIVOS"
+                  r = requests.get("https://www.fcmobileforum.com/fcmobile-redeem-codes", headers=h, timeout=20)
+                  s = BeautifulSoup(r.text, 'html.parser')
+                  for tr in s.find_all('tr'):
+                      tds = tr.find_all('td')
+                      if len(tds) >= 2 and "active" in tds[1].text.lower():
+                          code = tds[0].text.strip()
+                          if code.isupper() and " " not in code: return code
+                  return "REVISA TIKTOK"
+              except: return "REVISA TIKTOK"
 
-          valid_code = get_active_code()
-
-          # 2. NOTICIAS (SISTEMA DE EMERGENCIA ANTI-BLOQUEO)
-          def get_news(query):
-              # Usamos una URL de búsqueda directa para evitar errores de parseo XML
-              url = f"https://news.google.com/search?q={query}&hl=es-419&gl=MX&ceid=MX%3Aes-419"
+          # NOTICIAS
+          def get_news(q):
+              url = f"https://news.google.com/rss/search?q={q}&hl=es-419&gl=MX&ceid=MX:es-419"
               try:
-                  res = requests.get(url, headers=headers, timeout=20)
-                  soup = BeautifulSoup(res.text, 'html.parser')
-                  articles = soup.find_all('article', limit=4)
+                  r = requests.get(url, timeout=20)
+                  s = BeautifulSoup(r.content, "xml")
                   html = ""
-                  for art in articles:
-                      title_tag = art.find('h3') or art.find('h4')
-                      link_tag = art.find('a', href=True)
-                      if title_tag and link_tag:
-                          title = title_tag.get_text()
-                          link = "https://news.google.com" + link_tag['href'][1:]
-                          html += f'<div class="news-item"><h4>{title}</h4><a href=\"{link}\" target=\"_blank\">Leer más en fuente oficial</a></div>'
-                  return html if html else "<h4>Buscando noticias recientes...</h4>"
-              except:
-                  return "<h4>Servicio de noticias temporalmente en mantenimiento</h4>"
+                  for i in s.find_all('item')[:3]:
+                      title = i.title.text.rsplit(" - ", 1)[0]
+                      html += f'<div class="news-item"><h4>{title}</h4><a href=\"{i.link.text}\" target=\"_blank\">Leer más</a></div>'
+                  return html if html else "<h4>Buscando...</h4>"
+              except: return "<h4>Error de carga</h4>"
 
-          mundial_html = get_news("FIFA World Cup 2026")
-          champions_html = get_news("UEFA Champions League ESPN")
+          code = get_code()
+          n_mundial = get_news("FIFA World Cup 2026")
+          n_champ = get_news("Champions League ESPN")
 
-          # 3. ACTUALIZAR INDEX.HTML
           with open('index.html', 'r', encoding='utf-8') as f:
-              content = f.read()
+              c = f.read()
 
-          # Inyección precisa
-          content = re.sub(r'<div class="code-box" id="daily-code">.*?</div>', f'<div class="code-box" id="daily-code">{valid_code}</div>', content)
-          content = re.sub(r'<div id="mundial-news" class="news-feed">.*?</div>', f'<div id="mundial-news" class="news-feed">{mundial_html}</div>', content, flags=re.DOTALL)
-          content = re.sub(r'<div id="champions-news" class="news-feed" style="display:none;">.*?</div>', f'<div id="champions-news" class="news-feed" style="display:none;">{champions_html}</div>', content, flags=re.DOTALL)
+          # Inyectar con Regex simplificado (buscamos el ID exacto)
+          c = re.sub(r'<div id="daily-code" class="code-box">.*?</div>', f'<div id="daily-code" class="code-box">{code}</div>', c)
+          c = re.sub(r'<div id="mundial-news">.*?</div>', f'<div id="mundial-news">{n_mundial}</div>', c, flags=re.DOTALL)
+          c = re.sub(r'<div id="champions-news" style="display:none;">.*?</div>', f'<div id="champions-news" style="display:none;">{n_champ}</div>', c, flags=re.DOTALL)
 
           with open('index.html', 'w', encoding='utf-8') as f:
-              f.write(content)
+              f.write(c)
           END
-
-      - name: Guardar cambios
+      - name: Push
         run: |
-          git config --global user.name 'ElDonBot'
-          git config --global user.email 'bot@eldondelfc.io'
+          git config --global user.name 'Bot'
+          git config --global user.email 'bot@bot.com'
           git add index.html
-          git commit -m "🤖 Bot: Fix Código Activo y Noticias HTML" || exit 0
+          git commit -m "Update" || exit 0
           git push
