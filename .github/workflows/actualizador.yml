@@ -29,52 +29,61 @@ jobs:
 
           headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
 
-          # FUNCION PARA PETICIONES CON REINTENTOS
-          def safe_get(url, is_xml=False):
-              for i in range(3): # 3 intentos
-                  try:
-                      res = requests.get(url, headers=headers, timeout=20)
-                      if res.status_code == 200:
-                          return BeautifulSoup(res.content, "xml" if is_xml else "html.parser")
-                  except:
-                      time.sleep(2)
-              return None
+          # 1. EXTRACCIÓN FILTRADA DEL CÓDIGO (SOLO ACTIVOS)
+          def get_active_code():
+              try:
+                  res = requests.get("https://www.fcmobileforum.com/fcmobile-redeem-codes", headers=headers, timeout=20)
+                  soup = BeautifulSoup(res.text, 'html.parser')
+                  # Buscamos en las filas de las tablas
+                  rows = soup.find_all('tr')
+                  for row in rows:
+                      cells = row.find_all('td')
+                      if len(cells) >= 2:
+                          code_text = cells[0].get_text().strip()
+                          status_text = cells[1].get_text().strip().lower()
+                          # Si el estado es "active", este es nuestro código
+                          if "active" in status_text and code_text.isupper() and " " not in code_text:
+                              return code_text
+                  
+                  # Respaldo: Si no hay tabla, buscar el primer strong que no sea palabra común
+                  for tag in soup.find_all(['strong', 'b']):
+                      t = tag.get_text().strip()
+                      if t.isupper() and 5 < len(t) < 15 and not any(x in t for x in ["CODE", "ACTIVE", "EXPIRED"]):
+                          return t
+              except:
+                  pass
+              return "SIN CÓDIGOS ACTIVOS"
 
-          # 1. EXTRACCIÓN DEL CÓDIGO
-          soup_code = safe_get("https://www.fcmobileforum.com/fcmobile-redeem-codes")
-          valid_code = "SIN CÓDIGOS NUEVOS"
-          if soup_code:
-              for tag in soup_code.find_all(['strong', 'td']):
-                  text = tag.get_text().strip()
-                  if text.isupper() and 5 < len(text) < 16 and " " not in text:
-                      if not any(x in text for x in ["CODE", "REDEEM", "EXPIRED", "STATUS"]):
-                          valid_code = text
-                          break
+          valid_code = get_active_code()
 
-          # 2. EXTRACCIÓN DE NOTICIAS (NUEVA LÓGICA ROBUSTA)
+          # 2. NOTICIAS (SISTEMA DE EMERGENCIA ANTI-BLOQUEO)
           def get_news(query):
-              # Usamos la versión de búsqueda de Google News
-              url = f"https://news.google.com/rss/search?q={query}&hl=es-419&gl=MX&ceid=MX:es-419"
-              soup = safe_get(url, is_xml=True)
-              if not soup:
-                  return "<h4>Titulares en actualización...</h4>"
-              
-              html = ""
-              items = soup.find_all('item')
-              for item in items[:4]:
-                  title = item.title.text.rsplit(" - ", 1)[0] # Quita el nombre del medio al final
-                  link = item.link.text
-                  html += f'<div class="news-item"><h4>{title}</h4><a href=\"{link}\" target=\"_blank\">Leer noticia completa</a></div>'
-              return html if html else "<h4>Buscando novedades...</h4>"
+              # Usamos una URL de búsqueda directa para evitar errores de parseo XML
+              url = f"https://news.google.com/search?q={query}&hl=es-419&gl=MX&ceid=MX%3Aes-419"
+              try:
+                  res = requests.get(url, headers=headers, timeout=20)
+                  soup = BeautifulSoup(res.text, 'html.parser')
+                  articles = soup.find_all('article', limit=4)
+                  html = ""
+                  for art in articles:
+                      title_tag = art.find('h3') or art.find('h4')
+                      link_tag = art.find('a', href=True)
+                      if title_tag and link_tag:
+                          title = title_tag.get_text()
+                          link = "https://news.google.com" + link_tag['href'][1:]
+                          html += f'<div class="news-item"><h4>{title}</h4><a href=\"{link}\" target=\"_blank\">Leer más en fuente oficial</a></div>'
+                  return html if html else "<h4>Buscando noticias recientes...</h4>"
+              except:
+                  return "<h4>Servicio de noticias temporalmente en mantenimiento</h4>"
 
-          mundial_html = get_news("Mundial 2026 FIFA ESPN")
+          mundial_html = get_news("FIFA World Cup 2026")
           champions_html = get_news("UEFA Champions League ESPN")
 
           # 3. ACTUALIZAR INDEX.HTML
           with open('index.html', 'r', encoding='utf-8') as f:
               content = f.read()
 
-          # Reemplazos con Regex
+          # Inyección precisa
           content = re.sub(r'<div class="code-box" id="daily-code">.*?</div>', f'<div class="code-box" id="daily-code">{valid_code}</div>', content)
           content = re.sub(r'<div id="mundial-news" class="news-feed">.*?</div>', f'<div id="mundial-news" class="news-feed">{mundial_html}</div>', content, flags=re.DOTALL)
           content = re.sub(r'<div id="champions-news" class="news-feed" style="display:none;">.*?</div>', f'<div id="champions-news" class="news-feed" style="display:none;">{champions_html}</div>', content, flags=re.DOTALL)
@@ -88,5 +97,5 @@ jobs:
           git config --global user.name 'ElDonBot'
           git config --global user.email 'bot@eldondelfc.io'
           git add index.html
-          git commit -m "🤖 Bot: Noticias y Código (Fix Conexión)" || exit 0
+          git commit -m "🤖 Bot: Fix Código Activo y Noticias HTML" || exit 0
           git push
