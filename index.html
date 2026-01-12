@@ -20,7 +20,6 @@
             color: white;
             font-family: 'Rajdhani', sans-serif;
             margin: 0;
-            /* FONDO DE CIRCUITOS INTEGRADOS */
             background-image: 
                 radial-gradient(circle at center, transparent 0%, var(--bg-dark) 85%),
                 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='152' height='152' viewBox='0 0 152 152'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.07'%3E%3Cpath d='M152 150v2H0v-2h28v-8H8v-20H0v-2h8V80h42v20h20v42H30v8h122zm-20-46v-20h8v20h-8zM52 30V10h8v20h-8zM0 102h8v20H0v-20zm52 30h8v20h-8v-20zm100-22h-8v20h8v-20zm-100-62h8v20h-8V48zm88 62h8v20h-8v-20zm-88-22h8v20h-8v-20zm88-22h8v20h-8V64zm-88-22h8v20h-8V42zm88-22h8v20h-8V20zm-44 40h8v20h-8V60zm0 42h8v20h-8v-20zm0-84h8v20h-8V18zm0 126h8v20h-8v-20zM18 52h8v20h-8V52zm88 0h8v20h-8V52zm-88 42h8v20h-8V94zm88 0h8v20h-8V94zM18 10h8v20h-8V10zm88 0h8v20h-8V10zm-88 84h8v20h-8V94zm88 0h8v20h-8V94zM18 136h8v20h-8v-20zm88 0h8v20h-8v-20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
@@ -59,6 +58,7 @@
             font-family: 'Orbitron', sans-serif;
             text-align: center;
             text-shadow: 0 0 10px var(--neon-red);
+            min-height: 40px;
         }
 
         .btn-action {
@@ -73,25 +73,18 @@
             width: 100%;
             font-family: 'Orbitron', sans-serif;
             transition: 0.3s;
-            margin-top: auto; /* Empuja el botón al final */
+            margin-top: auto;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
 
-        .btn-action:hover { background: #fff; transform: translateY(-3px); }
+        .btn-action:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
 
-        .action-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-        .card-desc {
-            font-size: 0.9rem;
-            color: #aaa;
-            margin-bottom: 20px;
-            line-height: 1.4;
-        }
+        .card-desc { font-size: 0.9rem; color: #aaa; margin-bottom: 20px; line-height: 1.4; }
 
-        /* Sidebar */
         .sidebar {
             position: sticky;
             top: 20px;
@@ -112,10 +105,10 @@
         }
         .social-link:hover { background: var(--neon-red); transform: translateX(5px); }
 
-        /* News */
         .news-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tab-btn { background: #111; color: #666; border: 1px solid #333; padding: 8px 15px; cursor: pointer; border-radius: 5px; }
-        .tab-btn.active { background: var(--neon-red); color: white; }
+        .tab-btn { background: #111; color: #666; border: 1px solid #333; padding: 8px 15px; cursor: pointer; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.7rem;}
+        .tab-btn.active { background: var(--neon-red); color: white; border-color: var(--neon-red); }
+        
         .news-item { border-bottom: 1px solid #222; padding: 15px 0; }
         .news-item h4 { margin: 0 0 8px 0; color: var(--gold); font-size: 1rem; }
         .news-item a { color: var(--neon-red); text-decoration: none; font-size: 0.8rem; font-weight: bold; }
@@ -131,34 +124,31 @@
     <div class="main-container">
         <div class="content-area">
             
-           <div class="card">
-    <h3 style="color:var(--gold); margin:0; font-family:'Orbitron'; font-size: 1rem;">CÓDIGO DE RECOMPENSA</h3>
-    <div class="code-box" id="daily-code">SIN CÓDIGOS ACTIVOS</div>
-    <button class="btn-action" onclick="copyCode()">COPIAR Y CANJEAR</button>
-</div>
+            <div class="card">
+                <h3 style="color:var(--gold); margin:0; font-family:'Orbitron'; font-size: 1rem;">CÓDIGO DE RECOMPENSA</h3>
+                <div class="code-box" id="daily-code">CARGANDO...</div>
+                <button class="btn-action" onclick="copyCode()">COPIAR Y CANJEAR</button>
+            </div>
 
-<div class="card" style="min-height: 300px;">
-    <div class="news-tabs">
-        <button class="tab-btn active" onclick="showNews('mundial')">MUNDIAL 2026</button>
-        <button class="tab-btn" onclick="showNews('champions')">CHAMPIONS</button>
-    </div>
-    <div id="mundial-news" class="news-feed"><h4>Buscando noticias recientes...</h4></div>
-    <div id="champions-news" class="news-feed" style="display:none;"><h4>Buscando noticias recientes...</h4></div>
-</div>
+            <div class="card" style="min-height: 300px;">
+                <div class="news-tabs">
+                    <button class="tab-btn active" onclick="showNews('mundial')">MUNDIAL 2026</button>
+                    <button class="tab-btn" onclick="showNews('champions')">CHAMPIONS</button>
+                </div>
+                <div id="mundial-news" class="news-feed"></div>
+                <div id="champions-news" class="news-feed" style="display:none;"></div>
+            </div>
+
             <div class="action-grid">
                 <div class="card">
                     <h3 style="margin:0 0 10px 0; font-family:'Orbitron'; font-size: 1rem;">ACADEMIA 1V1</h3>
                     <p class="card-desc">Mejora tu nivel competitivo, revisa tu plantilla y aprende tácticas avanzadas con sesiones personalizadas.</p>
-                    <a href="LINK_CALENDARIO" target="_blank" style="text-decoration:none;">
-                        <button class="btn-action">RESERVAR SESIÓN</button>
-                    </a>
+                    <a href="https://calendar.google.com/calendar/u/0/appointments/AcZssZ1kz_MREUBCoAaEkApkRQIaCZWqjDvUx8tcV3I=" target="_blank" class="btn-action">RESERVAR SESIÓN</a>
                 </div>
                 <div class="card">
                     <h3 style="margin:0 0 10px 0; font-family:'Orbitron'; font-size: 1rem;">APOYO</h3>
                     <p class="card-desc">Apóyame para crear más y mejor contenido para toda la comunidad de FC Mobile.</p>
-                    <a href="LINK_PAYPAL" target="_blank" style="text-decoration:none;">
-                        <button class="btn-action" style="background:var(--neon-red); color:white;">DONAR AHORA</button>
-                    </a>
+                    <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="btn-action" style="background:var(--neon-red); color:white;">DONAR AHORA</a>
                 </div>
             </div>
         </div>
@@ -167,10 +157,10 @@
             <img src="avatar.png" alt="ElDonDelFC" class="avatar-sidebar">
             <div style="font-family:'Orbitron'; color:var(--gold); font-size:0.7rem; letter-spacing:3px; margin-bottom:25px;">COMMANDER • EXPERT</div>
             <div class="social-sidebar">
-                <a href="https://www.tiktok.com/@eldondelfc" class="social-link"><i class="fab fa-tiktok"></i> TIKTOK</a>
-                <a href="https://www.youtube.com/@eldondelfc" class="social-link"><i class="fab fa-youtube"></i> YOUTUBE</a>
-                <a href="https://kick.com/eldondelfc" class="social-link"><i class="fas fa-play"></i> KICK</a>
-                <a href="https://www.instagram.com/eldondelfc" class="social-link"><i class="fab fa-instagram"></i> INSTAGRAM</a>
+                <a href="https://www.tiktok.com/@eldondelfc" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TIKTOK</a>
+                <a href="https://www.youtube.com/@eldondelfc" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YOUTUBE</a>
+                <a href="https://kick.com/eldondelfc" target="_blank" class="social-link"><i class="fas fa-play"></i> KICK</a>
+                <a href="https://www.instagram.com/eldondelfc" target="_blank" class="social-link"><i class="fab fa-instagram"></i> INSTAGRAM</a>
             </div>
         </aside>
     </div>
@@ -178,11 +168,15 @@
     <script>
         function copyCode() {
             const code = document.getElementById('daily-code').innerText;
-            if(code !== "CARGANDO...") {
+            if(code !== "CARGANDO..." && code !== "SIN CÓDIGOS ACTIVOS") {
                 navigator.clipboard.writeText(code);
-                alert("Copiado al portapapeles: " + code);
+                alert("¡Código copiado!: " + code + "\nSe abrirá la página oficial de canje.");
+                window.open("https://redeem.fcmobile.com/", "_blank");
+            } else {
+                alert("No hay un código disponible para copiar en este momento.");
             }
         }
+
         function showNews(cat) {
             document.getElementById('mundial-news').style.display = cat === 'mundial' ? 'block' : 'none';
             document.getElementById('champions-news').style.display = cat === 'champions' ? 'block' : 'none';
