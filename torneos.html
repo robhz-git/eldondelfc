@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneos ElDonDelFC | Dashboard Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg: #070707; --neon: #ff003c; --gold: #d4af37; --glass: rgba(15, 15, 15, 0.95); }
+        body { 
+            background: var(--bg); color: white; font-family: 'Rajdhani', sans-serif; margin: 0;
+            background-image: radial-gradient(circle at center, transparent 0%, var(--bg) 90%),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='152' height='152' viewBox='0 0 152 152'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M152 150v2H0v-2h28v-8H8v-20H0v-2h8V80h42v20h20v42H30v8h122zm-20-46v-20h8v20h-8zM52 30V10h8v20h-8zM0 102h8v20H0v-20zm52 30h8v20h-8v-20zm100-22h-8v20h8v-20zm-100-62h8v20h-8V48zm88 62h8v20h-8v-20zm-88-22h8v20h-8v-20zm88-22h8v20h-8V64zm-88-22h8v20h-8V42zm88-22h8v20h-8V20zm-44 40h8v20h-8V60zm0 42h8v20h-8v-20zm0-84h8v20h-8V18zm0 126h8v20h-8v-20zM18 52h8v20h-8V52zm88 0h8v20h-8V52zm-88 42h8v20h-8V94zm88 0h8v20h-8V94z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 30px; }
+        
+        .card { background: var(--glass); border: 1px solid rgba(212,175,55,0.2); padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        h2, h3 { font-family: 'Orbitron'; color: var(--gold); text-transform: uppercase; margin-top: 0; }
+
+        /* Estilo de Tablas */
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 1.1rem; }
+        th { background: rgba(212,175,55,0.1); color: var(--gold); font-family: 'Orbitron'; padding: 12px; text-align: left; font-size: 0.8rem; }
+        td { padding: 12px; border-bottom: 1px solid #222; }
+        tr:hover { background: rgba(255,255,255,0.03); }
+
+        /* Botones Neón */
+        .btn { 
+            background: var(--gold); color: black; border: none; padding: 10px 20px; 
+            font-family: 'Orbitron'; font-weight: bold; cursor: pointer; border-radius: 5px;
+            transition: 0.3s; text-decoration: none; display: inline-block;
+        }
+        .btn:hover { background: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.4); }
+        .btn-admin { background: var(--neon); color: white; box-shadow: 0 0 10px var(--neon); border: none; }
+
+        /* Formulario oculto */
+        #admin-panel { display: none; margin-top: 20px; border-top: 2px dashed var(--neon); padding-top: 20px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        input, select { background: #111; border: 1px solid #444; color: white; padding: 10px; border-radius: 5px; font-family: 'Rajdhani'; width: 100%; box-sizing: border-box; }
+        
+        .status-badge { background: var(--neon); padding: 5px 10px; border-radius: 4px; font-family: 'Orbitron'; font-size: 0.7rem; }
+
+        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div>
+            <h1 style="font-family:'Orbitron'; margin:0; font-size: 1.5rem;">DASHBOARD TORNEOS</h1>
+            <div id="torneo-name-display"><span class="status-badge">CARGANDO TORNEO...</span></div>
+        </div>
+        <button class="btn btn-admin" onclick="toggleAdmin()">MODO ADMIN</button>
+    </div>
+
+    <div class="card">
+        <h3><i class="fas fa-trophy"></i> TABLA DE POSICIONES</h3>
+        <div class="table-container">
+            <table id="stats-table">
+                <thead>
+                    <tr>
+                        <th>JUGADOR</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>GD</th><th>PTS</th>
+                    </tr>
+                </thead>
+                <tbody id="stats-body">
+                    <tr><td colspan="9">Consultando datos al servidor...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="card">
+        <h3 style="color:var(--neon)">REGISTRAR RESULTADO OFICIAL</h3>
+        <form id="result-form">
+            <div class="form-grid">
+                <div>
+                    <label>TOKEN ADMIN</label>
+                    <input type="password" id="token" required placeholder="Ingresa tu código">
+                </div>
+                <div>
+                    <label>FASE DEL TORNEO</label>
+                    <input type="text" id="fase" value="Jornada 1" required>
+                </div>
+                <div>
+                    <label>JUGADOR A</label>
+                    <input type="text" id="jugadorA" required>
+                </div>
+                <div>
+                    <label>EQUIPO A</label>
+                    <input type="text" id="equipoA" required>
+                </div>
+                <div>
+                    <label>GOLES A</label>
+                    <input type="number" id="golesA" min="0" required>
+                </div>
+                <div>
+                    <label>GOLES B</label>
+                    <input type="number" id="golesB" min="0" required>
+                </div>
+                <div>
+                    <label>EQUIPO B</label>
+                    <input type="text" id="equipoB" required>
+                </div>
+                <div>
+                    <label>JUGADOR B</label>
+                    <input type="text" id="jugadorB" required>
+                </div>
+                <div style="grid-column: span 2;">
+                    <label>LINK CAPTURA (DISCORD)</label>
+                    <input type="url" id="captura" placeholder="https://cdn.discordapp.com/..." required>
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn" style="width:100%; background:var(--neon); color:white;">ENVIAR RESULTADO</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyo-TDES--Rbm8sHT8duYCuK7iGbU-RjTYjTSVkEJN1-rBXLNXYOXqs-iVY5qgC5K4p/exec";
+    let torneoActivo = "Cargando...";
+
+    // CARGAR DATOS AL INICIAR
+    async function loadStats() {
+        try {
+            const response = await fetch(SCRIPT_URL);
+            const data = await response.json();
+            // Aquí procesaremos los datos para mostrarlos en la tabla
+            // NOTA: Como el script devuelve el historial, necesitamos procesar la tabla de posiciones en JS o leer la hoja de Estadísticas
+            console.log("Datos recibidos:", data);
+            renderTable(data);
+        } catch (error) {
+            console.error("Error cargando stats:", error);
+        }
+    }
+
+    function renderTable(data) {
+        // Esta función se activará cuando tengamos datos reales en el Sheets.
+        // Por ahora, mostrará que el sistema está conectado.
+        const body = document.getElementById('stats-body');
+        if(data.length > 1) {
+            body.innerHTML = "";
+            // Lógica para mostrar las últimas filas o estadísticas procesadas
+        }
+    }
+
+    function toggleAdmin() {
+        const panel = document.getElementById('admin-panel');
+        panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        panel.scrollIntoView({behavior: "smooth"});
+    }
+
+    // ENVIAR RESULTADO AL SHEETS
+    document.getElementById('result-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button');
+        btn.innerText = "PROCESANDO...";
+        btn.disabled = true;
+
+        const payload = {
+            token: document.getElementById('token').value,
+            torneo: "Copa Apertura 2026", // Esto debería venir de la hoja Config
+            fase: document.getElementById('fase').value,
+            jugadorA: document.getElementById('jugadorA').value,
+            golesA: document.getElementById('golesA').value,
+            golesB: document.getElementById('golesB').value,
+            jugadorB: document.getElementById('jugadorB').value,
+            equipoA: document.getElementById('equipoA').value,
+            equipoB: document.getElementById('equipoB').value,
+            captura: document.getElementById('captura').value
+        };
+
+        try {
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Necesario para Google Scripts
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            alert("¡Resultado enviado con éxito! Los cambios se verán en unos minutos.");
+            location.reload();
+        } catch (error) {
+            alert("Error al enviar. Revisa tu conexión o el token.");
+            btn.innerText = "ENVIAR RESULTADO";
+            btn.disabled = false;
+        }
+    });
+
+    loadStats();
+</script>
+</body>
+</html>
