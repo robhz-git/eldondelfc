@@ -4,179 +4,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ElDonDelFC | Portal Oficial</title>
-    <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-dark: #070707;
-            --neon-red: #ff003c;
-            --gold: #d4af37;
-            --glass: rgba(15, 15, 15, 0.92);
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: white;
-            font-family: 'Rajdhani', sans-serif;
-            margin: 0;
-            background-image: 
-                radial-gradient(circle at center, transparent 0%, var(--bg-dark) 85%),
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='152' height='152' viewBox='0 0 152 152'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.07'%3E%3Cpath d='M152 150v2H0v-2h28v-8H8v-20H0v-2h8V80h42v20h20v42H30v8h122zm-20-46v-20h8v20h-8zM52 30V10h8v20h-8zM0 102h8v20H0v-20zm52 30h8v20h-8v-20zm100-22h-8v20h8v-20zm-100-62h8v20h-8V48zm88 62h8v20h-8v-20zm-88-22h8v20h-8v-20zm88-22h8v20h-8V64zm-88-22h8v20h-8V42zm88-22h8v20h-8V20zm-44 40h8v20h-8V60zm0 42h8v20h-8v-20zm0-84h8v20h-8V18zm0 126h8v20h-8v-20zM18 52h8v20h-8V52zm88 0h8v20h-8V52zm-88 42h8v20h-8V94zm88 0h8v20h-8V94zM18 10h8v20h-8V10zm88 0h8v20h-8V10zm-88 84h8v20h-8V94zm88 0h8v20h-8V94zM18 136h8v20h-8v-20zm88 0h8v20h-8v-20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 20px;
-            max-width: 1150px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-
-        .content-area { display: flex; flex-direction: column; gap: 20px; }
-
-        .card {
-            background: var(--glass);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            padding: 25px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .code-box {
-            background: #000;
-            border: 2px dashed var(--neon-red);
-            padding: 20px;
-            font-size: 2.2rem;
-            margin: 15px 0;
-            color: var(--neon-red);
-            font-family: 'Orbitron', sans-serif;
-            text-align: center;
-            text-shadow: 0 0 10px var(--neon-red);
-            min-height: 40px;
-        }
-
-        .btn-action {
-            background: var(--gold);
-            color: black;
-            border: none;
-            padding: 14px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-radius: 8px;
-            width: 100%;
-            font-family: 'Orbitron', sans-serif;
-            transition: 0.3s;
-            margin-top: auto;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .btn-action:hover { background: #fff; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
-
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
-        .card-desc { font-size: 0.9rem; color: #aaa; margin-bottom: 20px; line-height: 1.4; }
-
-        .sidebar {
-            position: sticky;
-            top: 20px;
-            height: fit-content;
-            background: var(--glass);
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            text-align: center;
-        }
-
-        .avatar-sidebar { width: 100%; max-width: 220px; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3)); }
-
-        .social-link {
-            display: flex; align-items: center; gap: 12px; color: white;
-            text-decoration: none; padding: 12px; margin-bottom: 10px;
-            background: rgba(255,255,255,0.05); border-radius: 8px; transition: 0.3s;
-        }
-        .social-link:hover { background: var(--neon-red); transform: translateX(5px); }
-
-        .news-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tab-btn { background: #111; color: #666; border: 1px solid #333; padding: 8px 15px; cursor: pointer; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.7rem;}
-        .tab-btn.active { background: var(--neon-red); color: white; border-color: var(--neon-red); }
+        :root { --bg: #070707; --neon: #ff003c; --gold: #d4af37; --glass: rgba(20, 20, 20, 0.95); }
         
-        .news-item { border-bottom: 1px solid #222; padding: 15px 0; }
-        .news-item h4 { margin: 0 0 8px 0; color: var(--gold); font-size: 1rem; }
-        .news-item a { color: var(--neon-red); text-decoration: none; font-size: 0.8rem; font-weight: bold; }
-
-        @media (max-width: 900px) {
-            .main-container { grid-template-columns: 1fr; }
-            .action-grid { grid-template-columns: 1fr; }
+        body { 
+            background: var(--bg); color: white; font-family: 'Rajdhani', sans-serif; margin: 0;
+            background-image: radial-gradient(circle at center, transparent 0%, var(--bg) 90%),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='152' height='152' viewBox='0 0 152 152'%3E%3Cg fill='%23d4af37' fill-opacity='0.05'%3E%3Cpath d='M152 150v2H0v-2h28v-8H8v-20H0v-2h8V80h42v20h20v42H30v8h122zm-20-46v-20h8v20h-8zM52 30V10h8v20h-8zM0 102h8v20H0v-20zm52 30h8v20h-8v-20zm100-22h-8v20h8v-20zm-100-62h8v20h-8V48zm88 62h8v20h-8v-20zm-88-22h8v20h-8v-20zm88-22h8v20h-8V64zm-88-22h8v20h-8V42zm88-22h8v20h-8V20zm-44 40h8v20h-8V60zm0 42h8v20h-8v-20zm0-84h8v20h-8V18zm0 126h8v20h-8v-20zM18 52h8v20h-8V52zm88 0h8v20h-8V52zm-88 42h8v20h-8V94zm88 0h8v20h-8V94zM18 10h8v20h-8V10zm88 0h8v20h-8V10z'/%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
         }
+
+        .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 20px; max-width: 1100px; margin: 0 auto; padding: 20px; }
+        
+        /* SOLUCIÓN AL DESBORDAMIENTO: Flexbox dinámico */
+        .card { 
+            background: var(--glass); border: 1px solid rgba(212,175,55,0.2); 
+            padding: 20px; border-radius: 12px; 
+            display: flex; flex-direction: column; min-height: 200px;
+        }
+
+        .code-box { 
+            background: #000; border: 2px dashed var(--neon); padding: 15px; 
+            font-size: 2rem; color: var(--neon); text-align: center; 
+            font-family: 'Orbitron'; margin: 15px 0; text-shadow: 0 0 10px var(--neon);
+        }
+
+        .btn-action { 
+            background: var(--gold); color: black; border: none; padding: 15px; 
+            font-weight: bold; font-family: 'Orbitron'; cursor: pointer; border-radius: 8px;
+            text-decoration: none; text-align: center; margin-top: auto; /* Empuja el botón siempre al fondo */
+            display: block; width: 100%; box-sizing: border-box;
+        }
+
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+
+        .news-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .tab-btn { background: #111; color: #555; border: 1px solid #333; padding: 8px; cursor: pointer; flex: 1; font-family: 'Orbitron'; font-size: 0.7rem; }
+        .tab-btn.active { background: var(--neon); color: white; border-color: var(--neon); }
+
+        /* Estilo para las noticias inyectadas */
+        .news-item { border-bottom: 1px solid #222; padding: 10px 0; }
+        .news-item h4 { margin: 0 0 5px 0; color: var(--gold); font-size: 0.95rem; }
+        .news-item a { color: var(--neon); text-decoration: none; font-size: 0.8rem; font-weight: bold; }
+
+        .sidebar { background: var(--glass); padding: 20px; border-radius: 12px; text-align: center; height: fit-content; border: 1px solid rgba(212,175,55,0.1); }
+        .avatar { width: 100%; max-width: 200px; filter: drop-shadow(0 0 10px var(--gold)); margin-bottom: 15px; }
+        .social-link { display: flex; align-items: center; gap: 10px; color: white; text-decoration: none; padding: 12px; background: rgba(255,255,255,0.05); margin-bottom: 10px; border-radius: 8px; transition: 0.3s; font-size: 0.9rem;}
+        .social-link:hover { background: var(--neon); transform: translateX(5px); }
+
+        @media (max-width: 800px) { .main-grid, .action-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
-        <div class="content-area">
-            
+    <div class="main-grid">
+        <div class="content">
             <div class="card">
-                <h3 style="color:var(--gold); margin:0; font-family:'Orbitron'; font-size: 1rem;">CÓDIGO DE RECOMPENSA</h3>
-                <div class="code-box" id="daily-code">CARGANDO...</div>
+                <h3 style="margin:0; color:var(--gold); font-family:'Orbitron'; font-size: 0.9rem;">CÓDIGO DE RECOMPENSA ACTIVO</h3>
+                <div id="daily-code" class="code-box">CARGANDO...</div>
                 <button class="btn-action" onclick="copyCode()">COPIAR Y CANJEAR</button>
             </div>
 
-            <div class="card" style="min-height: 300px;">
+            <div class="card" style="margin-top:20px; min-height: 350px;">
                 <div class="news-tabs">
                     <button class="tab-btn active" onclick="showNews('mundial')">MUNDIAL 2026</button>
                     <button class="tab-btn" onclick="showNews('champions')">CHAMPIONS</button>
                 </div>
-                <div id="mundial-news" class="news-feed"></div>
-                <div id="champions-news" class="news-feed" style="display:none;"></div>
+                <div id="mundial-news"></div>
+                <div id="champions-news" style="display:none;"></div>
             </div>
 
             <div class="action-grid">
                 <div class="card">
-                    <h3 style="margin:0 0 10px 0; font-family:'Orbitron'; font-size: 1rem;">ACADEMIA 1V1</h3>
-                    <p class="card-desc">Mejora tu nivel competitivo, revisa tu plantilla y aprende tácticas avanzadas con sesiones personalizadas.</p>
-                    <a href="https://calendar.google.com/calendar/u/0/appointments/AcZssZ1kz_MREUBCoAaEkApkRQIaCZWqjDvUx8tcV3I=" target="_blank" class="btn-action">RESERVAR SESIÓN</a>
+                    <h3 style="margin:0; font-family:'Orbitron'; font-size: 0.9rem;">ACADEMIA 1V1</h3>
+                    <p style="color:#aaa; font-size: 0.85rem;">Mejora tu nivel, revisa tu plantilla y aprende tácticas avanzadas.</p>
+                    <a href="https://calendar.google.com/calendar/u/0/appointments/AcZssZ1kz_MREUBCoAaEkApkRQIaCZWqjDvUx8tcV3I=" target="_blank" class="btn-action">RESERVAR</a>
                 </div>
                 <div class="card">
-                    <h3 style="margin:0 0 10px 0; font-family:'Orbitron'; font-size: 1rem;">APOYO</h3>
-                    <p class="card-desc">Apóyame para crear más y mejor contenido para toda la comunidad de FC Mobile.</p>
-                    <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="btn-action" style="background:var(--neon-red); color:white;">DONAR AHORA</a>
+                    <h3 style="margin:0; font-family:'Orbitron'; font-size: 0.9rem;">APOYO</h3>
+                    <p style="color:#aaa; font-size: 0.85rem;">Apóyame para crear más y mejor contenido para la comunidad.</p>
+                    <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="btn-action" style="background:var(--neon); color:white;">DONAR</a>
                 </div>
             </div>
         </div>
 
         <aside class="sidebar">
-            <img src="avatar.png" alt="ElDonDelFC" class="avatar-sidebar">
-            <div style="font-family:'Orbitron'; color:var(--gold); font-size:0.7rem; letter-spacing:3px; margin-bottom:25px;">COMMANDER • EXPERT</div>
-            <div class="social-sidebar">
-                <a href="https://www.tiktok.com/@eldondelfc" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TIKTOK</a>
-                <a href="https://www.youtube.com/@eldondelfc" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YOUTUBE</a>
-                <a href="https://kick.com/eldondelfc" target="_blank" class="social-link"><i class="fas fa-play"></i> KICK</a>
-                <a href="https://www.instagram.com/eldondelfc" target="_blank" class="social-link"><i class="fab fa-instagram"></i> INSTAGRAM</a>
-            </div>
+            <img src="avatar.png" class="avatar">
+            <div style="font-family:'Orbitron'; color:var(--gold); font-size:0.6rem; letter-spacing:2px; margin-bottom:20px;">COMMANDER • EXPERT</div>
+            <a href="https://www.tiktok.com/@eldondelfc" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TIKTOK</a>
+            <a href="https://www.youtube.com/@eldondelfc" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YOUTUBE</a>
+            <a href="https://kick.com/eldondelfc" target="_blank" class="social-link"><i class="fas fa-play"></i> KICK</a>
+            <a href="https://www.instagram.com/eldondelfc" target="_blank" class="social-link"><i class="fab fa-instagram"></i> INSTAGRAM</a>
         </aside>
     </div>
 
     <script>
         function copyCode() {
             const code = document.getElementById('daily-code').innerText;
-            if(code !== "CARGANDO..." && code !== "SIN CÓDIGOS ACTIVOS") {
+            if(code !== "CARGANDO..." && code !== "SIN CÓDIGOS") {
                 navigator.clipboard.writeText(code);
-                alert("¡Código copiado!: " + code + "\nSe abrirá la página oficial de canje.");
+                alert("Código copiado: " + code);
                 window.open("https://redeem.fcmobile.com/", "_blank");
-            } else {
-                alert("No hay un código disponible para copiar en este momento.");
             }
         }
-
         function showNews(cat) {
             document.getElementById('mundial-news').style.display = cat === 'mundial' ? 'block' : 'none';
             document.getElementById('champions-news').style.display = cat === 'champions' ? 'block' : 'none';
