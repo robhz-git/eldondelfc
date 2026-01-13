@@ -7,6 +7,10 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/themes/introjs-modern.min.css">
+
     <style>
         :root {
             --bg-dark: #070707;
@@ -26,6 +30,16 @@
             background-attachment: fixed;
             min-height: 100vh;
         }
+
+        /* Personalización del Tour */
+        .introjs-tooltip { background-color: var(--glass); border: 1px solid var(--gold); color: white; font-family: 'Rajdhani'; }
+        .introjs-arrow.left { border-right-color: var(--gold); }
+        .introjs-arrow.right { border-left-color: var(--gold); }
+        .introjs-tooltiptext { font-size: 1.1rem; }
+        .introjs-button { font-family: 'Orbitron'; font-size: 0.7rem; text-shadow: none; border-radius: 4px; border: none; }
+        .introjs-nextbutton { background-color: var(--gold); color: black; }
+        .introjs-prevbutton { background-color: #333; color: white; }
+        .introjs-skipbutton { color: var(--neon-red); }
 
         .main-container {
             display: grid;
@@ -50,7 +64,6 @@
 
         h2, h3 { font-family: 'Orbitron'; color: var(--gold); letter-spacing: 2px; margin-top: 0; font-size: 1.1rem; }
 
-        /* Estilo Cyberpunk para el Botón de Códigos */
         .promo-banner {
             background: linear-gradient(90deg, #000 0%, #1a0006 100%);
             border: 2px solid var(--neon-red);
@@ -61,89 +74,49 @@
         }
 
         .btn-main {
-            background: var(--neon-red);
-            color: white;
-            padding: 18px 30px;
-            font-family: 'Orbitron';
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 8px;
-            display: inline-block;
-            transition: 0.3s;
-            box-shadow: 0 0 15px var(--neon-red);
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            box-sizing: border-box;
-            text-align: center;
+            background: var(--neon-red); color: white; padding: 18px 30px; font-family: 'Orbitron'; font-weight: bold;
+            text-decoration: none; border-radius: 8px; display: inline-block; transition: 0.3s;
+            box-shadow: 0 0 15px var(--neon-red); border: none; cursor: pointer; width: 100%; box-sizing: border-box; text-align: center;
         }
 
         .btn-main:hover { transform: scale(1.02); filter: brightness(1.2); box-shadow: 0 0 30px var(--neon-red); }
 
-        /* Grid de Noticias y Acción */
         .dual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
         .btn-sub {
-            background: var(--gold);
-            color: black;
-            padding: 12px;
-            text-align: center;
-            text-decoration: none;
-            font-family: 'Orbitron';
-            font-weight: bold;
-            font-size: 0.8rem;
-            border-radius: 6px;
-            transition: 0.3s;
-            margin-top: auto;
+            background: var(--gold); color: black; padding: 12px; text-align: center; text-decoration: none;
+            font-family: 'Orbitron'; font-weight: bold; font-size: 0.8rem; border-radius: 6px; transition: 0.3s; margin-top: auto;
         }
 
         .btn-sub:hover { background: white; transform: translateY(-2px); }
 
-        /* Formulario de Sugerencias */
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; color: var(--gold); font-size: 0.8rem; font-family: 'Orbitron'; }
         input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #333;
-            color: white;
-            border-radius: 6px;
-            font-family: 'Rajdhani';
-            box-sizing: border-box;
+            width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid #333;
+            color: white; border-radius: 6px; font-family: 'Rajdhani'; box-sizing: border-box;
         }
         input:focus, textarea:focus { border-color: var(--neon-red); outline: none; }
 
-        /* Sidebar */
-        .sidebar {
-            position: sticky;
-            top: 20px;
-            height: fit-content;
-            background: var(--glass);
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            text-align: center;
-        }
-
+        .sidebar { position: sticky; top: 20px; height: fit-content; background: var(--glass); padding: 30px; border-radius: 15px; border: 1px solid rgba(212, 175, 55, 0.1); text-align: center; }
         .avatar { width: 100%; max-width: 220px; filter: drop-shadow(0 0 10px var(--gold)); margin-bottom: 20px; }
 
         .social-link {
-            display: flex; align-items: center; gap: 12px; color: white;
-            text-decoration: none; padding: 12px; margin-bottom: 10px;
-            background: rgba(255,255,255,0.05); border-radius: 8px; transition: 0.3s;
+            display: flex; align-items: center; gap: 12px; color: white; text-decoration: none; padding: 12px;
+            margin-bottom: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; transition: 0.3s;
         }
         .social-link:hover { background: var(--neon-red); transform: translateX(5px); }
 
-        /* Footer Roadmap */
         .roadmap-footer {
-            grid-column: 1 / -1;
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid var(--gold);
-            padding: 20px;
-            text-align: center;
-            border-radius: 15px;
-            margin-top: 20px;
+            grid-column: 1 / -1; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold);
+            padding: 20px; text-align: center; border-radius: 15px; margin-top: 20px;
+        }
+
+        /* Botón de Ayuda Flotante */
+        .help-trigger {
+            position: fixed; bottom: 20px; right: 20px; background: var(--gold); color: black;
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; cursor: pointer; z-index: 1000; box-shadow: 0 0 10px var(--gold);
         }
 
         @media (max-width: 900px) {
@@ -156,12 +129,12 @@
     <div class="main-container">
         <div class="content-area">
             
-            <div style="margin-bottom: 10px;">
+            <div style="margin-bottom: 10px;" data-intro="¡Bienvenido Comandante! Este es tu centro de mando oficial para la temporada 2026." data-step="1">
                 <h1 style="font-family:'Orbitron'; font-size: 1.5rem; margin:0;">BIENVENIDO, COMANDANTE</h1>
                 <p style="color:var(--gold); margin:5px 0;">Centro de mando oficial de ElDonDelFC</p>
             </div>
 
-            <div class="promo-banner">
+            <div class="promo-banner" data-intro="Aquí publicamos los códigos de regalo oficiales. ¡No te pierdas ninguno!" data-step="2">
                 <h2 style="color:white; margin-bottom: 20px;">RECOMPENSAS FC MOBILE</h2>
                 <a href="https://www.fcmobileforum.com/fcmobile-redeem-codes" target="_blank" class="btn-main">
                     <i class="fas fa-gift"></i> RECLAMAR CÓDIGOS AQUÍ
@@ -170,7 +143,7 @@
             </div>
 
             <div class="dual-grid">
-                <div class="card">
+                <div class="card" data-intro="Mantente informado con las últimas noticias del Mundial y la Champions." data-step="3">
                     <h3>MUNDIAL 2026</h3>
                     <p style="color:#aaa; font-size:0.9rem;">Sigue el camino a la Copa del Mundo con noticias de ESPN y FIFA.</p>
                     <a href="https://www.espn.com.mx/futbol/mundial/" target="_blank" class="btn-sub">VER NOTICIAS</a>
@@ -182,7 +155,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" data-intro="Tu opinión cuenta. Envía tus ideas de contenido directamente al Comandante." data-step="4">
                 <h3>BUZÓN DE ESTRATEGIA</h3>
                 <p style="color:#aaa; font-size:0.9rem; margin-bottom:20px;">¿Qué contenido quieres ver en el canal? Envía tu propuesta directamente.</p>
                 <form action="https://formspree.io/f/mzddbele" method="POST">
@@ -209,13 +182,12 @@
                 </form>
             </div>
 
-           <div class="dual-grid">
+            <div class="dual-grid" data-intro="¡La Joya de la Corona! Aquí gestionamos las ligas anuales y las sesiones de entrenamiento." data-step="5">
                 <div class="card">
                     <h3>LIGA ELDONDELFC</h3>
                     <p style="color:#aaa; font-size:0.85rem;">Tablas de posiciones, resultados y estadísticas oficiales en vivo.</p>
                     <a href="torneos.html" class="btn-sub">ENTRAR AL DASHBOARD</a>
                 </div>
-
                 <div class="card">
                     <h3>ACADEMIA 1V1</h3>
                     <p style="color:#aaa; font-size:0.85rem;">Sesiones personalizadas de nivelación y tácticas.</p>
@@ -223,7 +195,7 @@
                 </div>
             </div>
 
-           <div class="card" style="margin-top: 5px;">
+            <div class="card" style="margin-top: 5px;" data-intro="Si te gusta el proyecto, puedes apoyar para mantener los premios de la liga." data-step="6">
                 <h3>APOYO AL CANAL</h3>
                 <p style="color:#aaa; font-size:0.85rem;">Tu apoyo ayuda a mantener los premios de la liga y la calidad del contenido.</p>
                 <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="btn-main" style="background:var(--neon-red); color:white; margin-top:15px; box-shadow: 0 0 15px rgba(255, 0, 60, 0.4);">DONAR VÍA PAYPAL</a>
@@ -233,7 +205,9 @@
                 <h3 style="margin-bottom:10px; font-size: 0.9rem;">ROADMAP 2026</h3>
                 <p style="margin:0; font-size:0.85rem; color:#ccc;">Evolucionando para ti. Más cambios en el sitio se verán a lo largo del 2026 para traerte más diversión.</p>
             </div>
-        </div> <aside class="sidebar">
+        </div> 
+
+        <aside class="sidebar" data-intro="Sígueme en todas las redes para no perderte los directos y nuevos videos." data-step="7">
             <img src="avatar.png" alt="ElDonDelFC" class="avatar">
             <div style="font-family:'Orbitron'; color:var(--gold); font-size:0.7rem; letter-spacing:3px; margin-bottom:25px; font-weight:bold;">COMMANDER • EXPERT</div>
             
@@ -245,8 +219,32 @@
             </div>
         </aside>
     </div>
-        </aside>
+
+    <div class="help-trigger" onclick="startTour()" title="Reiniciar Tour Guidado">
+        <i class="fas fa-question"></i>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
+    <script>
+        function startTour() {
+            introJs().setOptions({
+                nextLabel: 'Siguiente',
+                prevLabel: 'Atrás',
+                doneLabel: 'Entendido',
+                skipLabel: 'Saltar',
+                showProgress: true,
+                exitOnOverlayClick: false
+            }).start();
+        }
+
+        // Ejecutar automáticamente la primera vez
+        window.addEventListener('load', function() {
+            if (!localStorage.getItem('tour_done')) {
+                startTour();
+                localStorage.setItem('tour_done', 'true');
+            }
+        });
+    </script>
 
 </body>
 </html>
