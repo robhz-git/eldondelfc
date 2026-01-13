@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElDonDelFC | Rueda del Destino</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #070707;
+            --neon-red: #ff003c;
+            --gold: #d4af37;
+            --glass: rgba(18, 18, 18, 0.9);
+            --border-glow: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Evita scrolls innecesarios */
+            background-image: radial-gradient(circle at center, transparent 0%, var(--bg-dark) 85%),
+                            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='152' height='152' viewBox='0 0 152 152'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.05'%3E%3Cpath d='M152 150v2H0v-2h28v-8H8v-20H0v-2h8V80h42v20h20v42H30v8h122zm-20-46v-20h8v20h-8zM52 30V10h8v20h-8zM0 102h8v20H0v-20zm52 30h8v20h-8v-20zm100-22h-8v20h8v-20zm-100-62h8v20h-8V48zm88 62h8v20h-8v-20zm-88-22h8v20h-8v-20zm88-22h8v20h-8V64zm-88-22h8v20h-8V42zm88-22h8v20h-8V20zm-44 40h8v20h-8V60zm0 42h8v20h-8v-20zm0-84h8v20h-8V18zm0 126h8v20h-8v-20zM18 52h8v20h-8V52zm88 0h8v20h-8V52zm-88 42h8v20h-8V94zm88 0h8v20h-8V94zM18 10h8v20h-8V10zm88 0h8v20h-8V10z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+
+        .wheel-container {
+            display: flex;
+            gap: 40px;
+            max-width: 1300px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* ----- Rueda de la Fortuna ----- */
+        .wheel-box {
+            flex-grow: 1;
+            background: var(--glass);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .wheel-display {
+            width: 500px; /* Ajusta el tamaño de la rueda */
+            height: 500px;
+            border-radius: 50%;
+            border: 8px solid var(--gold);
+            background: #222;
+            position: relative;
+            overflow: hidden;
+            transition: transform 6s cubic-bezier(0.25, 0.1, 0, 1); /* Curva de desaceleración */
+            box-shadow: 0 0 20px var(--gold), inset 0 0 15px rgba(255,255,255,0.1);
+        }
+        
+        .wheel-segment {
+            position: absolute;
+            top: 0; left: 0;
+            width: 50%; height: 50%;
+            transform-origin: 100% 100%;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /* Triángulo */
+            background-color: transparent; /* Por defecto transparente */
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Alinea texto hacia el borde */
+            padding-right: 20px; /* Espacio para el texto */
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(255,255,255,0.05); /* Separador sutil */
+        }
+        .wheel-segment span {
+            position: absolute;
+            transform: rotate(calc(90deg / var(--segment-count))) translateX(calc(100% / var(--segment-count))) rotate(90deg); /* Ajusta posición y rotación */
+            transform-origin: 0 0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 80%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(calc(var(--angle) * 1deg + 90deg));
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -25px; /* Arriba de la rueda */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 30px solid var(--neon-red);
+            z-index: 10;
+            filter: drop-shadow(0 0 10px var(--neon-red));
+        }
+
+        .spin-button {
+            background: var(--neon-red);
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 0 25px var(--neon-red);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .spin-button:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px var(--neon-red);
+        }
+        .spin-button:disabled {
+            background: #555;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        
+        .winner-display {
+            margin-top: 20px;
+            font-family: 'Orbitron';
+            color: var(--gold);
+            font-size: 2em;
+            text-align: center;
+            min-height: 2em;
+        }
+
+        /* ----- Panel de Control ----- */
+        .control-panel {
+            width: 400px;
+            background: var(--glass);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-family: 'Orbitron';
+            color: var(--neon-red);
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-family: 'Orbitron';
+            color: var(--gold);
+            font-size: 0.9em;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 8px;
+            font-family: 'Rajdhani';
+            box-sizing: border-box;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+        textarea { min-height: 100px; resize: vertical; }
+
+        .btn-panel {
+            background: var(--gold);
+            color: black;
+            font-family: 'Orbitron';
+            font-weight: bold;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+            width: 100%;
+        }
+        .btn-panel.secondary { background: #555; color: white; margin-left: 10px; }
+        .btn-panel:hover { filter: brightness(1.2); }
+
+        .participants-list, .winners-list {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            margin-top: 15px;
+        }
+        .participants-list div, .winners-list div {
+            padding: 8px 10px;
+            border-bottom: 1px solid #282828;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .participants-list div:last-child, .winners-list div:last-child { border-bottom: none; }
+        
+        .remove-btn {
+            background: var(--neon-red);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 0.7em;
+            transition: background 0.2s;
+        }
+        .remove-btn:hover { background: #cc002c; }
+
+        .back-to-portal {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--gold);
+            color: black;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'Orbitron';
+            font-size: 0.8rem;
+            z-index: 100;
+            transition: transform 0.2s;
+        }
+        .back-to-portal:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 1000px) {
+            .wheel-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .wheel-display {
+                width: 350px;
+                height: 350px;
+            }
+            .control-panel {
+                width: 100%;
+                max-width: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-to-portal">
+        <i class="fas fa-arrow-left"></i> Volver al Portal
+    </a>
+
+    <div class="wheel-container">
+        <div class="wheel-box">
+            <div class="wheel-pointer"></div>
+            <div class="wheel-display" id="wheel">
+                </div>
+            <button class="spin-button" id="spinButton">¡GIRAR RUEDA!</button>
+            <div class="winner-display" id="winnerDisplay"></div>
+        </div>
+
+        <div class="control-panel">
+            <h2><i class="fas fa-cogs"></i> CONFIGURAR RUEDA</h2>
+
+            <div class="form-group">
+                <label for="newParticipants">AÑADIR PARTICIPANTES (uno por línea)</label>
+                <textarea id="newParticipants" placeholder="Nombre 1&#10;Nombre 2&#10;..."></textarea>
+                <button class="btn-panel" onclick="addParticipants()">AÑADIR A LA RUEDA</button>
+            </div>
+            
+            <div class="form-group">
+                <label>PARTICIPANTES ACTUALES</label>
+                <div class="participants-list" id="participantsList">
+                    <div style="color:#888;">No hay participantes aún.</div>
+                </div>
+                <button class="btn-panel secondary" style="background: #a3002a; margin-top: 10px;" onclick="clearParticipants()">LIMPIAR RUEDA</button>
+            </div>
+
+            <div class="form-group">
+                <label>ÚLTIMOS GANADORES</label>
+                <div class="winners-list" id="winnersList">
+                    <div style="color:#888;">Nadie ha ganado aún.</div>
+                </div>
+                <button class="btn-panel secondary" style="background: #333; margin-top: 10px;" onclick="clearWinners()">LIMPIAR HISTORIAL</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="spinSound" src="spin.mp3" preload="auto"></audio>
+    <audio id="winSound" src="win.mp3" preload="auto"></audio>
+
+    <script>
+        const wheel = document.getElementById('wheel');
+        const spinButton = document.getElementById('spinButton');
+        const winnerDisplay = document.getElementById('winnerDisplay');
+        const newParticipantsTextarea = document.getElementById('newParticipants');
+        const participantsListDiv = document.getElementById('participantsList');
+        const winnersListDiv = document.getElementById('winnersList');
+
+        const spinSound = document.getElementById('spinSound');
+        const winSound = document.getElementById('winSound');
+
+        let participants = [];
+        let winners = [];
+        let spinning = false;
+
+        // Cargar desde localStorage al inicio
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedParticipants = localStorage.getItem('wheelParticipants');
+            const storedWinners = localStorage.getItem('wheelWinners');
+            if (storedParticipants) {
+                participants = JSON.parse(storedParticipants);
+                renderWheel();
+                renderParticipantsList();
+            }
+            if (storedWinners) {
+                winners = JSON.parse(storedWinners);
+                renderWinnersList();
+            }
+        });
+
+        function saveState() {
+            localStorage.setItem('wheelParticipants', JSON.stringify(participants));
+            localStorage.setItem('wheelWinners', JSON.stringify(winners));
+        }
+
+        function renderWheel() {
+            wheel.innerHTML = ''; // Limpiar segmentos anteriores
+            if (participants.length === 0) {
+                wheel.style.transform = 'rotate(0deg)';
+                return;
+            }
+
+            const segmentAngle = 360 / participants.length;
+            participants.forEach((name, index) => {
+                const segment = document.createElement('div');
+                segment.className = 'wheel-segment';
+                segment.style.cssText = `
+                    transform: rotate(${segmentAngle * index}deg) skewY(-${90 - segmentAngle}deg);
+                    background-color: hsl(${index * (360 / participants.length)}, 70%, 40%);
+                    z-index: ${participants.length - index}; /* Asegura el orden visual */
+                `;
+
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = name;
+                nameSpan.style.cssText = `
+                    transform: rotate(${segmentAngle / 2}deg) translateX(-50%) translateY(-50%) rotate(90deg);
+                    top: 50%; left: 50%;
+                `;
+                segment.appendChild(nameSpan);
+                wheel.appendChild(segment);
+            });
+        }
+
+        function renderParticipantsList() {
+            participantsListDiv.innerHTML = '';
+            if (participants.length === 0) {
+                participantsListDiv.innerHTML = '<div style="color:#888;">No hay participantes aún.</div>';
+                return;
+            }
+            participants.forEach((name, index) => {
+                const div = document.createElement('div');
+                div.innerHTML = `<span>${name}</span> <button class="remove-btn" onclick="removeParticipant(${index})">X</button>`;
+                participantsListDiv.appendChild(div);
+            });
+        }
+
+        function renderWinnersList() {
+            winnersListDiv.innerHTML = '';
+            if (winners.length === 0) {
+                winnersListDiv.innerHTML = '<div style="color:#888;">Nadie ha ganado aún.</div>';
+                return;
+            }
+            winners.forEach(name => {
+                const div = document.createElement('div');
+                div.textContent = name;
+                winnersListDiv.prepend(div); // Añadir al principio para que los más nuevos estén arriba
+            });
+        }
+
+        function addParticipants() {
+            const inputNames = newParticipantsTextarea.value.split('\n').map(name => name.trim()).filter(name => name !== '');
+            if (inputNames.length > 0) {
+                participants = [...new Set([...participants, ...inputNames])]; // Evitar duplicados
+                newParticipantsTextarea.value = '';
+                renderWheel();
+                renderParticipantsList();
+                saveState();
+            }
+        }
+
+        function removeParticipant(index) {
+            participants.splice(index, 1);
+            renderWheel();
+            renderParticipantsList();
+            saveState();
+        }
+
+        function clearParticipants() {
+            if (confirm('¿Estás seguro de que quieres limpiar todos los participantes de la rueda?')) {
+                participants = [];
+                renderWheel();
+                renderParticipantsList();
+                saveState();
+            }
+        }
+
+        function clearWinners() {
+            if (confirm('¿Estás seguro de que quieres limpiar el historial de ganadores?')) {
+                winners = [];
+                renderWinnersList();
+                saveState();
+            }
+        }
+
+        spinButton.addEventListener('click', () => {
+            if (spinning || participants.length === 0) return;
+
+            spinning = true;
+            spinButton.disabled = true;
+            winnerDisplay.textContent = '¡GIRANDO...!';
+            wheel.style.transition = 'transform 6s cubic-bezier(0.25, 0.1, 0, 1)'; // Reiniciar transición
+
+            spinSound.currentTime = 0;
+            spinSound.play();
+
+            const randomIndex = Math.floor(Math.random() * participants.length);
+            const segmentAngle = 360 / participants.length;
+            const stopAngle = (360 * 5) + (360 - (randomIndex * segmentAngle + segmentAngle / 2)); // 5 vueltas completas + ángulo ganador
+
+            wheel.style.transform = `rotate(${stopAngle}deg)`;
+
+            wheel.addEventListener('transitionend', () => {
+                if (!spinning) return; // Evitar dispararse en otras transiciones
+                spinning = false;
+                spinButton.disabled = false;
+                spinSound.pause();
+                winSound.play();
+
+                const winnerName = participants[randomIndex];
+                winnerDisplay.innerHTML = `¡GANADOR: <span style="color:var(--neon-red);">${winnerName}</span>!`;
+                
+                // Mover ganador al historial
+                winners.push(winnerName);
+                renderWinnersList();
+                saveState();
+
+                // Quitar al ganador de la rueda para que no se repita inmediatamente (opcional)
+                // removeParticipant(randomIndex);
+            }, { once: true });
+        });
+
+        // Inicializar la rueda
+        renderWheel();
+
+        // Precargar sonidos
+        const soundsToPreload = ['spin.mp3', 'win.mp3'];
+        soundsToPreload.forEach(src => {
+            const audio = new Audio(src);
+            audio.load();
+        });
+
+    </script>
+</body>
+</html>
