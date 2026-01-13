@@ -6,6 +6,10 @@
     <title>Liga ElDonDelFC | Dashboard Anual 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/themes/introjs-modern.min.css">
+
     <style>
         :root { --bg: #070707; --neon: #ff003c; --gold: #d4af37; --glass: rgba(15, 15, 15, 0.95); }
         body { 
@@ -15,11 +19,14 @@
             background-attachment: fixed;
         }
 
+        /* Estilos del Tour */
+        .introjs-tooltip { background-color: var(--glass); border: 1px solid var(--gold); color: white; font-family: 'Rajdhani'; }
+        .introjs-nextbutton { background-color: var(--gold); color: black; font-family: 'Orbitron'; text-shadow:none; }
+
         .main-container { display: grid; grid-template-columns: 1fr 300px; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 20px; }
         .card { background: var(--glass); border: 1px solid rgba(212,175,55,0.2); padding: 20px; border-radius: 12px; margin-bottom: 20px; }
         h2, h3 { font-family: 'Orbitron'; color: var(--gold); text-transform: uppercase; margin-top: 0; }
 
-        /* Pestañas de Ligas */
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
         .tab-btn { 
             background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 10px 20px; 
@@ -27,14 +34,11 @@
         }
         .tab-btn.active { background: var(--gold); color: black; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
 
-        /* Tabla Estilizada */
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; text-align: center; }
         th { background: rgba(212,175,55,0.1); color: var(--gold); font-family: 'Orbitron'; padding: 12px; font-size: 0.75rem; }
         td { padding: 12px; border-bottom: 1px solid #222; font-size: 1.1rem; }
-        tr:nth-child(1) td { color: var(--gold); font-weight: bold; } /* Resaltar Líder */
 
-        /* Formulario Admin */
         #admin-panel { display: none; border-top: 2px solid var(--neon); padding-top: 20px; }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; }
         label { display: block; font-family: 'Orbitron'; font-size: 0.7rem; color: var(--gold); margin-bottom: 5px; }
@@ -47,6 +51,8 @@
         .sidebar { position: sticky; top: 20px; height: fit-content; text-align: center; }
         .avatar { width: 180px; filter: drop-shadow(0 0 10px var(--gold)); margin-bottom: 15px; }
 
+        .help-trigger { position: fixed; bottom: 20px; left: 20px; background: var(--gold); color: black; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; box-shadow: 0 0 10px var(--gold); }
+
         @media (max-width: 850px) { .main-container { grid-template-columns: 1fr; } .sidebar { position: static; order: -1; } }
     </style>
 </head>
@@ -54,18 +60,20 @@
 
 <div class="main-container">
     <div class="content">
-        <div class="card" style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="card" style="display: flex; justify-content: space-between; align-items: center;" data-intro="Este es el Centro de Competición. Aquí se forjan las leyendas." data-step="1">
             <h1 style="font-family:'Orbitron'; margin:0; font-size: 1.4rem;">CENTRO DE COMPETICIÓN</h1>
             <div id="torneo-name-display"><span class="status-badge">SINCRONIZANDO...</span></div>
         </div>
 
-        <div class="tabs">
+        <div id="champion-card-container" data-intro="¡La Corona! Aquí aparecerá siempre el líder actual de la liga que estés consultando." data-step="2"></div>
+
+        <div class="tabs" data-intro="Puedes alternar entre las 3 ligas anuales: Otoño, Verano e Invierno." data-step="3">
             <button class="tab-btn active" onclick="cambiarLiga('Stats_Otoño', this)">LIGA OTOÑO</button>
             <button class="tab-btn" onclick="cambiarLiga('Stats_Verano', this)">LIGA VERANO</button>
             <button class="tab-btn" onclick="cambiarLiga('Stats_Invierno', this)">LIGA INVIERNO</button>
         </div>
 
-        <div class="card">
+        <div class="card" data-intro="Tabla de posiciones en tiempo real. Los puntos y la diferencia de goles se calculan automáticamente." data-step="4">
             <div class="table-container">
                 <table>
                     <thead>
@@ -80,7 +88,7 @@
             </div>
         </div>
 
-        <button class="btn-main" onclick="toggleAdmin()" style="background:var(--neon); color:white; margin-bottom: 20px;">
+        <button class="btn-main" onclick="toggleAdmin()" style="background:var(--neon); color:white; margin-bottom: 20px;" data-intro="Acceso exclusivo para administradores. Aquí se registran los resultados oficiales con el Token de seguridad." data-step="5">
             <i class="fas fa-lock"></i> PANEL DE ADMINISTRADOR
         </button>
 
@@ -88,49 +96,19 @@
             <h3>REGISTRO DE PARTIDO OFICIAL</h3>
             <form id="result-form">
                 <div class="form-grid">
-                    <div>
-                        <label>ADMIN TOKEN</label>
-                        <input type="password" id="token" required>
-                    </div>
-                    <div>
-                        <label>LIGA DESTINO</label>
-                        <select id="torneo-select" required><option value="">Cargando ligas...</option></select>
-                    </div>
-                    <div>
-                        <label>FASE / JORNADA</label>
-                        <input type="text" id="fase" value="Jornada 1">
-                    </div>
-                    <div>
-                        <label>JUGADOR A</label>
-                        <input type="text" id="jugadorA" required>
-                    </div>
-                    <div>
-                        <label>EQUIPO A</label>
-                        <select id="equipoA" required><option value="">Cargando...</option></select>
-                    </div>
+                    <div><label>ADMIN TOKEN</label><input type="password" id="token" required></div>
+                    <div><label>LIGA DESTINO</label><select id="torneo-select" required><option value="">Cargando ligas...</option></select></div>
+                    <div><label>FASE / JORNADA</label><input type="text" id="fase" value="Jornada 1"></div>
+                    <div><label>JUGADOR A</label><input type="text" id="jugadorA" required></div>
+                    <div><label>EQUIPO A</label><select id="equipoA" required><option value="">Cargando...</option></select></div>
                     <div style="text-align:center; font-family:'Orbitron'; font-size:1.5rem; color:var(--gold); padding-top:20px;">VS</div>
-                    <div>
-                        <label>EQUIPO B</label>
-                        <select id="equipoB" required><option value="">Cargando...</option></select>
-                    </div>
-                    <div>
-                        <label>JUGADOR B</label>
-                        <input type="text" id="jugadorB" required>
-                    </div>
-                    <div>
-                        <label>GOLES A</label>
-                        <input type="number" id="golesA" min="0" required>
-                    </div>
-                    <div>
-                        <label>GOLES B</label>
-                        <input type="number" id="golesB" min="0" required>
-                    </div>
-                    <div style="grid-column: span 2;">
-                        <label>LINK CAPTURA (DISCORD)</label>
-                        <input type="url" id="captura" placeholder="https://cdn.discordapp.com/..." required>
-                    </div>
+                    <div><label>EQUIPO B</label><select id="equipoB" required><option value="">Cargando...</option></select></div>
+                    <div><label>JUGADOR B</label><input type="text" id="jugadorB" required></div>
+                    <div><label>GOLES A</label><input type="number" id="golesA" min="0" required></div>
+                    <div><label>GOLES B</label><input type="number" id="golesB" min="0" required></div>
+                    <div style="grid-column: span 2;"><label>LINK CAPTURA (DISCORD)</label><input type="url" id="captura" required></div>
                 </div>
-                <button type="submit" class="btn-main" style="margin-top:20px; background:var(--gold); color:black;">PUBLICAR RESULTADO</button>
+                <button type="submit" class="btn-main" style="margin-top:20px;">PUBLICAR RESULTADO</button>
             </form>
         </div>
     </div>
@@ -139,22 +117,37 @@
         <div class="card">
             <img src="avatar.png" alt="ElDonDelFC" class="avatar">
             <h2 style="font-size: 1rem;">EL DON DEL FC</h2>
-            <p style="font-size: 0.8rem; color: var(--gold);">COMMANDER • EXPERT</p>
-            <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
             <a href="index.html" class="btn-main" style="font-size:0.7rem;">VOLVER AL PORTAL</a>
         </div>
     </aside>
 </div>
 
+<div class="help-trigger" onclick="startTour()"><i class="fas fa-question"></i></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyo-TDES--Rbm8sHT8duYCuK7iGbU-RjTYjTSVkEJN1-rBXLNXYOXqs-iVY5qgC5K4p/exec";
     let datosGlobales = {};
 
+    function startTour() {
+        introJs().setOptions({
+            nextLabel: 'Siguiente',
+            prevLabel: 'Atrás',
+            doneLabel: '¡A Jugar!',
+            skipLabel: 'Saltar'
+        }).start();
+    }
+
     async function init() {
         await cargarEstadisticas();
         await cargarListas();
+        if (!localStorage.getItem('tour_torneos_done')) {
+            startTour();
+            localStorage.setItem('tour_torneos_done', 'true');
+        }
     }
 
+    // [FUNCIONES DE CARGA Y LÓGICA DE CARTA QUE YA TENÍAMOS]
     async function cargarEstadisticas() {
         try {
             const res = await fetch(SCRIPT_URL);
@@ -168,7 +161,7 @@
         const listas = await res.json();
         const fill = (id, arr) => {
             const el = document.getElementById(id);
-            arr.forEach(item => el.innerHTML += `<option value="${item}">${item}</option>`);
+            if(el) arr.forEach(item => el.innerHTML += `<option value="${item}">${item}</option>`);
         };
         fill('torneo-select', listas.ligas);
         fill('equipoA', listas.equipos);
@@ -178,10 +171,26 @@
     function cambiarLiga(nombre, btn) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        
         const body = document.getElementById('stats-body');
         const rows = datosGlobales[nombre];
         document.getElementById('torneo-name-display').innerHTML = `<span class="status-badge">${nombre.replace('_', ' ')}</span>`;
+
+        // Lógica de la Carta de Ganador
+        const champContainer = document.getElementById('champion-card-container');
+        if (rows && rows.length > 2 && rows[2][0] !== "Esperando datos...") {
+            const lider = rows[2];
+            champContainer.innerHTML = `
+                <div class="card" style="border: 2px solid var(--gold); background: linear-gradient(145deg, rgba(212,175,55,0.1) 0%, rgba(0,0,0,1) 100%); position: relative; overflow: hidden; animation: glow 2s infinite alternate; margin-bottom:20px;">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div style="font-size: 2.5rem; color: var(--gold);"><i class="fas fa-trophy"></i></div>
+                        <div>
+                            <h4 style="margin:0; font-family:'Orbitron'; color:var(--gold); font-size: 0.8rem; letter-spacing: 2px;">LÍDER ACTUAL</h4>
+                            <h2 style="margin:5px 0; font-size: 2rem; text-transform: uppercase;">${lider[0]}</h2>
+                            <p style="margin:0; color: #aaa; font-size: 0.9rem;">Dominando con <span style="color:var(--gold); font-weight:bold;">${lider[8]} PTS</span></p>
+                        </div>
+                    </div>
+                </div>`;
+        } else { champContainer.innerHTML = ""; }
 
         if (!rows || rows.length <= 1) {
             body.innerHTML = '<tr><td colspan="9">Sin datos registrados aún.</td></tr>';
@@ -193,12 +202,9 @@
             if (rows[i][0] === "JUGADOR" || rows[i][0] === "Esperando datos...") continue;
             html += `<tr>
                 <td style="color:var(--gold); font-weight:bold;">${rows[i][0]}</td>
-                <td>${rows[i][1]}</td>
-                <td style="color:#00ff88;">${rows[i][2]}</td>
-                <td>${rows[i][3]}</td>
-                <td style="color:var(--neon);">${rows[i][4]}</td>
-                <td>${rows[i][5]}</td><td>${rows[i][6]}</td>
-                <td>${rows[i][7]}</td>
+                <td>${rows[i][1]}</td><td style="color:#00ff88;">${rows[i][2]}</td>
+                <td>${rows[i][3]}</td><td style="color:var(--neon);">${rows[i][4]}</td>
+                <td>${rows[i][5]}</td><td>${rows[i][6]}</td><td>${rows[i][7]}</td>
                 <td style="color:var(--gold); font-weight:bold; font-size:1.3rem;">${rows[i][8]}</td>
             </tr>`;
         }
@@ -214,7 +220,6 @@
         e.preventDefault();
         const b = e.target.querySelector('button');
         b.innerText = "REGISTRANDO..."; b.disabled = true;
-
         const payload = {
             token: document.getElementById('token').value,
             torneo: document.getElementById('torneo-select').value,
@@ -227,12 +232,11 @@
             jugadorB: document.getElementById('jugadorB').value,
             captura: document.getElementById('captura').value
         };
-
         try {
             await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-            alert("¡RESULTADO ENVIADO!\nLa tabla se actualizará pronto.");
+            alert("¡RESULTADO ENVIADO!");
             location.reload();
-        } catch (err) { alert("Error al enviar."); b.innerText = "PUBLICAR RESULTADO"; b.disabled = false; }
+        } catch (err) { alert("Error."); b.innerText = "PUBLICAR RESULTADO"; b.disabled = false; }
     });
 
     init();
