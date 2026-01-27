@@ -299,8 +299,8 @@ footer {
     }
 
     .floating-avatar {
-        height: 180px;
-        right: -20px;
+        height: 130px;
+        right: -10px;
     }
 
     .physics-toggle {
