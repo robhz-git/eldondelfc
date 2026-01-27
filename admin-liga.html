@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElDonDelFC | Admin Command</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&family=VT323&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Terminal Login Style */
+        .terminal-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: #000;
+            border: 2px solid var(--accent-neon);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--accent-neon-glow);
+            font-family: 'VT323', monospace;
+            color: #0f0;
+        }
+
+        .terminal-header {
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #333;
+            color: #0f0;
+            width: 100%;
+            padding: 10px;
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .terminal-input:focus {
+            outline: none;
+            border-bottom-color: #0f0;
+        }
+
+        .terminal-btn {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+        }
+
+        .terminal-btn:hover {
+            background: #00cc00;
+        }
+
+        /* Admin Dashboard */
+        .admin-panel {
+            display: none;
+            /* Hidden by default */
+        }
+
+        .kinetic-feedback {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Orbitron';
+            font-size: 4rem;
+            color: var(--accent-neon);
+            text-shadow: 0 0 20px var(--accent-neon);
+            pointer-events: none;
+            opacity: 0;
+            z-index: 9999;
+        }
+
+        .kinetic-active {
+            animation: kineticPulse 1.5s ease-out forwards;
+        }
+
+        @keyframes kineticPulse {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+                letter-spacing: 0px;
+            }
+
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+                letter-spacing: 10px;
+            }
+
+            40% {
+                transform: translate(-50%, -50%) scale(1);
+                letter-spacing: 5px;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1.5);
+                letter-spacing: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode"> <!-- Force Dark Mode for Admin -->
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="terminal-container">
+        <div class="terminal-header">
+            <span>COMMAND_AUTH_V1.0</span>
+            <span id="cursor" style="animation: blink 1s infinite;">_</span>
+        </div>
+        <p>ENTER CREDENTIALS TO ACCESS MAINFRAME</p>
+        <form id="login-form">
+            <input type="text" id="email" class="terminal-input" placeholder="OPERATOR_ID (Username)" required>
+            <input type="password" id="password" class="terminal-input" placeholder="ACCESS_CODE (Password)" required>
+            <button type="submit" class="terminal-btn">INITIATE_SESSION</button>
+        </form>
+        <p id="login-error" style="color: red; display: none;">ACCESS_DENIED</p>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="main-container admin-panel">
+        <header>
+            <div class="commander-status">
+                <div class="status-dot"></div>
+                <div class="commander-font">ADMIN MODE</div>
+            </div>
+            <button id="logout-btn" class="btn-sub" style="background: #333; color: white;">LOGOUT</button>
+        </header>
+
+        <div class="bento-grid">
+            <!-- Tournament Selector -->
+            <div class="bento-card col-span-4">
+                <h3>ACTIVE TOURNAMENT</h3>
+                <select id="tournament-select" class="terminal-input" style="background: #111; border: 1px solid #333;">
+                    <option value="">Season 1 - 2026</option>
+                </select>
+            </div>
+
+            <!-- Pending Approvals -->
+            <div class="bento-card col-span-4" style="border-color: #ff9900;">
+                <h3 style="color: #ff9900;">PENDING APPROVALS</h3>
+                <div id="pending-list" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                    <div style="color: #666; font-style: italic;">Checking for new recruits...</div>
+                </div>
+            </div>
+
+            <!-- Match Entry -->
+            <div class="bento-card col-span-4">
+                <h3>MATCH DATA ENTRY</h3>
+                <form id="match-form"
+                    style="display: grid; grid-template-columns: 1fr 100px 100px 1fr auto; gap: 15px; align-items: center;">
+                    <select id="home-team" class="terminal-input" style="margin: 0; background: #111;">
+                        <option>Home Team</option>
+                    </select>
+                    <input type="number" id="home-score" class="terminal-input" placeholder="0"
+                        style="margin: 0; text-align: center;">
+                    <input type="number" id="away-score" class="terminal-input" placeholder="0"
+                        style="margin: 0; text-align: center;">
+                    <select id="away-team" class="terminal-input" style="margin: 0; background: #111;">
+                        <option>Away Team</option>
+                    </select>
+                    <button type="submit" class="btn-main" style="padding: 10px 20px;">SAVE</button>
+                </form>
+            </div>
+
+            <!-- Recent Matches List -->
+            <div class="bento-card col-span-4">
+                <h3>RECENT LOGS</h3>
+                <div id="matches-list" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kinetic Feedback -->
+    <div id="kinetic-msg" class="kinetic-feedback">DATA SECURED</div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/admin.js"></script>
+
+    <style>
+        @keyframes blink {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</body>
+
+</html>

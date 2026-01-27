@@ -1,258 +1,232 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ElDonDelFC | Official Portal 2026</title>
+    <title>ElDonDelFC | Command Center</title>
     <link rel="icon" type="image/png" href="favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/themes/introjs-modern.min.css">
 
-    <style>
-        :root {
-            --bg-dark: #070707;
-            --neon-red: #ff003c;
-            --gold: #d4af37;
-            --glass: rgba(18, 18, 18, 0.95);
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: white;
-            font-family: 'Rajdhani', sans-serif;
-            margin: 0;
-            background-image: 
-                radial-gradient(circle at center, transparent 0%, var(--bg-dark) 85%),
-                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='152' height='152' viewBox='0 0 152 152'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.05'%3E%3Cpath d='M152 150v2H0v-2h28v-8H8v-20H0v-2h8V80h42v20h20v42H30v8h122zm-20-46v-20h8v20h-8zM52 30V10h8v20h-8zM0 102h8v20H0v-20zm52 30h8v20h-8v-20zm100-22h-8v20h8v-20zm-100-62h8v20h-8V48zm88 62h8v20h-8v-20zm-88-22h8v20h-8v-20zm88-22h8v20h-8V64zm-88-22h8v20h-8V42zm88-22h8v20h-8V20zm-44 40h8v20h-8V60zm0 42h8v20h-8v-20zm0-84h8v20h-8V18zm0 126h8v20h-8v-20zM18 52h8v20h-8V52zm88 0h8v20h-8V52zm-88 42h8v20h-8V94zm88 0h8v20h-8V94zM18 10h8v20h-8V10zm88 0h8v20h-8V10z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
-
-        /* Personalización del Tour */
-        .introjs-tooltip { background-color: var(--glass); border: 1px solid var(--gold); color: white; font-family: 'Rajdhani'; }
-        .introjs-arrow.left { border-right-color: var(--gold); }
-        .introjs-arrow.right { border-left-color: var(--gold); }
-        .introjs-tooltiptext { font-size: 1.1rem; }
-        .introjs-button { font-family: 'Orbitron'; font-size: 0.7rem; text-shadow: none; border-radius: 4px; border: none; }
-        .introjs-nextbutton { background-color: var(--gold); color: black; }
-        .introjs-prevbutton { background-color: #333; color: white; }
-        .introjs-skipbutton { color: var(--neon-red); }
-
-        .main-container {
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 25px;
-            max-width: 1150px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-
-        .content-area { display: flex; flex-direction: column; gap: 25px; }
-
-        .card {
-            background: var(--glass);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            padding: 25px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        h2, h3 { font-family: 'Orbitron'; color: var(--gold); letter-spacing: 2px; margin-top: 0; font-size: 1.1rem; }
-
-        .promo-banner {
-            background: linear-gradient(90deg, #000 0%, #1a0006 100%);
-            border: 2px solid var(--neon-red);
-            padding: 30px;
-            text-align: center;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 0, 60, 0.2);
-        }
-
-        .btn-main {
-            background: var(--neon-red); color: white; padding: 18px 30px; font-family: 'Orbitron'; font-weight: bold;
-            text-decoration: none; border-radius: 8px; display: inline-block; transition: 0.3s;
-            box-shadow: 0 0 15px var(--neon-red); border: none; cursor: pointer; width: 100%; box-sizing: border-box; text-align: center;
-        }
-
-        .btn-main:hover { transform: scale(1.02); filter: brightness(1.2); box-shadow: 0 0 30px var(--neon-red); }
-
-        .dual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
-        .btn-sub {
-            background: var(--gold); color: black; padding: 12px; text-align: center; text-decoration: none;
-            font-family: 'Orbitron'; font-weight: bold; font-size: 0.8rem; border-radius: 6px; transition: 0.3s; margin-top: auto;
-        }
-
-        .btn-sub:hover { background: white; transform: translateY(-2px); }
-
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: var(--gold); font-size: 0.8rem; font-family: 'Orbitron'; }
-        input, select, textarea {
-            width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid #333;
-            color: white; border-radius: 6px; font-family: 'Rajdhani'; box-sizing: border-box;
-        }
-        input:focus, textarea:focus { border-color: var(--neon-red); outline: none; }
-
-        .sidebar { position: sticky; top: 20px; height: fit-content; background: var(--glass); padding: 30px; border-radius: 15px; border: 1px solid rgba(212, 175, 55, 0.1); text-align: center; }
-        .avatar { width: 100%; max-width: 220px; filter: drop-shadow(0 0 10px var(--gold)); margin-bottom: 20px; }
-
-        .social-link {
-            display: flex; align-items: center; gap: 12px; color: white; text-decoration: none; padding: 12px;
-            margin-bottom: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; transition: 0.3s;
-        }
-        .social-link:hover { background: var(--neon-red); transform: translateX(5px); }
-
-        .roadmap-footer {
-            grid-column: 1 / -1; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold);
-            padding: 20px; text-align: center; border-radius: 15px; margin-top: 20px;
-        }
-
-        /* Botón de Ayuda Flotante */
-        .help-trigger {
-            position: fixed; bottom: 20px; right: 20px; background: var(--gold); color: black;
-            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center;
-            justify-content: center; cursor: pointer; z-index: 1000; box-shadow: 0 0 10px var(--gold);
-        }
-
-        @media (max-width: 900px) {
-            .main-container, .dual-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css?v=3">
 </head>
+
 <body>
 
     <div class="main-container">
-        <div class="content-area">
-            
-            <div style="margin-bottom: 10px;" data-intro="¡Bienvenido Comandante! Este es tu centro de mando oficial para la temporada 2026." data-step="1">
-                <h1 style="font-family:'Orbitron'; font-size: 1.5rem; margin:0;">BIENVENIDO, COMANDANTE</h1>
-                <p style="color:var(--gold); margin:5px 0;">Centro de mando oficial de ElDonDelFC</p>
+        <!-- Header -->
+        <header>
+            <div class="commander-status">
+                <div class="status-dot"></div>
+                <div class="commander-font" style="font-weight: bold;" data-i18n="system_online">SYSTEM ONLINE</div>
             </div>
 
-            <div class="promo-banner" data-intro="Aquí publicamos los códigos de regalo oficiales. ¡No te pierdas ninguno!" data-step="2">
-                <h2 style="color:white; margin-bottom: 20px;">RECOMPENSAS FC MOBILE</h2>
-                <a href="https://www.fcmobileforum.com/fcmobile-redeem-codes" target="_blank" class="btn-main">
-                    <i class="fas fa-gift"></i> RECLAMAR CÓDIGOS AQUÍ
+            <!-- Settings Controls -->
+            <div class="settings-controls">
+                <button id="theme-toggle" class="icon-btn" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <select id="lang-select" class="lang-select">
+                    <option value="es">ES</option>
+                    <option value="en">EN</option>
+                    <option value="fr">FR</option>
+                </select>
+                <button id="help-btn" class="icon-btn" title="Iniciar Tour">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+                <!-- Admin Access -->
+                <a href="admin-liga.html" class="icon-btn" title="Admin Access">
+                    <i class="fas fa-user-shield"></i>
                 </a>
-                <p style="font-size: 0.8rem; color: #888; margin-top: 15px;">Se abrirá la fuente oficial en vivo en una pestaña nueva.</p>
             </div>
 
-            <div class="dual-grid">
-                <div class="card" data-intro="Mantente informado con las últimas noticias del Mundial y la Champions." data-step="3">
-                    <h3>MUNDIAL 2026</h3>
-                    <p style="color:#aaa; font-size:0.9rem;">Sigue el camino a la Copa del Mundo con noticias de ESPN y FIFA.</p>
-                    <a href="https://www.espn.com.mx/futbol/mundial/" target="_blank" class="btn-sub">VER NOTICIAS</a>
+            <div class="commander-status">
+                <span style="font-size: 0.8rem; opacity: 0.7;">V2.0.26</span>
+            </div>
+        </header>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div class="commander-font" style="font-size: 1.5rem; color: var(--text-dark);"
+                data-i18n="commander_center">COMMANDER CENTER</div>
+        </div>
+
+        <!-- Bento Grid -->
+        <div class="bento-grid">
+
+            <!-- Welcome Card -->
+            <div class="bento-card col-span-2 row-span-2 card-hero">
+                <div>
+                    <h1 style="margin: 0; font-size: 2rem;" data-i18n="welcome_title">BIENVENIDO,<br>COMANDANTE</h1>
+                    <p style="opacity: 0.7; margin-top: 10px;" data-i18n="welcome_desc">Centro de mando oficial de
+                        ElDonDelFC. Gestiona tus tácticas, recompensas y liga desde aquí.</p>
                 </div>
-                <div class="card">
-                    <h3>CHAMPIONS</h3>
-                    <p style="color:#aaa; font-size:0.9rem;">Toda la actualidad de la UEFA Champions League en Marca.</p>
-                    <a href="https://www.marca.com/futbol/champions-league.html" target="_blank" class="btn-sub">VER NOTICIAS</a>
+                <div style="margin-top: 20px;">
+                    <div class="commander-font" style="font-size: 0.8rem; color: var(--accent-neon);"
+                        data-i18n="mission_status">ESTADO DE MISIÓN: ACTIVO</div>
+                </div>
+
+                <!-- Daily Fact Section -->
+                <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;">
+                    <div class="commander-font" style="font-size: 0.7rem; color: #888; margin-bottom: 5px;"
+                        data-i18n="fact_title">DATO DEL DÍA: MUNDIAL 2026</div>
+                    <p id="daily-fact-text" style="font-size: 0.85rem; font-style: italic; margin: 0; opacity: 0.9;">
+                        Cargando dato...</p>
                 </div>
             </div>
 
-            <div class="card" data-intro="Tu opinión cuenta. Envía tus ideas de contenido directamente al Comandante." data-step="4">
-                <h3>BUZÓN DE ESTRATEGIA</h3>
-                <p style="color:#aaa; font-size:0.9rem; margin-bottom:20px;">¿Qué contenido quieres ver en el canal? Envía tu propuesta directamente.</p>
-                <form action="https://formspree.io/f/mzddbele" method="POST">
-                    <div class="form-group">
-                        <label>NOMBRE DE USUARIO</label>
-                        <input type="text" name="username" placeholder="Ej: TuNombreEnTikTok" required>
+            <!-- Rewards: Find Codes (Left) -->
+            <a href="https://www.fcmobileforum.com/fcmobile-redeem-codes" target="_blank"
+                class="bento-card card-neon-red">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <i class="fas fa-list icon-large"></i>
+                </div>
+                <div>
+                    <h3 data-i18n="rewards_find" style="font-size: 1rem; margin-bottom: 5px;">CÓDIGOS ACTIVOS</h3>
+                    <div class="btn-link" style="color: white; margin-top: 5px; font-size: 0.8rem;">
+                        <span data-i18n="claim_now">VER EN FORO</span> <i class="fas fa-external-link-alt"
+                            style="font-size: 0.7rem;"></i>
                     </div>
-                    <div class="form-group">
-                        <label>CATEGORÍA</label>
-                        <select name="category">
-                            <option value="Contenido">Contenido (TikTok/Live)</option>
-                            <option value="Tácticas">Tácticas / Plantillas</option>
-                            <option value="Web">Mejora de la Web</option>
-                            <option value="Otro">Otro</option>
-                        </select>
+                </div>
+            </a>
+
+            <!-- Rewards: Redeem (Right) -->
+            <a href="https://redeem.fcm.ea.com/" target="_blank" class="bento-card card-neon-green">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <i class="fas fa-gift icon-large"></i>
+                </div>
+                <div>
+                    <h3 data-i18n="rewards_redeem" style="font-size: 1rem; margin-bottom: 5px;">CANJEAR</h3>
+                    <div class="btn-link" style="margin-top: 5px; font-size: 0.8rem;">
+                        <span data-i18n="redeem_now">EA SITE</span> <i class="fas fa-arrow-right"
+                            style="font-size: 0.7rem;"></i>
                     </div>
-                    <div class="form-group">
-                        <label>TU IDEA</label>
-                        <textarea name="message" rows="4" placeholder="Escribe aquí tu sugerencia detallada..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn-main" style="background:var(--gold); color:black; box-shadow:none;">
-                        ENVIAR AL COMANDANTE
-                    </button>
+                </div>
+            </a>
+
+            <!-- World Cup News -->
+            <a href="mundial.html" class="bento-card">
+                <i class="fas fa-globe-americas icon-large" style="color: var(--text-dark);"></i>
+                <h3 data-i18n="world_cup_title">MUNDIAL 2026</h3>
+                <p style="font-size: 0.8rem; color: #666;" data-i18n="world_cup_desc">Noticias camino a la Copa del
+                    Mundo.</p>
+            </a>
+
+            <!-- Champions League -->
+            <a href="https://www.marca.com/futbol/champions-league.html" target="_blank" class="bento-card">
+                <i class="fas fa-trophy icon-large" style="color: var(--text-dark);"></i>
+                <h3 data-i18n="champions_title">CHAMPIONS</h3>
+                <p style="font-size: 0.8rem; color: #666;" data-i18n="champions_desc">Actualidad de la UEFA Champions
+                    League.</p>
+            </a>
+
+            <!-- Strategy Mailbox (Form) -->
+            <div class="bento-card col-span-2 row-span-2 card-accent">
+                <h3 data-i18n="mailbox_title">BUZÓN DE ESTRATEGIA</h3>
+                <p style="font-size: 0.8rem; color: #aaa; margin-top: 5px; margin-bottom: 15px;"
+                    data-i18n="mailbox_desc">Impacta el juego. Envía tus tácticas y sugerencias directamente a ElDon.
+                </p>
+                <form action="https://formspree.io/f/mzddbele" method="POST"
+                    style="margin-top: 0; display: flex; flex-direction: column; gap: 10px;">
+                    <input type="text" name="username" data-i18n-placeholder="placeholder_username"
+                        placeholder="Usuario (Ej: TikTok)" required
+                        style="background: rgba(255,255,255,0.1); border: 1px solid #333; padding: 10px; border-radius: 5px;">
+                    <select name="category"
+                        style="background: rgba(255,255,255,0.1); border: 1px solid #333; padding: 10px; border-radius: 5px;">
+                        <option value="Contenido" data-i18n="option_content">Contenido</option>
+                        <option value="Tácticas" data-i18n="option_tactics">Tácticas</option>
+                        <option value="Web" data-i18n="option_web">Web</option>
+                    </select>
+                    <textarea name="message" rows="3" data-i18n-placeholder="placeholder_idea" placeholder="Tu idea..."
+                        required
+                        style="background: rgba(255,255,255,0.1); border: 1px solid #333; padding: 10px; border-radius: 5px;"></textarea>
+                    <button type="submit"
+                        style="background: var(--accent-neon); color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-family: 'Orbitron';"
+                        data-i18n="send_btn">ENVIAR</button>
                 </form>
             </div>
 
-            <div class="dual-grid" data-intro="¡La Joya de la Corona! Aquí gestionamos las ligas anuales y las sesiones de entrenamiento." data-step="5">
-                <div class="card">
-                    <h3>LIGA ELDONDELFC</h3>
-                    <p style="color:#aaa; font-size:0.85rem;">Tablas de posiciones, resultados y estadísticas oficiales en vivo.</p>
-                    <a href="torneos.html" class="btn-sub">ENTRAR AL DASHBOARD</a>
+            <!-- League Dashboard (Active) -->
+            <a href="liga.html" class="bento-card">
+                <div style="position: absolute; top: 10px; right: 10px; background: #39FF14; color: black; padding: 3px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: bold; letter-spacing: 1px;"
+                    data-i18n="status_active">LIVE</div>
+                <i class="fas fa-chart-line icon-large" style="color: var(--accent-neon);"></i>
+                <h3 data-i18n="league_title">LIGA</h3>
+                <p style="font-size: 0.8rem; color: #666;" data-i18n="league_desc">Tablas y resultados en vivo.</p>
+            </a>
+
+            <!-- Academy -->
+            <a href="academia.html" class="bento-card">
+                <i class="fas fa-graduation-cap icon-large" style="color: var(--accent-neon);"></i>
+                <h3 data-i18n="academy_title">ACADEMIA</h3>
+                <p style="font-size: 0.8rem; color: #666;" data-i18n="academy_desc">Reservar sesión 1v1.</p>
+            </a>
+
+            <!-- Wheel of Destiny (Now Digital Raffle) -->
+            <a href="sorteo.html" class="bento-card col-span-2"
+                style="background: #111; color: white; border-color: #333;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i class="fas fa-dharmachakra icon-large" style="color: var(--accent-neon); margin: 0;"></i>
+                    <div>
+                        <h3 data-i18n="wheel_title">SORTEO DIGITAL</h3>
+                        <p style="font-size: 0.8rem; color: #888; margin: 0;" data-i18n="wheel_desc">Sistema de sorteo
+                            rápido y efectivo.</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <h3>ACADEMIA 1V1</h3>
-                    <p style="color:#aaa; font-size:0.85rem;">Sesiones personalizadas de nivelación y tácticas.</p>
-                    <a href="https://calendar.google.com/calendar/u/0/appointments/AcZssZ1kz_MREUBCoAaEkApkRQIaCZWqjDvUx8tcV3I=" target="_blank" class="btn-sub">RESERVAR CITA</a>
+            </a>
+
+            <!-- PayPal Donation -->
+            <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank"
+                class="bento-card col-span-2"
+                style="background: linear-gradient(135deg, #003087 0%, #009cde 100%); color: white; border: none;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i class="fab fa-paypal icon-large" style="color: white; margin: 0;"></i>
+                    <div>
+                        <h3 data-i18n="donate_title">APOYAR AL CANAL</h3>
+                        <p style="font-size: 0.8rem; color: rgba(255,255,255,0.8); margin: 0;" data-i18n="donate_desc">
+                            Ayuda a mantener los premios de la liga.</p>
+                    </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="card" data-intro="¡NUEVO! Usa la Rueda del Destino para los sorteos en vivo." data-step="8">
-    <h3>SORTEOS EN VIVO</h3>
-    <p style="color:#aaa; font-size:0.85rem;">Accede a la Rueda del Destino para participar en los sorteos durante el stream.</p>
-    <a href="rueda.html" class="btn-sub" style="background: var(--neon-red); color: white; border: none; box-shadow: 0 0 10px rgba(255, 0, 60, 0.3);">
-        <i class="fas fa-dharmachakra"></i> ABRIR RUEDA
-    </a>
-</div>
-            
-            <div class="card" style="margin-top: 5px;" data-intro="Si te gusta el proyecto, puedes apoyar para mantener los premios de la liga." data-step="6">
-                <h3>APOYO AL CANAL</h3>
-                <p style="color:#aaa; font-size:0.85rem;">Tu apoyo ayuda a mantener los premios de la liga y la calidad del contenido.</p>
-                <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="btn-main" style="background:var(--neon-red); color:white; margin-top:15px; box-shadow: 0 0 15px rgba(255, 0, 60, 0.4);">DONAR VÍA PAYPAL</a>
-            </div>
+        </div>
 
-            <div class="roadmap-footer">
-                <h3 style="margin-bottom:10px; font-size: 0.9rem;">ROADMAP 2026</h3>
-                <p style="margin:0; font-size:0.85rem; color:#ccc;">Evolucionando para ti. Más cambios en el sitio se verán a lo largo del 2026 para traerte más diversión.</p>
-            </div>
-        </div> 
-
-        <aside class="sidebar" data-intro="Sígueme en todas las redes para no perderte los directos y nuevos videos." data-step="7">
-            <img src="avatar.png" alt="ElDonDelFC" class="avatar">
-            <div style="font-family:'Orbitron'; color:var(--gold); font-size:0.7rem; letter-spacing:3px; margin-bottom:25px; font-weight:bold;">COMMANDER • EXPERT</div>
-            
-            <div class="social-sidebar">
-                <a href="https://www.tiktok.com/@eldondelfc" target="_blank" class="social-link"><i class="fab fa-tiktok"></i> TIKTOK</a>
-                <a href="https://www.youtube.com/@eldondelfc" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YOUTUBE</a>
-                <a href="https://kick.com/eldondelfc" target="_blank" class="social-link"><i class="fas fa-play"></i> KICK</a>
-                <a href="https://www.instagram.com/eldondelfc" target="_blank" class="social-link"><i class="fab fa-instagram"></i> INSTAGRAM</a>
-            </div>
-        </aside>
+        <!-- Footer -->
+        <footer>
+            <div class="commander-font" data-i18n="roadmap_title">ROADMAP 2026</div>
+            <p data-i18n="roadmap_desc">Evolucionando para ti. Más cambios en camino.</p>
+        </footer>
     </div>
 
-    <div class="help-trigger" onclick="startTour()" title="Reiniciar Tour Guidado">
-        <i class="fas fa-question"></i>
+    <!-- Social Sidebar -->
+    <div class="social-sidebar">
+        <a href="https://www.tiktok.com/@eldondelfc" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.youtube.com/@eldondelfc" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://kick.com/eldondelfc" target="_blank" title="Kick"><i class="fas fa-play"></i></a>
+        <a href="https://www.instagram.com/eldondelfc" target="_blank" title="Instagram"><i
+                class="fab fa-instagram"></i></a>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
-    <script>
-        function startTour() {
-            introJs().setOptions({
-                nextLabel: 'Siguiente',
-                prevLabel: 'Atrás',
-                doneLabel: 'Entendido',
-                skipLabel: 'Saltar',
-                showProgress: true,
-                exitOnOverlayClick: false
-            }).start();
-        }
+    <!-- Floating Avatar -->
+    <img src="assets/avatar.png" class="floating-avatar" alt="ElDonDelFC Assistant">
 
-        // Ejecutar automáticamente la primera vez
-        window.addEventListener('load', function() {
-            if (!localStorage.getItem('tour_done')) {
-                startTour();
-                localStorage.setItem('tour_done', 'true');
-            }
-        });
-    </script>
+    <!-- Physics Toggle -->
+    <div id="physics-toggle" class="physics-toggle" title="Activar Anti-Gravedad">
+        <i class="fas fa-atom"></i>
+    </div>
 
+    <!-- Driver.js (Tour) -->
+    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
+    <script src="js/tour.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script src="js/app.js"></script>
 </body>
+
 </html>

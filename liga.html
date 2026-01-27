@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>League Standings | ElDonDelFC</title>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=fresh2">
+</head>
+
+<body class="dark-mode">
+    <div class="main-container">
+        <header>
+            <div class="commander-status">
+                <a href="index.html"
+                    style="color: var(--text-dark); text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-arrow-left"></i>
+                    <div class="commander-font" style="font-weight: bold;">BACK</div>
+                </a>
+            </div>
+            <div class="commander-font" style="font-size: 1.5rem; color: var(--text-dark);"
+                data-i18n="league_standings">LEAGUE STANDINGS</div>
+            <div style="display:flex; gap:10px; align-items: center;">
+                <select id="lang-select" class="lang-select"
+                    style="background: rgba(0,0,0,0.5); border: 1px solid var(--accent-neon); color: white;">
+                    <option value="es">ES</option>
+                    <option value="en">EN</option>
+                    <option value="fr">FR</option>
+                </select>
+                <a href="admin-liga.html" class="icon-btn" title="Admin Access" style="text-decoration:none;">
+                    <i class="fas fa-user-shield"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Actions -->
+        <div style="display:flex; justify-content: flex-end; margin-bottom: 20px;">
+            <a href="registro.html" class="btn-main"
+                style="background: var(--accent-neon); color:white; padding: 10px 20px; border-radius: 8px; text-decoration:none; font-family:'Orbitron';">
+                <i class="fas fa-user-plus"></i> REGISTER
+            </a>
+        </div>
+
+        <!-- Standings Table -->
+        <div class="bento-card" style="width:100%; box-sizing:border-box;">
+            <table style="width: 100%; border-collapse: collapse; color: white; font-family: 'Rajdhani';">
+                <thead>
+                    <tr style="border-bottom: 1px solid #444; color: var(--accent-neon); font-family: 'Orbitron';">
+                        <th style="padding:10px; text-align:left;">#</th>
+                        <th style="padding:10px; text-align:left;">PLAYER</th>
+                        <th style="padding:10px; text-align:center;">P</th>
+                        <th style="padding:10px; text-align:center;">W</th>
+                        <th style="padding:10px; text-align:center;">D</th>
+                        <th style="padding:10px; text-align:center;">L</th>
+                        <th style="padding:10px; text-align:center;">GD</th>
+                        <th style="padding:10px; text-align:center; font-size:1.2rem;">PTS</th>
+                    </tr>
+                </thead>
+                <tbody id="standings-body">
+                    <tr>
+                        <td colspan="8" style="padding:40px; text-align:center; color:#888;">
+                            Loading Standings...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/i18n.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (window.sbClient) {
+                const client = window.sbClient;
+
+                // Fetch players (Assuming 'active' status for now, or all for test)
+                const { data, error } = await client
+                    .from('league_players')
+                    .select('*')
+                    .eq('status', 'active') // Only show active
+                    .order('points', { ascending: false });
+
+                const tbody = document.getElementById('standings-body');
+                tbody.innerHTML = '';
+
+                if (data && data.length > 0) {
+
+                    // 1. Calculate Awards
+                    let topScorer = data[0]; // Default
+                    let topGlove = data[0];  // Default
+                    let maxGoals = -1;
+                    let maxCS = -1;
+
+                    data.forEach(p => {
+                        // Boot
+                        if (p.goals_for > maxGoals) {
+                            maxGoals = p.goals_for;
+                            topScorer = p;
+                        }
+                        // Glove
+                        if (p.clean_sheets > maxCS) {
+                            maxCS = p.clean_sheets;
+                            topGlove = p;
+                        }
+                    });
+
+                    // Update UI Awards
+                    if (data[0]) {
+                        document.getElementById('top-seed-name').innerText = data[0].username; // Current leader
+                    }
+                    if (maxGoals > 0) {
+                        document.getElementById('golden-boot-name').innerText = topScorer.username;
+                        document.getElementById('golden-boot-goals').innerText = maxGoals;
+                    }
+                    if (maxCS > 0) {
+                        document.getElementById('golden-glove-name').innerText = topGlove.username;
+                        document.getElementById('golden-glove-cs').innerText = maxCS;
+                    }
+
+
+                    // 2. Render Table
+                    data.forEach((p, index) => {
+                        const tr = document.createElement('tr');
+                        tr.style.borderBottom = '1px solid #222';
+                        tr.innerHTML = `
+                            <td style="padding:15px 10px;">${index + 1}</td>
+                            <td style="padding:15px 10px; font-weight:bold;">${p.username}</td>
+                            <td style="padding:15px 10px; text-align:center;">${p.matches_played}</td>
+                            <td style="padding:15px 10px; text-align:center; color:#39FF14;">${p.wins}</td>
+                            <td style="padding:15px 10px; text-align:center; color:#aaa;">${p.draws}</td>
+                            <td style="padding:15px 10px; text-align:center; color:#FF003C;">${p.losses}</td>
+                            <td style="padding:15px 10px; text-align:center;">${p.goals_for - p.goals_against}</td>
+                            <td style="padding:15px 10px; text-align:center; font-size:1.2rem; font-weight:bold; color:var(--accent-neon);">${p.points}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="8" style="padding:40px; text-align:center; color:#888;">No active players yet. Be the first to register!</td></tr>';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

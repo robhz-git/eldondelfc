@@ -1,0 +1,442 @@
+:root {
+    /* Palette - Light (Default) */
+    --bg-cloud-dancer: #F0F2F0;
+    --text-dark: #1A1A1A;
+    --accent-neon: #FF003C;
+    --accent-neon-glow: rgba(255, 0, 60, 0.4);
+    --glass-panel: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.9);
+    --card-hover-shadow: rgba(0, 0, 0, 0.1);
+
+    /* Spacing */
+    --card-radius: 24px;
+    --gap: 20px;
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-cloud-dancer: #0a0a0a;
+    --text-dark: #f0f0f0;
+    --glass-panel: rgba(20, 20, 20, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --card-hover-shadow: rgba(255, 0, 60, 0.2);
+}
+
+body {
+    background-color: var(--bg-cloud-dancer);
+    color: var(--text-dark);
+    font-family: 'Rajdhani', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+.commander-font {
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Layout */
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    margin-bottom: 40px;
+}
+
+.commander-status {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #00FF00;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00FF00;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Settings Controls */
+.settings-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.icon-btn {
+    background: var(--glass-panel);
+    border: 1px solid var(--glass-border);
+    color: var(--text-dark);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.icon-btn:hover {
+    background: var(--accent-neon);
+    color: white;
+    border-color: var(--accent-neon);
+}
+
+.lang-select {
+    background: var(--glass-panel);
+    border: 1px solid var(--glass-border);
+    color: var(--text-dark);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-family: 'Orbitron';
+    cursor: pointer;
+    outline: none;
+}
+
+/* Bento Grid */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: var(--gap);
+    position: relative;
+}
+
+/* Cards */
+.bento-card {
+    background: var(--glass-panel);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--card-radius);
+    padding: 25px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    color: var(--text-dark);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.bento-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 40px var(--card-hover-shadow);
+    border-color: var(--accent-neon);
+}
+
+/* Card Sizes */
+.col-span-2 {
+    grid-column: span 2;
+}
+
+.row-span-2 {
+    grid-row: span 2;
+}
+
+.col-span-4 {
+    grid-column: span 4;
+}
+
+/* Social Sidebar */
+.social-sidebar {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--glass-panel);
+    padding: 15px 10px;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.social-sidebar a {
+    color: var(--text-dark);
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.social-sidebar a:hover {
+    color: var(--accent-neon);
+    transform: scale(1.2);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.card-neon {
+    background: linear-gradient(135deg, var(--accent-neon), var(--purple-800));
+    color: white;
+    box-shadow: 0 0 15px var(--accent-neon-glow);
+    border: none;
+}
+
+.card-neon-green {
+    background: linear-gradient(135deg, #00ff00, #006400);
+    /* Bright Green to Dark Green */
+    color: black;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+    border: none;
+}
+
+.card-neon-red {
+    background: linear-gradient(135deg, #ff003c, #800000);
+    /* Bright Red to Dark Red */
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 0, 60, 0.5);
+    border: none;
+}
+
+.card-neon-red .btn-link {
+    color: white !important;
+}
+
+.card-neon-green .btn-link {
+    color: black !important;
+    font-weight: bold;
+}
+
+.card-neon-green h3,
+.card-neon-green i {
+    color: black;
+}
+
+/* Hero Card - Standard */
+.card-hero {
+    background: linear-gradient(135deg, var(--glass-panel) 0%, rgba(255, 255, 255, 0.1) 100%);
+}
+
+/* Roadmap Footer */
+footer {
+    text-align: center;
+    padding: 40px;
+    opacity: 0.6;
+    font-size: 0.8rem;
+}
+
+/* Mobile Responsive Updates */
+@media (max-width: 900px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+    }
+
+    .col-span-2,
+    .col-span-4 {
+        grid-column: span 1;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* Mobile Sidebar becomes Bottom Bar */
+    .social-sidebar {
+        left: 50%;
+        top: auto;
+        bottom: 20px;
+        transform: translateX(-50%);
+        flex-direction: row;
+        width: auto;
+        padding: 10px 30px;
+        border-radius: 30px;
+    }
+
+    .card-hero {
+        min-height: auto;
+    }
+
+    .floating-avatar {
+        height: 180px;
+        right: -20px;
+    }
+
+    .physics-toggle {
+        right: 20px;
+        bottom: 80px;
+    }
+}
+
+/* Floating Avatar (Option 3) */
+.floating-avatar {
+    position: fixed;
+    bottom: -10px;
+    right: 0;
+    height: 350px;
+    width: auto;
+    z-index: 1000;
+    pointer-events: none;
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+    transition: all 0.3s ease;
+}
+
+/* Specific Card Styles (Restored) */
+.card-accent {
+    background: var(--text-dark);
+    color: var(--bg-cloud-dancer);
+}
+
+.card-accent h3 {
+    color: var(--accent-neon);
+}
+
+.card-accent input,
+.card-accent select,
+.card-accent textarea {
+    color: var(--bg-cloud-dancer);
+}
+
+/* Physics Toggle - Adjusted for Avatar */
+.physics-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 220px;
+    /* Moved left to clear avatar */
+    background: var(--text-dark);
+    color: var(--accent-neon);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 2px solid var(--accent-neon);
+    transition: all 0.3s ease;
+}
+
+.physics-toggle:hover {
+    transform: rotate(180deg);
+}
+
+.physics-active .bento-card {
+    transition: none;
+    pointer-events: auto;
+}
+
+
+
+/* Utility */
+.icon-large {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.btn-link {
+    margin-top: auto;
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* --- Driver.js Tour Customization (Neon/Dark Theme) --- */
+.driver-popover {
+    background-color: #1a1a1a !important;
+    /* Dark Background */
+    color: #fff !important;
+    /* White Text */
+    border: 1px solid var(--accent-neon);
+    /* Neon Border */
+    box-shadow: 0 0 20px rgba(255, 0, 60, 0.2) !important;
+    /* Neon Glow */
+    border-radius: 12px !important;
+    font-family: 'Rajdhani', sans-serif !important;
+}
+
+.driver-popover-title {
+    font-family: 'Orbitron', sans-serif !important;
+    font-size: 1.2rem !important;
+    color: var(--accent-neon) !important;
+    margin-bottom: 8px !important;
+}
+
+.driver-popover-description {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+    color: #e0e0e0 !important;
+}
+
+.driver-popover-footer button {
+    background-color: #333 !important;
+    color: #fff !important;
+    border: 1px solid #555 !important;
+    border-radius: 4px !important;
+    text-shadow: none !important;
+    font-family: 'Orbitron', sans-serif !important;
+    padding: 5px 12px !important;
+}
+
+.driver-popover-footer button:hover {
+    background-color: var(--accent-neon) !important;
+    color: #fff !important;
+}
+
+.driver-popover-close-btn {
+    color: #888 !important;
+}
+
+.driver-popover-close-btn:hover {
+    color: #fff !important;
+}
+
+/* Navigation Dots (if enabled) */
+.driver-popover-navigation-btns {
+    gap: 10px !important;
+}

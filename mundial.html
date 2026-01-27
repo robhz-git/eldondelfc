@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElDonDelFC | Command Center</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="main-container">
+        <!-- Header -->
+        <header>
+            <div class="commander-status">
+                <div class="status-dot"></div>
+                <div class="commander-font" style="font-weight: bold;" data-i18n="system_online">SYSTEM ONLINE</div>
+            </div>
+
+            <!-- Settings Controls -->
+            <div class="settings-controls">
+                <button id="theme-toggle" class="icon-btn" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <select id="lang-select" class="lang-select">
+                    <option value="es">ES</option>
+                    <option value="en">EN</option>
+                    <option value="fr">FR</option>
+                </select>
+            </div>
+
+            <div class="commander-status">
+                <span style="font-size: 0.8rem; opacity: 0.7;">V2.0.26</span>
+            </div>
+        </header>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div class="commander-font" style="font-size: 1.5rem; color: var(--text-dark);"
+                data-i18n="commander_center">COMMANDER CENTER</div>
+        </div>
+
+        <!-- Bento Grid -->
+        <div class="bento-grid" style="grid-template-columns: 1fr;">
+            <!-- Construction Card -->
+            <div class="bento-card" style="text-align: center; padding: 50px;">
+                <i class="fas fa-hammer icon-large" style="color: var(--accent-neon);"></i>
+                <h1 data-i18n="world_cup_title">MUNDIAL 2026</h1>
+                <p data-i18n="coming_soon">PRÓXIMAMENTE</p>
+                <p style="margin-top: 20px; color: #888;">Estamos preparando las estadísticas y partidos.</p>
+                <div class="btn-link" style="justify-content: center; margin-top: 30px;">
+                    <a href="index.html" style="color: var(--text-dark); text-decoration: none; font-weight: bold;">
+                        <i class="fas fa-arrow-left"></i> <span data-i18n="back_to_command">VOLVER AL MANDO</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="commander-font" data-i18n="roadmap_title">ROADMAP 2026</div>
+            <p data-i18n="roadmap_desc">Evolucionando para ti. Más cambios en camino.</p>
+        </footer>
+    </div>
+
+    <!-- Social Sidebar -->
+    <div class="social-sidebar">
+        <a href="https://www.tiktok.com/@eldondelfc" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.youtube.com/@eldondelfc" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://kick.com/eldondelfc" target="_blank" title="Kick"><i class="fas fa-play"></i></a>
+        <a href="https://www.instagram.com/eldondelfc" target="_blank" title="Instagram"><i
+                class="fab fa-instagram"></i></a>
+    </div>
+
+    <!-- Floating Avatar -->
+    <img src="assets/avatar.png" class="floating-avatar" alt="ElDonDelFC Assistant">
+
+    <!-- Physics Toggle -->
+    <div id="physics-toggle" class="physics-toggle" title="Activar Anti-Gravedad">
+        <i class="fas fa-atom"></i>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
