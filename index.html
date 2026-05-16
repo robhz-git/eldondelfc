@@ -14,12 +14,14 @@
       --card-border: rgba(255, 0, 43, 0.15);
       --ferrari-neon: #ff002b;
       --ferrari-glow: rgba(255, 0, 43, 0.4);
+      --paypal-blue: #0070ba;
+      --paypal-glow: rgba(0, 112, 186, 0.4);
     }
     body {
       background-color: var(--bg-dark);
       background-image: 
         radial-gradient(circle at 50% 0%, rgba(255, 0, 43, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 0% 100%, rgba(255, 0, 43, 0.03) 0%, transparent 40%);
+        radial-gradient(circle at 0% 100%, rgba(0, 112, 186, 0.04) 0%, transparent 40%);
       color: #f3f4f6;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
@@ -35,6 +37,18 @@
       box-shadow: 0 0 30px var(--ferrari-glow), inset 0 0 12px rgba(255, 0, 43, 0.05);
       transform: translateY(-2px);
     }
+    /* Specialized Brand Card Layout Override for PayPal principles */
+    .paypal-card {
+      background: linear-gradient(145deg, #071126 0%, #0d1b3a 100%);
+      border: 1px solid rgba(0, 112, 186, 0.2);
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .paypal-card:hover {
+      border-color: var(--paypal-blue);
+      box-shadow: 0 0 30px var(--paypal-glow);
+      transform: translateY(-2px);
+    }
     .neon-text-glow {
       text-shadow: 0 0 12px var(--ferrari-glow);
     }
@@ -47,15 +61,14 @@
       box-shadow: 0 0 25px rgba(255, 0, 43, 0.7);
       transform: scale(1.02);
     }
-    .secondary-btn {
-      background: #121217;
-      border: 1px solid var(--card-border);
+    .paypal-btn {
+      background: linear-gradient(135deg, #0070ba 0%, #005ea6 100%);
+      box-shadow: 0 0 15px var(--paypal-glow);
       transition: all 0.3s ease;
     }
-    .secondary-btn:hover {
-      border-color: var(--ferrari-neon);
-      color: #white;
-      background: rgba(255, 0, 43, 0.05);
+    .paypal-btn:hover {
+      box-shadow: 0 0 25px rgba(0, 112, 186, 0.7);
+      transform: scale(1.02);
     }
     .view-hidden { display: none !important; }
   </style>
@@ -111,50 +124,67 @@
             <span class="w-1.5 h-1.5 rounded-full bg-[#ff002b] shadow-[0_0_6px_#ff002b]"></span> TRANSMISIÓN ACTIVA
           </div>
           <h2 class="text-2xl font-black tracking-tight mb-5 uppercase italic">Accede a la Arena de Juego</h2>
-          
-          <!-- Explicitly targeted community anchor button to your exact TikTok channel -->
           <a href="https://www.tiktok.com/@eldondelfc" target="_blank" class="neon-btn inline-block px-10 py-4 rounded-xl font-black uppercase tracking-widest text-xs text-white w-full sm:w-auto">
             Sígueme en Vivo
           </a>
         </div>
 
-        <!-- TWO-COLUMN PREMIUM UTILITY DECK (Visible on Desktop side-by-side) -->
+        <!-- TWO-COLUMN PREMIUM UTILITY DECK -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          <!-- MODULE 1: CUSTOM SCHEDULING INTERFACE (Google Calendar Embed) -->
+          <!-- MODULE 1: INLINE GOOGLE CALENDAR APPOINTMENT SYSTEM -->
           <div class="cyber-card rounded-2xl p-5 flex flex-col">
             <h3 class="text-xs uppercase font-black tracking-widest text-zinc-400 border-b border-zinc-900 pb-3 mb-4 flex items-center gap-2">
               <span>📅</span> Agenda de Estrategia & Reviews
             </h3>
-            <div class="bg-zinc-950 rounded-xl overflow-hidden border border-zinc-900 aspect-video flex-1 flex items-center justify-center relative min-h-[220px]">
-              <!-- 
-                CRITICAL INSTRUCTION FOR GOOGLE CALENDAR EMBED:
-                Replace the <iframe> below with your exact public Google Calendar booking link embed code.
-              -->
-              <iframe src="https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID&ctz=America%2FBogota" class="absolute inset-0 w-full h-full border-none filter invert opacity-80" style="mix-blend-mode: lighten;"></iframe>
+            <div class="bg-zinc-950 rounded-xl overflow-hidden border border-zinc-900 aspect-[4/3] flex-1 relative min-h-[320px]">
+              <!-- Google Calendar Embedded Native Inline Window View -->
+              <iframe src="<!-- Google Calendar Appointment Scheduling begin -->
+<iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0DJ9eD2Z4J0i69OtqmNDP1qKJnEH2wbUHtcMSvfTY8pleX3z81axM7ZhhuMIRTi1-81FMvTFtF?gv=true" style="border: 0" width="100%" height="600" frameborder="0"></iframe>
+<!-- end Google Calendar Appointment Scheduling -->" class="absolute inset-0 w-full h-full border-none filter invert opacity-90 brightness-95" style="mix-blend-mode: lighten;"></iframe>
             </div>
           </div>
 
-          <!-- MODULE 2: REVENUE GATEWAY ARCHITECTURE (Premium Custom PayPal Element) -->
-          <div class="cyber-card rounded-2xl p-5 flex flex-col justify-between">
+          <!-- MODULE 2: BRAND-ALIGNED PAYPAL REVENUE GATEWAY -->
+          <div class="paypal-card rounded-2xl p-5 flex flex-col justify-between">
             <div>
-              <h3 class="text-xs uppercase font-black tracking-widest text-zinc-400 border-b border-zinc-900 pb-3 mb-4 flex items-center gap-2">
+              <h3 class="text-xs uppercase font-black tracking-widest text-[#0070ba] border-b border-zinc-900 pb-3 mb-4 flex items-center gap-2">
                 <span>🪙</span> Apoyar al Canal
               </h3>
               <p class="text-xs text-zinc-400 leading-relaxed font-medium mb-6">
-                Impulsa el crecimiento tecnológico de la plataforma, la organización de torneos comunitarios de EA FC y el desarrollo de herramientas personalizadas de streaming.
+                Impulsa el crecimiento tecnológico de la plataforma, la organización de torneos comunitarios de EA FC Mobile y el desarrollo continuo de scripts de streaming.
               </p>
             </div>
             
-            <!-- Custom Styled Commercial Action Link -->
-            <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="secondary-btn text-center text-zinc-300 font-bold uppercase tracking-wider text-xs py-4 rounded-xl block border border-zinc-800">
+            <!-- Exact PayPal Action Identity Integration -->
+            <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="paypal-btn text-center text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl block">
               Enviar Aporte Vía PayPal
             </a>
           </div>
 
         </div>
 
-        <!-- Technical Authority Manifesto Card -->
+        <!-- MODULE 3: FORMSPREE.IO SUGGESTION HUB (BUZÓN DE ESTRATEGIA) -->
+        <div class="cyber-card rounded-2xl p-6 border-l-2 border-l-[#ff002b]">
+          <h3 class="text-sm font-black tracking-wider uppercase mb-2 flex items-center gap-2">
+            <span>📬</span> Buzón de Estrategia & Sugerencias
+          </h3>
+          <p class="text-xs text-zinc-400 mb-4 leading-normal">¿Tienes una táctica revolucionaria o alguna sugerencia para los próximos directos? Envía tus comentarios directamente a mi panel de control.</p>
+          
+          <!-- Formspree Integration Pipeline Entry Architecture -->
+          <form action="https://formspree.io/f/YOUR_FORMSPREE_HASH_ID" method="POST" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input type="text" name="name" required placeholder="Tu Nombre / IGN" class="w-full bg-zinc-950 border border-zinc-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all text-white">
+              <input type="email" name="_replyto" required placeholder="Tu Correo de Contacto" class="w-full bg-zinc-950 border border-zinc-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all text-white">
+            </div>
+            <textarea name="message" rows="3" required placeholder="Escribe detalladamente tu táctica o sugerencia de alineación..." class="w-full bg-zinc-950 border border-zinc-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all text-white resize-none"></textarea>
+            <button type="submit" class="neon-btn w-full py-3 rounded-xl font-black uppercase tracking-widest text-xs text-white">
+              Enviar Mensaje al Buzón
+            </button>
+          </form>
+        </div>
+
+        <!-- Technical Authority Manifesto Footer -->
         <div class="bg-zinc-950/40 border border-zinc-900/60 rounded-2xl p-5 text-center md:text-left">
           <p class="text-xs text-zinc-500 leading-relaxed font-medium italic">
             "Bridando un puente entre las mecánicas de alto rendimiento en dispositivos móviles y la pasión competitiva de EA Sports FC. Diseñado para estructurar estadísticas, registrar a la comunidad de élite y automatizar el juego."
@@ -175,7 +205,7 @@
         </div>
       </section>
 
-      <!-- VIEW C: COMMUNITY PROTECTION REGISTRATION FORM -->
+      <!-- VIEW C: COMMUNITY REGISTRATION FORM -->
       <section id="community-view" class="site-view view-hidden space-y-6">
         <div class="cyber-card rounded-2xl p-6">
           <h3 class="text-base font-black tracking-wider uppercase mb-2">Registro Oficial de Jugadores</h3>
@@ -229,7 +259,6 @@
 
     <!-- ================= PRIVATE EXCLUSIVE ADMIN HUD ================= -->
     <div id="admin-container" class="view-hidden space-y-6">
-      <!-- (The functional Admin HUD form configuration remains locked securely inside this layout) -->
       <div class="border border-[#ff002b] bg-[#0d0d12] rounded-2xl p-6 shadow-2xl relative">
         <div class="flex items-center justify-between border-b border-zinc-900 pb-4 mb-6">
           <div>
@@ -292,7 +321,7 @@
               <div class="flex items-center justify-between text-xs font-bold">
                 <span class="text-zinc-400">Remates</span>
                 <div class="flex items-center gap-2">
-                  <button type="button" onclick="modifyCount('hud-p2-shots', -1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-800 flex items-center justify-center">-</button>
+                  <button type="button" onclick="modifyCount('hud-p2-shots', -1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-900 flex items-center justify-center">-</button>
                   <input type="number" id="hud-p2-shots" value="0" readonly class="w-8 text-center bg-transparent border-none text-white focus:outline-none font-mono">
                   <button type="button" onclick="modifyCount('hud-p2-shots', 1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-800 flex items-center justify-center">+</button>
                 </div>
@@ -343,7 +372,7 @@
     </div>
   </div>
 
-  <!-- ================= JAVASCRIPT FRONTEND CONTROLLER OPERATIONS ================= -->
+  <!-- ================= JAVASCRIPT FRONTEND OPERATIONS ================= -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const urlParams = new URLSearchParams(window.location.search);
