@@ -37,7 +37,6 @@
       box-shadow: 0 0 30px var(--ferrari-glow), inset 0 0 12px rgba(255, 0, 43, 0.05);
       transform: translateY(-2px);
     }
-    /* Specialized Brand Card Layout Override for PayPal principles */
     .paypal-card {
       background: linear-gradient(145deg, #071126 0%, #0d1b3a 100%);
       border: 1px solid rgba(0, 112, 186, 0.2);
@@ -70,6 +69,16 @@
       box-shadow: 0 0 25px rgba(0, 112, 186, 0.7);
       transform: scale(1.02);
     }
+    
+    /* Dynamic UIverse-Inspired Social Button Classes */
+    .social-icon {
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .soc-ig:hover { color: #e1306c; filter: drop-shadow(0 0 10px rgba(225, 48, 108, 0.5)); transform: scale(1.15); }
+    .soc-yt:hover { color: #ff0000; filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5)); transform: scale(1.15); }
+    .soc-kick:hover { color: #53fc18; filter: drop-shadow(0 0 10px rgba(83, 252, 24, 0.5)); transform: scale(1.15); }
+    .soc-twitch:hover { color: #9146ff; filter: drop-shadow(0 0 10px rgba(145, 70, 255, 0.5)); transform: scale(1.15); }
+
     .view-hidden { display: none !important; }
   </style>
 </head>
@@ -94,11 +103,34 @@
     </div>
   </div>
 
+  <!-- ================= HIGH-IMPACT TOP SOCIAL NAV DOCK ================= -->
+  <div class="w-full bg-zinc-950/40 border-b border-zinc-900/40 backdrop-blur-sm py-2 px-4 shadow-sm">
+    <div class="max-w-7xl mx-auto flex justify-center items-center gap-8 text-zinc-500 text-sm font-bold">
+      <a href="https://www.instagram.com/eldondelfc" target="_blank" class="social-icon soc-ig flex items-center gap-1.5 transition-all">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        <span class="hidden sm:inline text-xs font-black tracking-wider uppercase">Instagram</span>
+      </a>
+      <a href="https://www.youtube.com/@eldondelfc" target="_blank" class="social-icon soc-yt flex items-center gap-1.5 transition-all">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span class="hidden sm:inline text-xs font-black tracking-wider uppercase">YouTube</span>
+      </a>
+      <a href="https://kick.com/eldondelfc" target="_blank" class="social-icon soc-kick flex items-center gap-1.5 transition-all">
+        <!-- Custom optimized SVG path matrix modeling Kick's official digital handle asset -->
+        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M1.5 0h6v6h3V3h3V0h9v9h-3V6h-3v3h3v3h-3v3h3v3h3v9h-9v-3h-3v-3h-3v6h-6v-24zm6 9H6v6h1.5v-6z"/></svg>
+        <span class="hidden sm:inline text-xs font-black tracking-wider uppercase">Kick</span>
+      </a>
+      <a href="https://twitch.tv/eldondelfc" target="_blank" class="social-icon soc-twitch flex items-center gap-1.5 transition-all">
+        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+        <span class="hidden sm:inline text-xs font-black tracking-wider uppercase">Twitch</span>
+      </a>
+    </div>
+  </div>
+
   <!-- ================= MAIN CORE WRAPPER ================= -->
-  <main class="max-w-md mx-auto px-4 pt-8 md:max-w-4xl">
+  <main class="max-w-md mx-auto px-4 pt-6 md:max-w-4xl">
 
     <!-- ================= BRAND HERO IDENTIFIER ================= -->
-    <header class="text-center my-8">
+    <header class="text-center my-6">
       <h1 class="text-4xl font-black tracking-tighter uppercase md:text-6xl italic">
         ELDONDEL<span class="text-[#ff002b] neon-text-glow">FC</span>
       </h1>
@@ -138,25 +170,20 @@
               <span>📅</span> Agenda de Estrategia & Reviews
             </h3>
             <div class="bg-zinc-950 rounded-xl overflow-hidden border border-zinc-900 aspect-[4/3] flex-1 relative min-h-[320px]">
-              <!-- Google Calendar Embedded Native Inline Window View -->
-              <iframe src="<!-- Google Calendar Appointment Scheduling begin -->
-<iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0DJ9eD2Z4J0i69OtqmNDP1qKJnEH2wbUHtcMSvfTY8pleX3z81axM7ZhhuMIRTi1-81FMvTFtF?gv=true" style="border: 0" width="100%" height="600" frameborder="0"></iframe>
-<!-- end Google Calendar Appointment Scheduling -->" class="absolute inset-0 w-full h-full border-none filter invert opacity-90 brightness-95" style="mix-blend-mode: lighten;"></iframe>
+              <iframe src="https://calendar.app.google/RSuhrXQsNccERDA39" class="absolute inset-0 w-full h-full border-none filter invert opacity-90 brightness-95" style="mix-blend-mode: lighten;"></iframe>
             </div>
           </div>
 
           <!-- MODULE 2: BRAND-ALIGNED PAYPAL REVENUE GATEWAY -->
           <div class="paypal-card rounded-2xl p-5 flex flex-col justify-between">
             <div>
-              <h3 class="text-xs uppercase font-black tracking-widest text-[#0070ba] border-b border-zinc-900 pb-3 mb-4 flex items-center gap-2">
+              <h3 class="text-xs uppercase font-black tracking-widest text-[#0070ba] border-b border-zinc-950 pb-3 mb-4 flex items-center gap-2">
                 <span>🪙</span> Apoyar al Canal
               </h3>
               <p class="text-xs text-zinc-400 leading-relaxed font-medium mb-6">
                 Impulsa el crecimiento tecnológico de la plataforma, la organización de torneos comunitarios de EA FC Mobile y el desarrollo continuo de scripts de streaming.
               </p>
             </div>
-            
-            <!-- Exact PayPal Action Identity Integration -->
             <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="paypal-btn text-center text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl block">
               Enviar Aporte Vía PayPal
             </a>
@@ -171,7 +198,6 @@
           </h3>
           <p class="text-xs text-zinc-400 mb-4 leading-normal">¿Tienes una táctica revolucionaria o alguna sugerencia para los próximos directos? Envía tus comentarios directamente a mi panel de control.</p>
           
-          <!-- Formspree Integration Pipeline Entry Architecture -->
           <form action="https://formspree.io/f/YOUR_FORMSPREE_HASH_ID" method="POST" class="space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input type="text" name="name" required placeholder="Tu Nombre / IGN" class="w-full bg-zinc-950 border border-zinc-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all text-white">
@@ -187,12 +213,12 @@
         <!-- Technical Authority Manifesto Footer -->
         <div class="bg-zinc-950/40 border border-zinc-900/60 rounded-2xl p-5 text-center md:text-left">
           <p class="text-xs text-zinc-500 leading-relaxed font-medium italic">
-            "Bridando un puente entre las mecánicas de alto rendimiento en dispositivos móviles y la pasión competitiva de EA Sports FC. Diseñado para estructurar estadísticas, registrar a la comunidad de élite y automatizar el juego."
+            "Bridando un puente entre las mecánicas de alto rendimiento en dispositivos móviles y la pasión competitiva de EA Sports FC. Diseñado para estruturar estadísticas, registrar a la comunidad de élite y automatizar el juego."
           </p>
         </div>
       </section>
 
-      <!-- VIEW B: MATCH CENTER & LIVE LEADERBOARDS -->
+      <!-- VIEW B: MATCH CENTER -->
       <section id="stats-view" class="site-view view-hidden space-y-6">
         <div class="cyber-card rounded-2xl p-5">
           <div class="flex items-center justify-between mb-6 border-b border-zinc-900 pb-3">
@@ -321,7 +347,7 @@
               <div class="flex items-center justify-between text-xs font-bold">
                 <span class="text-zinc-400">Remates</span>
                 <div class="flex items-center gap-2">
-                  <button type="button" onclick="modifyCount('hud-p2-shots', -1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-900 flex items-center justify-center">-</button>
+                  <button type="button" onclick="modifyCount('hud-p2-shots', -1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-800 flex items-center justify-center">-</button>
                   <input type="number" id="hud-p2-shots" value="0" readonly class="w-8 text-center bg-transparent border-none text-white focus:outline-none font-mono">
                   <button type="button" onclick="modifyCount('hud-p2-shots', 1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-800 flex items-center justify-center">+</button>
                 </div>
@@ -372,7 +398,7 @@
     </div>
   </div>
 
-  <!-- ================= JAVASCRIPT FRONTEND OPERATIONS ================= -->
+  <!-- ================= JAVASCRIPT FRONTEND ENGINES ================= -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -390,67 +416,46 @@
       document.querySelectorAll('.site-view').forEach(view => view.classList.add('view-hidden'));
       document.getElementById(targetViewId).classList.remove('view-hidden');
       
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('bg-zinc-900', 'text-white');
-        btn.classList.add('text-zinc-500', 'hover:text-white');
-      });
-      event.target.classList.remove('text-zinc-500', 'hover:text-white');
-      event.target.classList.add('bg-zinc-900', 'text-white');
+      if (event && event.target && event.target.classList.contains('tab-btn')) {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.classList.remove('bg-zinc-900', 'text-white');
+          btn.classList.add('text-zinc-500', 'hover:text-white');
+        });
+        event.target.classList.remove('text-zinc-500', 'hover:text-white');
+        event.target.classList.add('bg-zinc-900', 'text-white');
+      }
 
       document.querySelectorAll('.mobile-nav-btn').forEach(btn => btn.classList.replace('text-[#ff002b]', 'text-zinc-600'));
     }
 
-   function fetchDailySoccerFact() {
-  const today = new Date();
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const dd = String(today.getDate()).padStart(2, '0');
-  
-  // High-performance football keyword dictionary to filter general history events
-  const footballKeywords = [
-    "fútbol", "futbol", "fifa", "uefa", "champions league", "copa del mundo", "mundial", 
-    "conmebol", "copa libertadores", "ballon d'or", "balón de oro", "maradona", "pelé", 
-    "messi", "cristiano", "real madrid", "barcelona", "boca juniors", "river plate",
-    "calcio", "premier league", "anfield", "stadium", "estadio", "ucl", "final", "campeón"
-  ];
+    function fetchDailySoccerFact() {
+      const today = new Date();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const footballKeywords = ["fútbol", "futbol", "fifa", "uefa", "champions league", "mundial", "maradona", "pelé", "messi", "cristiano", "real madrid", "barcelona", "copa"];
+      const wikiUrl = `https://es.wikipedia.org/api/rest_v1/feed/onthisday/selected/${mm}/${dd}`;
 
-  // Fetch directly from Wikipedia's open-source curated historical events API
-  const wikiUrl = `https://es.wikipedia.org/api/rest_v1/feed/onthisday/selected/${mm}/${dd}`;
-
-  fetch(wikiUrl)
-    .then(response => {
-      if (!response.ok) throw new Error("Wiki API connection limit reached.");
-      return response.json();
-    })
-    .then(data => {
-      const displayElement = document.getElementById('daily-fact-display');
-      
-      if (data.selected && data.selected.length > 0) {
-        // Filter out non-football events using our dictionary arrays
-        const soccerEvents = data.selected.filter(event => {
-          const textToSearch = event.text.toLowerCase();
-          return footballKeywords.some(keyword => textToSearch.includes(keyword));
+      fetch(wikiUrl)
+        .then(res => res.json())
+        .then(data => {
+          const displayElement = document.getElementById('daily-fact-display');
+          if (data.selected && data.selected.length > 0) {
+            const soccerEvents = data.selected.filter(evt => {
+              const text = evt.text.toLowerCase();
+              return footballKeywords.some(key => text.includes(key));
+            });
+            if (soccerEvents.length > 0) {
+              const randomFact = soccerEvents[Math.floor(Math.random() * soccerEvents.length)];
+              displayElement.innerText = `En ${randomFact.year}: ${randomFact.text.replace(/\[\d+\]/g, '')}`;
+              return;
+            }
+          }
+          displayElement.innerText = "Hoy se sigue disputando el juego estratégico en todo el planeta. Mantén el foco en la cancha.";
+        })
+        .catch(() => {
+          document.getElementById('daily-fact-display').innerText = "Disfrutando de las tácticas y la pasión del fútbol en vivo a diario.";
         });
-
-        // Payoff: If football history exists for today, select a random event and inject it
-        if (soccerEvents.length > 0) {
-          const randomFact = soccerEvents[Math.floor(Math.random() * soccerEvents.length)];
-          
-          // Clean out Wikipedia markup code links if present
-          let cleanText = randomFact.text.replace(/\[\d+\]/g, ''); 
-          displayElement.innerText = `En ${randomFact.year}: ${cleanText}`;
-          return;
-        }
-      }
-      
-      // Fallback message if Wikipedia has no documented match/event row for the calendar day
-      displayElement.innerText = "Hoy se sigue disputando el juego estratégico en todo el planeta. Mantén el foco en la cancha.";
-    })
-    .catch(err => {
-      // Graceful safety net in case of network disruptions or offline states
-      console.log("Fact Engine Redirect:", err);
-      document.getElementById('daily-fact-display').innerText = "Disfrutando de las tácticas y la pasión del fútbol en vivo a diario.";
-    });
-}
+    }
 
     function submitRegistration(event) {
       event.preventDefault();
