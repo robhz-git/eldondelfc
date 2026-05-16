@@ -400,26 +400,57 @@
       document.querySelectorAll('.mobile-nav-btn').forEach(btn => btn.classList.replace('text-[#ff002b]', 'text-zinc-600'));
     }
 
-    function fetchDailySoccerFact() {
-      const today = new Date();
-      const mm = String(today.getMonth() + 1).padStart(2, '0');
-      const dd = String(today.getDate()).padStart(2, '0');
-      const dateString = `${mm}-${dd}`;
+   function fetchDailySoccerFact() {
+  const today = new Date();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  
+  // High-performance football keyword dictionary to filter general history events
+  const footballKeywords = [
+    "fútbol", "futbol", "fifa", "uefa", "champions league", "copa del mundo", "mundial", 
+    "conmebol", "copa libertadores", "ballon d'or", "balón de oro", "maradona", "pelé", 
+    "messi", "cristiano", "real madrid", "barcelona", "boca juniors", "river plate",
+    "calcio", "premier league", "anfield", "stadium", "estadio", "ucl", "final", "campeón"
+  ];
+
+  // Fetch directly from Wikipedia's open-source curated historical events API
+  const wikiUrl = `https://es.wikipedia.org/api/rest_v1/feed/onthisday/selected/${mm}/${dd}`;
+
+  fetch(wikiUrl)
+    .then(response => {
+      if (!response.ok) throw new Error("Wiki API connection limit reached.");
+      return response.json();
+    })
+    .then(data => {
+      const displayElement = document.getElementById('daily-fact-display');
       
-      fetch('./facts.json')
-        .then(response => response.json())
-        .then(data => {
-          const displayElement = document.getElementById('daily-fact-display');
-          if(data[dateString]) {
-            displayElement.innerText = data[dateString];
-          } else {
-            displayElement.innerText = "Hoy se sigue escribiendo la historia del fútbol mundial. Mantén la concentración.";
-          }
-        })
-        .catch(() => {
-          document.getElementById('daily-fact-display').innerText = "Disfrutando de la pasión del fútbol en vivo a diario.";
+      if (data.selected && data.selected.length > 0) {
+        // Filter out non-football events using our dictionary arrays
+        const soccerEvents = data.selected.filter(event => {
+          const textToSearch = event.text.toLowerCase();
+          return footballKeywords.some(keyword => textToSearch.includes(keyword));
         });
-    }
+
+        // Payoff: If football history exists for today, select a random event and inject it
+        if (soccerEvents.length > 0) {
+          const randomFact = soccerEvents[Math.floor(Math.random() * soccerEvents.length)];
+          
+          // Clean out Wikipedia markup code links if present
+          let cleanText = randomFact.text.replace(/\[\d+\]/g, ''); 
+          displayElement.innerText = `En ${randomFact.year}: ${cleanText}`;
+          return;
+        }
+      }
+      
+      // Fallback message if Wikipedia has no documented match/event row for the calendar day
+      displayElement.innerText = "Hoy se sigue disputando el juego estratégico en todo el planeta. Mantén el foco en la cancha.";
+    })
+    .catch(err => {
+      // Graceful safety net in case of network disruptions or offline states
+      console.log("Fact Engine Redirect:", err);
+      document.getElementById('daily-fact-display').innerText = "Disfrutando de las tácticas y la pasión del fútbol en vivo a diario.";
+    });
+}
 
     function submitRegistration(event) {
       event.preventDefault();
