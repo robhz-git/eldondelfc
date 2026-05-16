@@ -1,232 +1,494 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ElDonDelFC | Command Center</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-
-    <!-- Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="css/style.css?v=3">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElDonDelFC | Cyber-Stadium Hub</title>
+  <!-- Tailwind CSS CDN for high-performance responsive utility styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Premium Cyber-Stadium CSS Custom Variable Engine */
+    :root {
+      --bg-dark: #0a0a0c;
+      --card-dark: #121216;
+      --ferrari-neon: #ff002b;
+      --ferrari-glow: rgba(255, 0, 43, 0.35);
+      --neon-soft: rgba(255, 0, 43, 0.15);
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: #f3f4f6;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    /* Advanced UIverse-Inspired Neon Edge Tracing Glows */
+    .neon-border {
+      border: 1px solid var(--neon-soft);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .neon-border:hover, .neon-border:focus-within {
+      border-color: var(--ferrari-neon);
+      box-shadow: 0 0 25px var(--ferrari-glow);
+    }
+    .neon-text-glow {
+      text-shadow: 0 0 8px var(--ferrari-glow);
+    }
+    .neon-btn {
+      background: linear-gradient(135deg, #121216 0%, #1a1a22 100%);
+      border: 1px solid var(--ferrari-neon);
+      box-shadow: 0 0 10px var(--ferrari-glow);
+      transition: all 0.3s ease;
+    }
+    .neon-btn:hover {
+      background: var(--ferrari-neon);
+      box-shadow: 0 0 20px rgba(255, 0, 43, 0.6);
+      transform: translateY(-2px);
+    }
+    /* Custom Scrollbar Styling for App Views */
+    .custom-scroll::-webkit-scrollbar { height: 4px; width: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: var(--ferrari-neon); border-radius: 10px; }
+    /* Hidden utility for state management views */
+    .view-hidden { display: none !important; }
+  </style>
 </head>
+<body class="min-h-screen pb-24 md:pb-6">
 
-<body>
+  <!-- ================= MASTER CONTROLLER LAYER ================= -->
+  <script>
+    // Configuration Engine - Link your backend core here
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz656F7JLdIZjvP0cPHNBWMWTmSc1n_ZZMjKY2Q3hJVk-UaBdkxHRyWCh5OcuFFtK5m/exec";
+    const ADMIN_SECRET_KEY = "EL_DON_2026"; // Change this to your chosen secret link key
+  </script>
 
-    <div class="main-container">
-        <!-- Header -->
-        <header>
-            <div class="commander-status">
-                <div class="status-dot"></div>
-                <div class="commander-font" style="font-weight: bold;" data-i18n="system_online">SYSTEM ONLINE</div>
+  <!-- ================= GLOBAL TOP TICKER ================= -->
+  <div class="w-full bg-black border-b border-zinc-800 py-2.5 px-4 overflow-hidden shadow-md">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs gap-2">
+      <div class="flex items-center gap-2 font-bold tracking-wider text-[#ff002b] uppercase">
+        <span class="w-2 h-2 rounded-full bg-[#ff002b] animate-ping"></span>
+        📅 Un Día Como Hoy en el Fútbol:
+      </div>
+      <div id="daily-fact-display" class="text-zinc-400 text-center sm:text-right font-medium animate-pulse">
+        Cargando efemérides del fútbol mundial...
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN CORE WRAPPER ================= -->
+  <main class="max-w-md mx-auto px-4 pt-6 md:max-w-4xl">
+
+    <!-- ================= BRAND HERO IDENTIFIER ================= -->
+    <header class="text-center my-6">
+      <h1 class="text-3xl font-extrabold tracking-tighter uppercase md:text-5xl">
+        ElDonDel<span class="text-[#ff002b] neon-text-glow">FC</span>
+      </h1>
+      <p class="text-xs tracking-widest text-zinc-500 uppercase mt-1">Data Engine & Streaming Portal</p>
+    </header>
+
+    <!-- ================= PUBLIC INTERFACE VIEWS ================= -->
+    <div id="public-container">
+      
+      <!-- NAVIGATION TABS DOCK (TOP ON DESKTOP / SWITCH VIEW LOGIC) -->
+      <nav class="flex justify-center gap-2 mb-6 bg-zinc-900/60 p-1.5 rounded-xl border border-zinc-800">
+        <button onclick="switchView('home-view')" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-zinc-800 text-white transition-all w-full">🎮 Home</button>
+        <button onclick="switchView('stats-view')" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all w-full">📊 Match Center</button>
+        <button onclick="switchView('community-view')" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all w-full">📬 Registro</button>
+      </nav>
+
+      <!-- VIEW A: THE TACTICAL HERO HOME HUB -->
+      <section id="home-view" class="site-view space-y-6">
+        <!-- Live Status Smart Pulsing Card -->
+        <div class="neon-border rounded-2xl p-6 bg-[#121216]/90 relative overflow-hidden text-center">
+          <div class="absolute -right-12 -top-12 w-32 h-32 bg-[#ff002b]/10 rounded-full blur-3xl"></div>
+          <div class="mb-2 inline-flex items-center gap-2 px-3 py-1 bg-zinc-900 border border-zinc-800 rounded-full text-[10px] uppercase tracking-widest text-zinc-400">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Transmisión Link
+          </div>
+          <h2 class="text-xl font-bold tracking-tight mb-4">¿Preparado para dominar la cancha?</h2>
+          <a href="https://www.tiktok.com" target="_blank" class="neon-btn inline-block px-8 py-3.5 rounded-xl font-bold uppercase tracking-wider text-sm text-white w-full sm:w-auto">
+            Sígueme en Vivo
+          </a>
+        </div>
+
+        <!-- Technical Authority Manifesto Card -->
+        <div class="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-5 text-center sm:text-left">
+          <h3 class="text-xs uppercase font-bold tracking-widest text-zinc-400 mb-2">Technical Manifesto</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed font-medium">
+            Bridando un puente entre las mecánicas de alto rendimiento en dispositivos móviles y la pasión competitiva de EA Sports FC. Diseñado para estructurar estadísticas, registrar a la comunidad de élite y automatizar el juego.
+          </p>
+        </div>
+      </section>
+
+      <!-- VIEW B: MATCH CENTER & LIVE LEADERBOARDS -->
+      <section id="stats-view" class="site-view view-hidden space-y-6">
+        <div class="bg-[#121216] border border-zinc-800/80 rounded-2xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-base font-bold tracking-tight">Historial de Partidos</h3>
+            <span class="text-[10px] px-2 py-0.5 bg-zinc-900 border border-zinc-800 text-zinc-400 rounded-md font-bold">LIVE METRICS</span>
+          </div>
+          <!-- Injected dynamically from public Google Sheet fetch loop -->
+          <div id="match-cards-container" class="space-y-3">
+            <p class="text-xs text-zinc-500 text-center py-6">Conecta tu hoja pública de Google Sheets para renderizar la base de datos de partidos.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW C: COMMUNITY PROTECTION REGISTRATION FORM -->
+      <section id="community-view" class="site-view view-hidden space-y-6">
+        <div class="neon-border rounded-2xl p-6 bg-[#121216]/90">
+          <h3 class="text-lg font-bold tracking-tight mb-2">Registro Oficial de Jugadores</h3>
+          <p class="text-xs text-zinc-400 mb-6 leading-normal">Ingresa tus credenciales verificadas para formar parte de las tablas de clasificación, sorteos automatizados y ligas de streaming.</p>
+          
+          <form id="registrationForm" onsubmit="submitRegistration(event)" class="space-y-4">
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">EA FC Unique ID (UID) <span class="text-[#ff002b]">*</span></label>
+              <input type="text" id="reg-uid" required placeholder="Ej: 100293849102" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all font-mono">
             </div>
-
-            <!-- Settings Controls -->
-            <div class="settings-controls">
-                <button id="theme-toggle" class="icon-btn" title="Toggle Theme">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <select id="lang-select" class="lang-select">
-                    <option value="es">ES</option>
-                    <option value="en">EN</option>
-                    <option value="fr">FR</option>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">In-Game Name (IGN) <span class="text-[#ff002b]">*</span></label>
+                <input type="text" id="reg-ign" required placeholder="Tu Nombre en Juego" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Nombre Real</label>
+                <input type="text" id="reg-name" placeholder="Tu Nombre" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all">
+              </div>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Correo Electrónico <span class="text-[#ff002b]">*</span></label>
+              <input type="email" id="reg-email" required placeholder="correo@ejemplo.com" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Red Social Preferida</label>
+                <select id="reg-platform" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all text-zinc-300">
+                  <option value="TikTok">TikTok</option>
+                  <option value="Twitch">Twitch</option>
+                  <option value="Kick">Kick</option>
+                  <option value="YouTube">YouTube</option>
                 </select>
-                <button id="help-btn" class="icon-btn" title="Iniciar Tour">
-                    <i class="fas fa-question-circle"></i>
-                </button>
-                <!-- Admin Access -->
-                <a href="admin-liga.html" class="icon-btn" title="Admin Access">
-                    <i class="fas fa-user-shield"></i>
-                </a>
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Usuario de Red Social</label>
+                <input type="text" id="reg-handle" placeholder="Ej: eldon_oficial" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all">
+              </div>
             </div>
-
-            <div class="commander-status">
-                <span style="font-size: 0.8rem; opacity: 0.7;">V2.0.26</span>
+            <div class="flex items-center gap-3 py-2">
+              <input type="checkbox" id="reg-creator" class="w-4 h-4 rounded accent-[#ff002b] bg-zinc-900 border-zinc-800">
+              <label for="reg-creator" class="text-xs text-zinc-300 font-medium select-none">¿Eres creador de contenido activo?</label>
             </div>
-        </header>
+            <button type="submit" id="reg-submit-btn" class="neon-btn w-full py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs text-white mt-2">
+              Registrar Perfil en la Base de Datos
+            </button>
+          </form>
+        </div>
+      </section>
+    </div>
 
-        <div style="text-align: center; margin-bottom: 20px;">
-            <div class="commander-font" style="font-size: 1.5rem; color: var(--text-dark);"
-                data-i18n="commander_center">COMMANDER CENTER</div>
+    <!-- ================= PRIVATE EXCLUSIVE ADMIN HUD ================= -->
+    <div id="admin-container" class="view-hidden space-y-6">
+      <div class="border border-[#ff002b] bg-[#121216] rounded-2xl p-6 shadow-2xl relative">
+        <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-6">
+          <div>
+            <h2 class="text-lg font-bold tracking-tight uppercase text-white">Panel de Ingesta de Partidos</h2>
+            <p class="text-[10px] font-semibold text-[#ff002b] uppercase tracking-widest mt-0.5">Eldondelfc Core Administration Deck</p>
+          </div>
+          <span class="px-2.5 py-1 rounded-md bg-green-900/30 text-green-400 font-mono text-[10px] font-bold tracking-wider border border-green-800">KEY_VERIFIED</span>
         </div>
 
-        <!-- Bento Grid -->
-        <div class="bento-grid">
-
-            <!-- Welcome Card -->
-            <div class="bento-card col-span-2 row-span-2 card-hero">
-                <div>
-                    <h1 style="margin: 0; font-size: 2rem;" data-i18n="welcome_title">BIENVENIDO,<br>COMANDANTE</h1>
-                    <p style="opacity: 0.7; margin-top: 10px;" data-i18n="welcome_desc">Centro de mando oficial de
-                        ElDonDelFC. Gestiona tus tácticas, recompensas y liga desde aquí.</p>
-                </div>
-                <div style="margin-top: 20px;">
-                    <div class="commander-font" style="font-size: 0.8rem; color: var(--accent-neon);"
-                        data-i18n="mission_status">ESTADO DE MISIÓN: ACTIVO</div>
-                </div>
-
-                <!-- Daily Fact Section -->
-                <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;">
-                    <div class="commander-font" style="font-size: 0.7rem; color: #888; margin-bottom: 5px;"
-                        data-i18n="fact_title">DATO DEL DÍA: MUNDIAL 2026</div>
-                    <p id="daily-fact-text" style="font-size: 0.85rem; font-style: italic; margin: 0; opacity: 0.9;">
-                        Cargando dato...</p>
-                </div>
+        <form id="matchHUDForm" onsubmit="submitMatchHUD(event)" class="space-y-6">
+          <!-- Selection Array Rows -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Torneo Asignado</label>
+              <input type="text" id="hud-tournament" required placeholder="Ej: COPA-APTIVE-2026" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm font-bold focus:outline-none focus:border-[#ff002b]">
             </div>
-
-            <!-- Rewards: Find Codes (Left) -->
-            <a href="https://www.fcmobileforum.com/fcmobile-redeem-codes" target="_blank"
-                class="bento-card card-neon-red">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                    <i class="fas fa-list icon-large"></i>
-                </div>
-                <div>
-                    <h3 data-i18n="rewards_find" style="font-size: 1rem; margin-bottom: 5px;">CÓDIGOS ACTIVOS</h3>
-                    <div class="btn-link" style="color: white; margin-top: 5px; font-size: 0.8rem;">
-                        <span data-i18n="claim_now">VER EN FORO</span> <i class="fas fa-external-link-alt"
-                            style="font-size: 0.7rem;"></i>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Rewards: Redeem (Right) -->
-            <a href="https://redeem.fcm.ea.com/" target="_blank" class="bento-card card-neon-green">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                    <i class="fas fa-gift icon-large"></i>
-                </div>
-                <div>
-                    <h3 data-i18n="rewards_redeem" style="font-size: 1rem; margin-bottom: 5px;">CANJEAR</h3>
-                    <div class="btn-link" style="margin-top: 5px; font-size: 0.8rem;">
-                        <span data-i18n="redeem_now">EA SITE</span> <i class="fas fa-arrow-right"
-                            style="font-size: 0.7rem;"></i>
-                    </div>
-                </div>
-            </a>
-
-            <!-- World Cup News -->
-            <a href="mundial.html" class="bento-card">
-                <i class="fas fa-globe-americas icon-large" style="color: var(--text-dark);"></i>
-                <h3 data-i18n="world_cup_title">MUNDIAL 2026</h3>
-                <p style="font-size: 0.8rem; color: #666;" data-i18n="world_cup_desc">Noticias camino a la Copa del
-                    Mundo.</p>
-            </a>
-
-            <!-- Champions League -->
-            <a href="https://www.marca.com/futbol/champions-league.html" target="_blank" class="bento-card">
-                <i class="fas fa-trophy icon-large" style="color: var(--text-dark);"></i>
-                <h3 data-i18n="champions_title">CHAMPIONS</h3>
-                <p style="font-size: 0.8rem; color: #666;" data-i18n="champions_desc">Actualidad de la UEFA Champions
-                    League.</p>
-            </a>
-
-            <!-- Strategy Mailbox (Form) -->
-            <div class="bento-card col-span-2 row-span-2 card-accent">
-                <h3 data-i18n="mailbox_title">BUZÓN DE ESTRATEGIA</h3>
-                <p style="font-size: 0.8rem; color: #aaa; margin-top: 5px; margin-bottom: 15px;"
-                    data-i18n="mailbox_desc">Impacta el juego. Envía tus tácticas y sugerencias directamente a ElDon.
-                </p>
-                <form action="https://formspree.io/f/mzddbele" method="POST"
-                    style="margin-top: 0; display: flex; flex-direction: column; gap: 10px;">
-                    <input type="text" name="username" data-i18n-placeholder="placeholder_username"
-                        placeholder="Usuario (Ej: TikTok)" required
-                        style="background: rgba(255,255,255,0.1); border: 1px solid #333; padding: 10px; border-radius: 5px;">
-                    <select name="category"
-                        style="background: rgba(255,255,255,0.1); border: 1px solid #333; padding: 10px; border-radius: 5px;">
-                        <option value="Contenido" data-i18n="option_content">Contenido</option>
-                        <option value="Tácticas" data-i18n="option_tactics">Tácticas</option>
-                        <option value="Web" data-i18n="option_web">Web</option>
-                    </select>
-                    <textarea name="message" rows="3" data-i18n-placeholder="placeholder_idea" placeholder="Tu idea..."
-                        required
-                        style="background: rgba(255,255,255,0.1); border: 1px solid #333; padding: 10px; border-radius: 5px;"></textarea>
-                    <button type="submit"
-                        style="background: var(--accent-neon); color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-family: 'Orbitron';"
-                        data-i18n="send_btn">ENVIAR</button>
-                </form>
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">UID Local (Jugador 1)</label>
+              <input type="text" id="hud-p1" required placeholder="UID Local" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm font-mono focus:outline-none focus:border-[#ff002b]">
             </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">UID Visitante (Jugador 2)</label>
+              <input type="text" id="hud-p2" required placeholder="UID Visitante" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm font-mono focus:outline-none focus:border-[#ff002b]">
+            </div>
+          </div>
 
-            <!-- League Dashboard (Active) -->
-            <a href="liga.html" class="bento-card">
-                <div style="position: absolute; top: 10px; right: 10px; background: #39FF14; color: black; padding: 3px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: bold; letter-spacing: 1px;"
-                    data-i18n="status_active">LIVE</div>
-                <i class="fas fa-chart-line icon-large" style="color: var(--accent-neon);"></i>
-                <h3 data-i18n="league_title">LIGA</h3>
-                <p style="font-size: 0.8rem; color: #666;" data-i18n="league_desc">Tablas y resultados en vivo.</p>
-            </a>
+          <!-- Possession Sliders Card Structure -->
+          <div class="bg-zinc-900/60 p-4 rounded-xl border border-zinc-800">
+            <div class="flex justify-between text-xs font-bold uppercase tracking-wider mb-2">
+              <span class="text-zinc-300">Posesión Local: <span id="p1-poss-val" class="text-[#ff002b]">50%</span></span>
+              <span class="text-zinc-300">Posesión Visitante: <span id="p2-poss-val">50%</span></span>
+            </div>
+            <input type="range" id="hud-p1-poss" min="0" max="100" value="50" oninput="updatePossessionSliders(this.value)" class="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#ff002b]">
+          </div>
 
-            <!-- Academy -->
-            <a href="academia.html" class="bento-card">
-                <i class="fas fa-graduation-cap icon-large" style="color: var(--accent-neon);"></i>
-                <h3 data-i18n="academy_title">ACADEMIA</h3>
-                <p style="font-size: 0.8rem; color: #666;" data-i18n="academy_desc">Reservar sesión 1v1.</p>
-            </a>
-
-            <!-- Wheel of Destiny (Now Digital Raffle) -->
-            <a href="sorteo.html" class="bento-card col-span-2"
-                style="background: #111; color: white; border-color: #333;">
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <i class="fas fa-dharmachakra icon-large" style="color: var(--accent-neon); margin: 0;"></i>
-                    <div>
-                        <h3 data-i18n="wheel_title">SORTEO DIGITAL</h3>
-                        <p style="font-size: 0.8rem; color: #888; margin: 0;" data-i18n="wheel_desc">Sistema de sorteo
-                            rápido y efectivo.</p>
-                    </div>
+          <!-- Micro Counter Increments Framework -->
+          <div class="grid grid-cols-2 gap-4">
+            <!-- P1 Counter Deck -->
+            <div class="space-y-4 bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/60">
+              <h4 class="text-[10px] font-extrabold uppercase text-[#ff002b] tracking-widest text-center border-b border-zinc-800 pb-1.5">Métricas Local</h4>
+              <div class="flex items-center justify-between text-xs font-bold">
+                <span class="text-zinc-400">Remates</span>
+                <div class="flex items-center gap-2">
+                  <button type="button" onclick="modifyCount('hud-p1-shots', -1)" class="w-7 h-7 bg-zinc-800 rounded-md border border-zinc-700 flex items-center justify-center">-</button>
+                  <input type="number" id="hud-p1-shots" value="0" readonly class="w-8 text-center bg-transparent border-none text-white focus:outline-none font-mono">
+                  <button type="button" onclick="modifyCount('hud-p1-shots', 1)" class="w-7 h-7 bg-zinc-800 rounded-md border border-zinc-700 flex items-center justify-center">+</button>
                 </div>
-            </a>
-
-            <!-- PayPal Donation -->
-            <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank"
-                class="bento-card col-span-2"
-                style="background: linear-gradient(135deg, #003087 0%, #009cde 100%); color: white; border: none;">
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <i class="fab fa-paypal icon-large" style="color: white; margin: 0;"></i>
-                    <div>
-                        <h3 data-i18n="donate_title">APOYAR AL CANAL</h3>
-                        <p style="font-size: 0.8rem; color: rgba(255,255,255,0.8); margin: 0;" data-i18n="donate_desc">
-                            Ayuda a mantener los premios de la liga.</p>
-                    </div>
+              </div>
+              <div class="flex items-center justify-between text-xs font-bold">
+                <span class="text-zinc-400">Pases %</span>
+                <input type="text" id="hud-p1-pass" value="85%" class="w-14 text-center bg-zinc-900 border border-zinc-800 rounded px-2 py-1 text-white font-mono text-xs">
+              </div>
+              <div class="flex items-center justify-between text-xs font-bold">
+                <span class="text-zinc-400">Faltas</span>
+                <div class="flex items-center gap-2">
+                  <button type="button" onclick="modifyCount('hud-p1-fouls', -1)" class="w-7 h-7 bg-zinc-800 rounded-md border border-zinc-700 flex items-center justify-center">-</button>
+                  <input type="number" id="hud-p1-fouls" value="0" readonly class="w-8 text-center bg-transparent border-none text-white focus:outline-none font-mono">
+                  <button type="button" onclick="modifyCount('hud-p1-fouls', 1)" class="w-7 h-7 bg-zinc-800 rounded-md border border-zinc-700 flex items-center justify-center">+</button>
                 </div>
-            </a>
+              </div>
+            </div>
+            <!-- P2 Counter Deck -->
+            <div class="space-y-4 bg-zinc-900/30 p-4 rounded-xl border border-zinc-800/60">
+              <h4 class="text-[10px] font-extrabold uppercase text-zinc-400 tracking-widest text-center border-b border-zinc-800 pb-1.5">Métricas Visitante</h4>
+              <div class="flex items-center justify-between text-xs font-bold">
+                <span class="text-zinc-400">Remates</span>
+                <div class="flex items-center gap-2">
+                  <button type="button" onclick="modifyCount('hud-p2-shots', -1)" class="w-7 h-7 bg-zinc-800 rounded-md border border-zinc-700 flex items-center justify-center">-</button>
+                  <input type="number" id="hud-p2-shots" value="0" readonly class="w-8 text-center bg-transparent border-none text-white focus:outline-none font-mono">
+                  <button type="button" onclick="modifyCount('hud-p2-shots', 1)" class="w-7 h-7 bg-zinc-800 rounded-md border border-zinc-700 flex items-center justify-center">+</button>
+                </div>
+              </div>
+              <div class="flex items-center justify-between text-xs font-bold">
+                <span class="text-zinc-400">Pases %</span>
+                <input type="text" id="hud-p2-pass" value="85%" class="w-14 text-center bg-zinc-900 border border-zinc-800 rounded px-2 py-1 text-white font-mono text-xs">
+              </div>
+              <div class="flex items-center justify-between text-xs font-bold">
+                <span class="text-zinc-400">Faltas</span>
+                <div class="flex items-center gap-2">
+                  <button type="button" onclick="modifyCount('hud-p2-fouls', -1)" class="w-7 h-7 bg-zinc-800 rounded-md border border-zinc-700 flex items-center justify-center">-</button>
+                  <input type="number" id="hud-p2-fouls" value="0" readonly class="w-8 text-center bg-transparent border-none text-white focus:outline-none font-mono">
+                  <button type="button" onclick="modifyCount('hud-p2-fouls', 1)" class="w-7 h-7 bg-zinc-800 rounded-md border border-zinc-700 flex items-center justify-center">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <!-- Dynamic Goal Event Timeline Generator Array -->
+          <div class="bg-zinc-900/40 p-4 rounded-xl border border-zinc-800">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-2 mb-3">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-300">Línea de Tiempo del Partido (Goles / Tarjetas)</h4>
+              <button type="button" onclick="addTimelineEventFormRow()" class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 rounded-md text-[10px] font-bold uppercase tracking-widest text-zinc-300 border border-zinc-700">+ Añadir Evento</button>
+            </div>
+            <div id="hud-timeline-rows-container" class="space-y-2">
+              <!-- Event rows appended dynamically here via micro-scripts -->
+            </div>
+          </div>
+
+          <button type="submit" id="hud-submit-btn" class="neon-btn w-full py-4 rounded-xl font-bold uppercase tracking-wider text-xs text-white">
+            Transmitir Datos en Vivo a Google Sheets
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= PERSISTENT APP-STYLE MOBILE NAVIGATION DOCK ================= -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-black/90 border-t border-zinc-800 px-4 py-3 backdrop-blur-md z-50">
+    <div class="flex justify-around items-center max-w-md mx-auto">
+      <button onclick="switchView('home-view')" class="mobile-nav-btn text-[10px] font-bold uppercase tracking-widest flex flex-col items-center gap-1 text-[#ff002b]">
+        <span>🎮</span>Home
+      </button>
+      <button onclick="switchView('stats-view')" class="mobile-nav-btn text-[10px] font-bold uppercase tracking-widest flex flex-col items-center gap-1 text-zinc-500">
+        <span>📊</span>Stats
+      </button>
+      <button onclick="switchView('community-view')" class="mobile-nav-btn text-[10px] font-bold uppercase tracking-widest flex flex-col items-center gap-1 text-zinc-500">
+        <span>📬</span>Registro
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT FRONTEND CONTROLLER OPERATIONS ================= -->
+  <script>
+    // 1. Initial Router Guard Check: Detect Security Key for Admin HUD activation
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const incomingKey = urlParams.get('key');
+      
+      if (incomingKey === ADMIN_SECRET_KEY) {
+        document.getElementById('public-container').classList.add('view-hidden');
+        document.getElementById('admin-container').classList.remove('view-hidden');
+      } else {
+        fetchDailySoccerFact();
+      }
+    });
+
+    // 2. Tab Navigation System Switcher Flow
+    function switchView(targetViewId) {
+      document.querySelectorAll('.site-view').forEach(view => view.classList.add('view-hidden'));
+      document.getElementById(targetViewId).classList.remove('view-hidden');
+      
+      // Sync desktop tab active states
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.replace('bg-zinc-800', 'text-zinc-400');
+        btn.classList.replace('text-white', 'hover:text-white');
+      });
+      // Sync mobile view indicator active states
+      document.querySelectorAll('.mobile-nav-btn').forEach(btn => btn.classList.replace('text-[#ff002b]', 'text-zinc-500'));
+    }
+
+    // 3. Serverless Date Execution Loop for "On This Day" Facts
+    function fetchDailySoccerFact() {
+      const today = new Date();
+      // Format to matching schema keys: "MM-DD"
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const dateString = `${mm}-${dd}`;
+      
+      fetch('./facts.json')
+        .then(response => response.json())
+        .then(data => {
+          const displayElement = document.getElementById('daily-fact-display');
+          if(data[dateString]) {
+            displayElement.innerText = data[dateString];
+            displayElement.classList.remove('animate-pulse');
+          } else {
+            displayElement.innerText = "Hoy se sigue escribiendo la historia del fútbol mundial. Mantén la concentración.";
+          }
+        })
+        .catch(() => {
+          document.getElementById('daily-fact-display').innerText = "Estableciendo conexión con el archivo histórico de efemérides...";
+        });
+    }
+
+    // 4. Secure Payload Routing: User Registration Form Submission
+    function submitRegistration(event) {
+      event.preventDefault();
+      const submitBtn = document.getElementById('reg-submit-btn');
+      submitBtn.innerText = "Sincronizando con Google Cloud...";
+      submitBtn.disabled = true;
+
+      const registrationData = {
+        action: "registerUser",
+        uid: document.getElementById('reg-uid').value,
+        ign: document.getElementById('reg-ign').value,
+        name: document.getElementById('reg-name').value,
+        email: document.getElementById('reg-email').value,
+        platform: document.getElementById('reg-platform').value,
+        handle: document.getElementById('reg-handle').value,
+        isCreator: document.getElementById('reg-creator').checked
+      };
+
+      fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors", // Bypasses browser pre-flight sandbox blocks securely
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(registrationData)
+      })
+      .then(() => {
+        alert("¡Registro Exitoso! Tu perfil ha sido indexado en la base de datos.");
+        document.getElementById('registrationForm').reset();
+      })
+      .catch(err => alert("Error de enlace de red backend: " + err.toString()))
+      .finally(() => {
+        submitBtn.innerText = "Registrar Perfil en la Base de Datos";
+        submitBtn.disabled = false;
+      });
+    }
+
+    // ================= ADMIN CONSOLE OPERATION SCRIPTS =================
+    function updatePossessionSliders(val) {
+      document.getElementById('p1-poss-val').innerText = val + "%";
+      document.getElementById('p2-poss-val').innerText = (100 - val) + "%";
+    }
+
+    function modifyCount(id, delta) {
+      const input = document.getElementById(id);
+      let current = parseInt(input.value) || 0;
+      current += delta;
+      if (current < 0) current = 0;
+      input.value = current;
+    }
+
+    function addTimelineEventFormRow() {
+      const container = document.getElementById('hud-timeline-rows-container');
+      const rowId = "row-" + Date.now();
+      
+      const elementHtml = `
+        <div id="${rowId}" class="flex items-center gap-2 bg-zinc-900 p-2.5 rounded-lg border border-zinc-800 text-xs">
+          <input type="number" placeholder="Min" class="evt-min w-12 bg-black border border-zinc-800 p-1.5 rounded text-center text-white font-mono">
+          <select class="evt-type bg-black border border-zinc-800 p-1.5 rounded text-zinc-300">
+            <option value="Goal">⚽ Gol</option>
+            <option value="Yellow_Card">🟨 Tarjeta Amarilla</option>
+            <option value="Red_Card">🟥 Tarjeta Roja</option>
+          </select>
+          <select class="evt-side bg-black border border-zinc-800 p-1.5 rounded text-zinc-300">
+            <option value="P1">Local (P1)</option>
+            <option value="P2">Visitante (P2)</option>
+          </select>
+          <input type="text" placeholder="Jugador Virtual" class="evt-player flex-1 bg-black border border-zinc-800 p-1.5 rounded text-white">
+          <button type="button" onclick="document.getElementById('${rowId}').remove()" class="text-zinc-500 hover:text-[#ff002b] font-bold px-1">✕</button>
         </div>
+      `;
+      container.insertAdjacentHTML('beforeend', elementHtml);
+    }
 
-        <!-- Footer -->
-        <footer>
-            <div class="commander-font" data-i18n="roadmap_title">ROADMAP 2026</div>
-            <p data-i18n="roadmap_desc">Evolucionando para ti. Más cambios en camino.</p>
-        </footer>
-    </div>
+    // 5. Secure Payload Routing: Admin HUD Match Statistics Submission
+    function submitMatchHUD(event) {
+      event.preventDefault();
+      const submitBtn = document.getElementById('hud-submit-btn');
+      submitBtn.innerText = "Transmitiendo Bloque de Datos...";
+      submitBtn.disabled = true;
 
-    <!-- Social Sidebar -->
-    <div class="social-sidebar">
-        <a href="https://www.tiktok.com/@eldondelfc" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
-        <a href="https://www.youtube.com/@eldondelfc" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
-        <a href="https://kick.com/eldondelfc" target="_blank" title="Kick"><i class="fas fa-play"></i></a>
-        <a href="https://www.instagram.com/eldondelfc" target="_blank" title="Instagram"><i
-                class="fab fa-instagram"></i></a>
-    </div>
+      const p1Uid = document.getElementById('hud-p1').value;
+      const p2Uid = document.getElementById('hud-p2').value;
 
-    <!-- Floating Avatar -->
-    <img src="assets/avatar.png" class="floating-avatar" alt="ElDonDelFC Assistant">
+      // Extract and map matching internal array elements from timeline DOM nodes
+      const eventRows = document.getElementById('hud-timeline-rows-container').children;
+      const computedEvents = [];
+      
+      for (let row of eventRows) {
+        const sideValue = row.querySelector('.evt-side').value;
+        computedEvents.push({
+          playerUid: sideValue === "P1" ? p1Uid : p2Uid,
+          type: row.querySelector('.evt-type').value,
+          minute: row.querySelector('.evt-min').value || 0,
+          playerName: row.querySelector('.evt-player').value || "Unknown Player"
+        });
+      }
 
-    <!-- Physics Toggle -->
-    <div id="physics-toggle" class="physics-toggle" title="Activar Anti-Gravedad">
-        <i class="fas fa-atom"></i>
-    </div>
+      const matchPayload = {
+        action: "submitMatch",
+        tournamentId: document.getElementById('hud-tournament').value,
+        p1Uid: p1Uid,
+        p2Uid: p2Uid,
+        p1Shots: document.getElementById('hud-p1-shots').value,
+        p2Shots: document.getElementById('hud-p2-shots').value,
+        p1Poss: document.getElementById('p1-poss-val').innerText,
+        p2Poss: document.getElementById('p2-poss-val').innerText,
+        p1PassAcc: document.getElementById('hud-p1-pass').value,
+        p2PassAcc: document.getElementById('hud-p2-pass').value,
+        p1Fouls: document.getElementById('hud-p1-fouls').value,
+        p2Fouls: document.getElementById('hud-p2-fouls').value,
+        events: computedEvents
+      };
 
-    <!-- Driver.js (Tour) -->
-    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css" />
-    <script src="js/tour.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
-    <script src="js/app.js"></script>
+      fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(matchPayload)
+      })
+      .then(() => {
+        alert("¡Partido Transmitido! Los datos se han consolidado en el registro relacional.");
+        document.getElementById('matchHUDForm').reset();
+        document.getElementById('hud-timeline-rows-container').innerHTML = "";
+        updatePossessionSliders(50);
+      })
+      .catch(err => alert("Fallo de enlace de red crítico: " + err.toString()))
+      .finally(() => {
+        submitBtn.innerText = "Transmitir Datos en Vivo a Google Sheets";
+        submitBtn.disabled = false;
+      });
+    }
+  </script>
 </body>
-
 </html>
