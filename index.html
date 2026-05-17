@@ -476,9 +476,10 @@
       const mm = String(today.getMonth() + 1).padStart(2, '0');
       const dd = String(today.getDate()).padStart(2, '0');
       
+      // Expanded dictionary to catch more soccer-related history
       const footballKeywords = [
         "fútbol", "futbol", "fifa", "uefa", "champions", "mundial", "maradona", "pelé", "messi", 
-        "cristiano", "madrid", "barcelona", "copa", "campeón", "nació", "falleció"
+        "cristiano", "madrid", "barcelona", "copa", "campeón", "gol", "estadio", "balón", "premier"
       ];
       const wikiUrl = `https://es.wikipedia.org/api/rest_v1/feed/onthisday/selected/${mm}/${dd}`;
 
@@ -492,21 +493,18 @@
               return footballKeywords.some(key => text.includes(key));
             });
             
+            // STRICT LOCK: Only render if a soccer event is explicitly found
             if (soccerEvents.length > 0) {
               const randomFact = soccerEvents[Math.floor(Math.random() * soccerEvents.length)];
               displayElement.innerText = `En ${randomFact.year}: ${randomFact.text.replace(/\[\d+\]/g, '')}`;
               return;
             }
-            
-            // Fallback Level 1: If zero explicit football matches, give user the top global curated event of today
-            const topGeneralEvent = data.selected[0];
-            displayElement.innerText = `En ${topGeneralEvent.year}: ${topGeneralEvent.text.replace(/\[\d+\]/g, '')}`;
-            return;
           }
-          displayElement.innerText = "Hoy se sigue disputando el juego estratégico en todo el planeta. Mantén el foco en la cancha.";
+          // If no soccer event is found, default to a brand-aligned quote. No random history.
+          displayElement.innerText = "La constancia en el entrenamiento define lo que sucede bajo las luces del estadio.";
         })
         .catch(() => {
-          document.getElementById('daily-fact-display').innerText = "Disfrutando de las tácticas y la pasión del fútbol en vivo a diario.";
+          document.getElementById('daily-fact-display').innerText = "Mantén el foco en la cancha y domina el juego.";
         });
     }
 
