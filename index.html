@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ElDonDelFC | Premium Cyber-Stadium Hub</title>
-  <!-- Tailwind CSS CDN for high-performance responsive utility styling -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
@@ -48,20 +47,25 @@
     }
     .neon-text-glow { text-shadow: 0 0 12px var(--ferrari-glow); }
     
-    /* Live Pulsing Visual State Classes */
     .btn-live {
       background: linear-gradient(135deg, #ff002b 0%, #cc0022 100%);
       box-shadow: 0 0 20px var(--ferrari-glow);
       animation: pulseGlow 2s infinite alternate;
+      border: 1px solid #ff4d6d;
     }
     .btn-offline {
-      background: linear-gradient(135deg, #27272a 0%, #18181b 100%);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(135deg, #18181b 0%, #0d0d12 100%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .btn-offline:hover {
+      border-color: rgba(255, 0, 43, 0.5);
+      background: #18181b;
     }
     
     @keyframes pulseGlow {
       0% { box-shadow: 0 0 12px rgba(255, 0, 43, 0.4); transform: scale(1); }
-      100% { box-shadow: 0 0 28px rgba(255, 0, 43, 0.7); transform: scale(1.01); }
+      100% { box-shadow: 0 0 28px rgba(255, 0, 43, 0.8); transform: scale(1.02); }
     }
 
     .paypal-btn {
@@ -78,17 +82,24 @@
     .soc-twitch:hover { color: #9146ff; filter: drop-shadow(0 0 10px rgba(145, 70, 255, 0.5)); transform: scale(1.15); }
 
     .view-hidden { display: none !important; }
+    
+    /* Brand Avatar Style */
+    .brand-avatar {
+      border: 2px solid rgba(255, 0, 43, 0.5);
+      box-shadow: 0 0 20px rgba(255, 0, 43, 0.3);
+      transition: all 0.3s ease;
+    }
+    .brand-avatar:hover {
+      box-shadow: 0 0 30px rgba(255, 0, 43, 0.7);
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body class="min-h-screen pb-24 md:pb-6">
 
   <!-- ================= MASTER CONTROLLER LAYER ================= -->
   <script>
-    // Live Google Apps Script Injection
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz656F7JLdIZjvP0cPHNBWMWTmSc1n_ZZMjKY2Q3hJVk-UaBdkxHRyWCh5OcuFFtK5m/exec";
-    const ADMIN_SECRET_KEY = "EL_DON_2026"; 
-    
-    // Manual Stream Controller State Override (True = Live Style, False = Schedule Routing Style)
     let IS_STREAM_LIVE = false; 
   </script>
 
@@ -119,8 +130,12 @@
   <main class="max-w-md mx-auto px-4 pt-6 md:max-w-4xl">
 
     <!-- ================= BRAND HERO IDENTIFIER ================= -->
-    <header class="text-center my-6">
-      <h1 class="text-4xl font-black tracking-tighter uppercase md:text-6xl italic">
+    <header class="text-center my-6 flex flex-col items-center select-none">
+      <!-- NEW BRAND LOGO / AVATAR SLOT: Replace the src link with your actual logo image URL -->
+      <img src="https://via.placeholder.com/150/0d0d12/ff002b?text=EL+DON" alt="ElDonDelFC Logo" class="w-20 h-20 md:w-24 md:h-24 rounded-full brand-avatar object-cover mb-4">
+      
+      <!-- SECRET ADMIN TRIGGER: Tap this H1 title 5 times fast to unlock the admin HUD -->
+      <h1 id="secret-admin-trigger" class="text-4xl font-black tracking-tighter uppercase md:text-6xl italic cursor-pointer">
         ELDONDEL<span class="text-[#ff002b] neon-text-glow">FC</span>
       </h1>
       <p class="text-[10px] tracking-[0.3em] text-zinc-500 uppercase font-bold mt-1.5">Data Engine & Community Hub</p>
@@ -132,23 +147,24 @@
       <!-- NAVIGATION TABS DOCK (DESKTOP INTERFACE) -->
       <nav class="hidden md:flex justify-center gap-3 mb-8 bg-zinc-950 p-2 rounded-xl border border-zinc-900 shadow-inner">
         <button onclick="switchView('home-view', event)" class="tab-btn px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider bg-zinc-900 text-white transition-all w-full">🎮 Dashboard</button>
-        <button onclick="switchView('stats-view', event)" class="tab-btn px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider text-zinc-500 hover:text-white transition-all w-full">📊 Match Center</button>
+        <button onclick="switchView('stats-view', event)" class="tab-btn px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider text-zinc-500 hover:text-white transition-all w-full">📊 Central de Partidos</button>
         <button onclick="switchView('community-view', event)" class="tab-btn px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider text-zinc-500 hover:text-white transition-all w-full">📬 Registro</button>
       </nav>
 
       <!-- VIEW A: THE TACTICAL HERO HOME HUB -->
       <section id="home-view" class="site-view space-y-6">
         
-        <!-- Live Status Pulsing Premium Card (Engine-Driven Switch States) -->
+        <!-- Live Status Pulsing Premium Card -->
         <div id="live-hero-card" class="cyber-card rounded-2xl p-6 text-center relative overflow-hidden border-t-2 border-t-zinc-800">
           <div id="live-badge" class="mb-3 inline-flex items-center gap-2 px-3 py-1 bg-zinc-950 border border-zinc-900 rounded-full text-[10px] font-bold uppercase tracking-widest text-zinc-500">
             <span id="live-dot" class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span> Transmisión Inactiva
           </div>
-          <h2 id="live-headline" class="text-2xl font-black tracking-tight mb-5 uppercase italic">Explora el Portal de Contenido</h2>
+          <h2 id="live-headline" class="text-2xl font-black tracking-tight mb-5 uppercase italic text-zinc-300">Consulta Mis Horarios</h2>
           
           <div class="flex justify-center">
-            <a id="live-action-btn" href="https://www.tiktok.com/@eldondelfc" target="_blank" class="btn-offline text-zinc-400 inline-block px-10 py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all w-full sm:w-auto">
-              Acceder a mi Perfil
+            <!-- Simplified, Direct TikTok Anchor Logic -->
+            <a id="live-action-btn" href="https://www.tiktok.com/@eldondelfc" target="_blank" class="btn-offline text-zinc-300 inline-block px-10 py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all w-full sm:w-auto text-center">
+              Visita mi TikTok (Horarios en Bio)
             </a>
           </div>
         </div>
@@ -157,12 +173,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           <!-- MODULE 1: INLINE GOOGLE CALENDAR APPOINTMENT SYSTEM -->
-          <div id="calendar-card-block" class="cyber-card rounded-2xl p-5 flex flex-col">
+          <div class="cyber-card rounded-2xl p-5 flex flex-col">
             <h3 class="text-xs uppercase font-black tracking-widest text-zinc-400 border-b border-zinc-900 pb-3 mb-4 flex items-center gap-2">
               <span>📅</span> Agenda de Estrategia & Reviews
             </h3>
-            <div class="bg-zinc-950 rounded-xl overflow-hidden border border-zinc-900 aspect-[4/3] flex-1 relative min-h-[320px]">
-              <!-- Live Google Calendar Endpoint -->
+            <div class="bg-zinc-950 rounded-xl overflow-hidden border border-zinc-900 flex-1 relative min-h-[320px]">
               <iframe src="https://calendar.app.google/RSuhrXQsNccERDA39" class="absolute inset-0 w-full h-full border-none filter invert opacity-90 brightness-95" style="mix-blend-mode: lighten;"></iframe>
             </div>
           </div>
@@ -177,7 +192,6 @@
                 Impulsa el crecimiento tecnológico de la plataforma, la organización de torneos comunitarios de EA FC Mobile y el desarrollo continuo de scripts de streaming.
               </p>
             </div>
-            <!-- Live PayPal Button Endpoint -->
             <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="paypal-btn text-center text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl block">
               Enviar Aporte Vía PayPal
             </a>
@@ -192,7 +206,6 @@
           </h3>
           <p class="text-xs text-zinc-400 mb-4 leading-normal">¿Tienes una táctica revolucionaria o alguna sugerencia para los próximos directos? Envía tus comentarios directamente a mi panel de control.</p>
           
-          <!-- Live Formspree Endpoint -->
           <form action="https://formspree.io/f/xwvzeoky" method="POST" class="space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input type="text" name="name" required placeholder="Tu Nombre / IGN" class="w-full bg-zinc-950 border border-zinc-900 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all text-white">
@@ -206,7 +219,7 @@
         </div>
       </section>
 
-      <!-- VIEW B: MATCH CENTER -->
+      <!-- VIEW B: MATCH CENTER (SPANISH LOCALIZED) -->
       <section id="stats-view" class="site-view view-hidden space-y-6">
         <div class="cyber-card rounded-2xl p-5">
           <div class="flex items-center justify-between mb-6 border-b border-zinc-900 pb-3">
@@ -214,7 +227,7 @@
             <span class="text-[9px] px-2 py-0.5 bg-zinc-950 border border-zinc-900 text-zinc-400 rounded-md font-bold tracking-widest">LIVE DATA</span>
           </div>
           <div id="match-cards-container" class="space-y-3">
-            <p class="text-xs text-zinc-500 text-center py-8 font-medium">Conexión establecida. Transmite un partido desde el Panel HUD para poblar la visualización.</p>
+            <p class="text-xs text-zinc-500 text-center py-8 font-medium">Conexión establecida. Transmite un partido desde el Panel HUD para poblar la visualización de estadísticas.</p>
           </div>
         </div>
       </section>
@@ -279,12 +292,13 @@
             <h2 class="text-lg font-black tracking-tight uppercase text-white">Panel de Ingesta de Partidos</h2>
             <p class="text-[9px] font-extrabold text-[#ff002b] uppercase tracking-widest mt-0.5">Eldondelfc Core Administration Deck</p>
           </div>
-          <span class="px-2.5 py-1 rounded-md bg-green-950 text-green-400 font-mono text-[10px] font-bold tracking-wider border border-green-900">KEY_VERIFIED</span>
+          <!-- Click this badge to manually exit Admin View -->
+          <span onclick="closeAdminHUD()" class="cursor-pointer px-2.5 py-1 rounded-md bg-green-950 text-green-400 font-mono text-[10px] font-bold tracking-wider border border-green-900 hover:bg-green-900 transition">CERRAR PANEL</span>
         </div>
 
         <!-- STREAM STATUS DASHBOARD CONTROLLER TOGGLE -->
         <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-900 flex items-center justify-between mb-4">
-          <span class="text-xs font-black uppercase text-zinc-300">Control de Estado de Transmisión (TikTok Link Switch)</span>
+          <span class="text-xs font-black uppercase text-zinc-300">Botón de Transmisión (TikTok)</span>
           <button type="button" onclick="toggleStreamStatusLive()" id="hud-live-toggle" class="px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-xs font-bold text-zinc-400 tracking-wider uppercase transition-all">Offline</button>
         </div>
 
@@ -363,14 +377,14 @@
 
           <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-900">
             <div class="flex items-center justify-between border-b border-zinc-900 pb-2 mb-3">
-              <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-300">Línea de Tiempo del Partido (Goles / Tarjetas)</h4>
+              <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-300">Línea de Tiempo (Eventos)</h4>
               <button type="button" onclick="addTimelineEventFormRow()" class="px-3 py-1 bg-zinc-900 hover:bg-zinc-850 rounded-md text-[10px] font-black uppercase tracking-widest text-zinc-300 border border-zinc-800">+ Añadir Evento</button>
             </div>
             <div id="hud-timeline-rows-container" class="space-y-2"></div>
           </div>
 
-          <button type="submit" id="hud-submit-btn" class="neon-btn w-full py-4 rounded-xl font-black uppercase tracking-widest text-xs text-white">
-            Transmitir Datos en Vivo a Google Sheets
+          <button type="submit" id="hud-submit-btn" class="btn-live w-full py-4 rounded-xl font-black uppercase tracking-widest text-xs text-white">
+            Transmitir a Base de Datos
           </button>
         </form>
       </div>
@@ -384,7 +398,7 @@
         <span class="text-base">🎮</span>Home
       </button>
       <button onclick="switchView('stats-view', event)" class="mobile-nav-btn text-[9px] font-black uppercase tracking-widest flex flex-col items-center gap-1.5 text-zinc-600">
-        <span class="text-base">📊</span>Stats
+        <span class="text-base">📊</span>Partidos
       </button>
       <button onclick="switchView('community-view', event)" class="mobile-nav-btn text-[9px] font-black uppercase tracking-widest flex flex-col items-center gap-1.5 text-zinc-600">
         <span class="text-base">📬</span>Registro
@@ -394,20 +408,36 @@
 
   <!-- ================= JAVASCRIPT FRONTEND ENGINES ================= -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const incomingKey = urlParams.get('key');
+    // --- 1. THE SECRET ADMIN TRIGGER LOGIC ---
+    let clickCount = 0;
+    let clickTimer;
+
+    document.getElementById('secret-admin-trigger').addEventListener('click', () => {
+      clickCount++;
+      clearTimeout(clickTimer);
       
-      if (incomingKey === ADMIN_SECRET_KEY) {
+      // If tapped 5 times within 2 seconds, unlock HUD.
+      if (clickCount >= 5) {
         document.getElementById('public-container').classList.add('view-hidden');
         document.getElementById('admin-container').classList.remove('view-hidden');
+        clickCount = 0; // Reset
       } else {
-        fetchDailySoccerFact();
-        evaluateStreamingComponentState();
+        clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
       }
     });
 
-    // Integrated State Controller for the Live Session component
+    function closeAdminHUD() {
+      document.getElementById('admin-container').classList.add('view-hidden');
+      document.getElementById('public-container').classList.remove('view-hidden');
+    }
+
+    // --- 2. INITIALIZATION ---
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchDailySoccerFact();
+      evaluateStreamingComponentState();
+    });
+
+    // --- 3. TIKTOK LIVE / OFFLINE LOGIC ---
     function evaluateStreamingComponentState() {
       const heroCard = document.getElementById('live-hero-card');
       const badge = document.getElementById('live-badge');
@@ -420,7 +450,9 @@
         badge.className = "mb-3 inline-flex items-center gap-2 px-3 py-1 bg-red-950/40 border border-red-900 rounded-full text-[10px] font-black uppercase tracking-widest text-red-400";
         dot.className = "w-1.5 h-1.5 rounded-full bg-[#ff002b] shadow-[0_0_8px_#ff002b] animate-ping";
         badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-[#ff002b]"></span> ¡ESTAMOS EN VIVO!`;
+        headline.className = "text-2xl font-black tracking-tight mb-5 uppercase italic text-white";
         headline.innerText = "Accede a la Arena de Juego Ahora Mismo";
+        
         btn.className = "btn-live text-white inline-block px-10 py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all w-full sm:w-auto text-center";
         btn.innerText = "Entrar al Directo en TikTok";
         btn.href = "https://www.tiktok.com/@eldondelfc/live";
@@ -429,17 +461,15 @@
         badge.className = "mb-3 inline-flex items-center gap-2 px-3 py-1 bg-zinc-950 border border-zinc-900 rounded-full text-[10px] font-bold uppercase tracking-widest text-zinc-500";
         dot.className = "w-1.5 h-1.5 rounded-full bg-zinc-600";
         badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span> Transmisión Inactiva`;
-        headline.innerText = "Explora el Portal de Contenido";
-        btn.className = "btn-offline text-zinc-400 inline-block px-10 py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all w-full sm:w-auto text-center";
-        btn.innerText = "Ver Horarios de Directos";
+        headline.className = "text-2xl font-black tracking-tight mb-5 uppercase italic text-zinc-300";
+        headline.innerText = "Consulta Mis Horarios";
         
-        // Offline click smooth scrolls directly to Google Calendar Card
-        btn.removeAttribute('target');
-        btn.href = "#calendar-card-block";
+        btn.className = "btn-offline text-zinc-300 inline-block px-10 py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all w-full sm:w-auto text-center";
+        btn.innerText = "Visita mi TikTok (Horarios en Bio)";
+        btn.href = "https://www.tiktok.com/@eldondelfc";
       }
     }
 
-    // Admin Panel function allowing you to toggle stream display layout parameters dynamically
     function toggleStreamStatusLive() {
       const toggleBtn = document.getElementById('hud-live-toggle');
       IS_STREAM_LIVE = !IS_STREAM_LIVE;
@@ -451,8 +481,10 @@
         toggleBtn.innerText = "Offline";
         toggleBtn.className = "px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-xs font-bold text-zinc-400 tracking-wider uppercase transition-all";
       }
+      evaluateStreamingComponentState();
     }
 
+    // --- 4. VIEW SWITCHER ---
     function switchView(targetViewId, event) {
       document.querySelectorAll('.site-view').forEach(view => view.classList.add('view-hidden'));
       document.getElementById(targetViewId).classList.remove('view-hidden');
@@ -466,17 +498,18 @@
         event.target.classList.add('bg-zinc-900', 'text-white');
       }
 
-      // Keep sync for mobile tap views cleanly
       document.querySelectorAll('.mobile-nav-btn').forEach(btn => btn.classList.replace('text-[#ff002b]', 'text-zinc-600'));
+      if(event && event.target && event.target.classList.contains('mobile-nav-btn')) {
+         event.target.classList.replace('text-zinc-600', 'text-[#ff002b]');
+      }
     }
 
-    // Upgraded, highly robust Wikipedia football history filter fetch deployment logic
+    // --- 5. STRICT SOCCER WIKIPEDIA ENGINE ---
     function fetchDailySoccerFact() {
       const today = new Date();
       const mm = String(today.getMonth() + 1).padStart(2, '0');
       const dd = String(today.getDate()).padStart(2, '0');
       
-      // Expanded dictionary to catch more soccer-related history
       const footballKeywords = [
         "fútbol", "futbol", "fifa", "uefa", "champions", "mundial", "maradona", "pelé", "messi", 
         "cristiano", "madrid", "barcelona", "copa", "campeón", "gol", "estadio", "balón", "premier"
@@ -493,14 +526,12 @@
               return footballKeywords.some(key => text.includes(key));
             });
             
-            // STRICT LOCK: Only render if a soccer event is explicitly found
             if (soccerEvents.length > 0) {
               const randomFact = soccerEvents[Math.floor(Math.random() * soccerEvents.length)];
               displayElement.innerText = `En ${randomFact.year}: ${randomFact.text.replace(/\[\d+\]/g, '')}`;
               return;
             }
           }
-          // If no soccer event is found, default to a brand-aligned quote. No random history.
           displayElement.innerText = "La constancia en el entrenamiento define lo que sucede bajo las luces del estadio.";
         })
         .catch(() => {
@@ -542,7 +573,7 @@
       });
     }
 
-    // ================= ADMIN CONSOLE OPERATION SCRIPTS =================
+    // --- 6. ADMIN HUD OPERATIONS ---
     function updatePossessionSliders(val) {
       document.getElementById('p1-poss-val').innerText = val + "%";
       document.getElementById('p2-poss-val').innerText = (100 - val) + "%";
@@ -630,7 +661,7 @@
       })
       .catch(err => alert("Fallo crítico de red: " + err.toString()))
       .finally(() => {
-        submitBtn.innerText = "Transmitir Datos en Vivo a Google Sheets";
+        submitBtn.innerText = "Transmitir a Base de Datos";
         submitBtn.disabled = false;
       });
     }
