@@ -83,26 +83,31 @@
 
     .view-hidden { display: none !important; }
     
+    /* Optimized Multi-Device Responsive Logo System */
     .brand-avatar {
-      border: 2px solid rgba(255, 0, 43, 0.5);
-      box-shadow: 0 0 20px rgba(255, 0, 43, 0.3);
-      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      background: rgba(13, 13, 18, 0.6);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .brand-avatar:hover {
-      box-shadow: 0 0 30px rgba(255, 0, 43, 0.7);
+      border-color: rgba(255, 0, 43, 0.4);
+      box-shadow: 0 0 25px rgba(255, 0, 43, 0.5);
       transform: scale(1.05);
+    }
+    /* SVG Filter to force the black transparent PNG into a perfect Ferrari Neon glow state only when displayed on the site */
+    .neon-logo-filter {
+      filter: drop-shadow(0 0 5px rgba(255, 0, 43, 0.7)) brightness(1.2) sepia(1) hue-rotate(300deg) saturate(100);
     }
   </style>
 </head>
 <body class="min-h-screen pb-24 md:pb-6">
 
-  <!-- ================= MASTER CONTROLLER LAYER ================= -->
   <script>
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz656F7JLdIZjvP0cPHNBWMWTmSc1n_ZZMjKY2Q3hJVk-UaBdkxHRyWCh5OcuFFtK5m/exec";
     let IS_STREAM_LIVE = false; 
   </script>
 
-  <!-- ================= GLOBAL TOP TICKER ================= -->
   <div class="w-full bg-black/80 border-b border-zinc-950 py-3 px-4 backdrop-blur-md shadow-lg">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs gap-2">
       <div class="flex items-center gap-2 font-black tracking-widest text-[#ff002b] uppercase shrink-0">
@@ -115,7 +120,6 @@
     </div>
   </div>
 
-  <!-- ================= HIGH-IMPACT TOP SOCIAL NAV DOCK ================= -->
   <div class="w-full bg-zinc-950/40 border-b border-zinc-900/40 backdrop-blur-sm py-2 px-4 shadow-sm">
     <div class="max-w-7xl mx-auto flex justify-center items-center gap-8 text-zinc-500 text-sm font-bold">
       <a href="https://www.instagram.com/eldondelfc" target="_blank" class="social-icon soc-ig flex items-center gap-1.5 transition-all"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg><span class="hidden sm:inline text-xs font-black tracking-wider uppercase">Instagram</span></a>
@@ -125,30 +129,29 @@
     </div>
   </div>
 
-  <!-- ================= MAIN CORE WRAPPER ================= -->
   <main class="max-w-md mx-auto px-4 pt-6 md:max-w-4xl">
 
-    <!-- ================= BRAND HERO IDENTIFIER ================= -->
     <header class="text-center my-6 flex flex-col items-center select-none">
-      <img src="https://via.placeholder.com/150/0d0d12/ff002b?text=EL+DON" alt="ElDonDelFC Logo" class="w-20 h-20 md:w-24 md:h-24 rounded-full brand-avatar object-cover mb-4">
-      <h1 id="secret-admin-trigger" class="text-4xl font-black tracking-tighter uppercase md:text-6xl italic cursor-pointer">
+      <div id="secret-admin-trigger" class="w-20 h-20 md:w-24 md:h-24 rounded-full brand-avatar flex items-center justify-center p-2 mb-4 overflow-hidden cursor-pointer">
+        <img src="logo.png" alt="ElDonDelFC Logo" class="neon-logo-filter object-contain w-full h-full">
+      </div>
+      
+      <h1 class="text-4xl font-black tracking-tighter uppercase md:text-6xl italic">
         ELDONDEL<span class="text-[#ff002b] neon-text-glow">FC</span>
       </h1>
       <p class="text-[10px] tracking-[0.3em] text-zinc-500 uppercase font-bold mt-1.5">Data Engine & Community Hub</p>
     </header>
 
-    <!-- ================= PUBLIC INTERFACE VIEWS ================= -->
     <div id="public-container">
       
-      <!-- NAVIGATION TABS DOCK (DESKTOP INTERFACE) -->
       <nav class="hidden md:flex justify-center gap-3 mb-8 bg-zinc-950 p-2 rounded-xl border border-zinc-900 shadow-inner">
         <button onclick="switchView('home-view', event)" class="tab-btn px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider bg-zinc-900 text-white transition-all w-full">🎮 Dashboard</button>
         <button onclick="switchView('stats-view', event)" class="tab-btn px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider text-zinc-500 hover:text-white transition-all w-full">📊 Central de Partidos</button>
         <button onclick="switchView('community-view', event)" class="tab-btn px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider text-zinc-500 hover:text-white transition-all w-full">📬 Registro</button>
       </nav>
 
-      <!-- VIEW A: THE TACTICAL HERO HOME HUB -->
       <section id="home-view" class="site-view space-y-6">
+        
         <div id="live-hero-card" class="cyber-card rounded-2xl p-6 text-center relative overflow-hidden border-t-2 border-t-zinc-800">
           <div id="live-badge" class="mb-3 inline-flex items-center gap-2 px-3 py-1 bg-zinc-950 border border-zinc-900 rounded-full text-[10px] font-bold uppercase tracking-widest text-zinc-500">
             <span id="live-dot" class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span> Transmisión Inactiva
@@ -162,7 +165,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- INLINE GOOGLE CALENDAR APPOINTMENT SYSTEM -->
+          
           <div class="cyber-card rounded-2xl p-5 flex flex-col">
             <h3 class="text-xs uppercase font-black tracking-widest text-zinc-400 border-b border-zinc-900 pb-3 mb-4 flex items-center gap-2">
               <span>📅</span> Agenda de Estrategia & Reviews
@@ -172,7 +175,6 @@
             </div>
           </div>
 
-          <!-- BRAND-ALIGNED PAYPAL REVENUE GATEWAY -->
           <div class="paypal-card rounded-2xl p-5 flex flex-col justify-between">
             <div>
               <h3 class="text-xs uppercase font-black tracking-widest text-[#0070ba] border-b border-zinc-900 pb-3 mb-4 flex items-center gap-2">
@@ -186,9 +188,9 @@
               Enviar Aporte Vía PayPal
             </a>
           </div>
+
         </div>
 
-        <!-- FORMSPREE.IO SUGGESTION HUB -->
         <div class="cyber-card rounded-2xl p-6 border-l-2 border-l-[#ff002b]">
           <h3 class="text-sm font-black tracking-wider uppercase mb-2 flex items-center gap-2">
             <span>📬</span> Buzón de Estrategia & Sugerencias
@@ -208,7 +210,6 @@
         </div>
       </section>
 
-      <!-- VIEW B: CENTRAL DE PARTIDOS -->
       <section id="stats-view" class="site-view view-hidden space-y-6">
         <div class="cyber-card rounded-2xl p-5">
           <div class="flex items-center justify-between mb-6 border-b border-zinc-900 pb-3">
@@ -221,7 +222,6 @@
         </div>
       </section>
 
-      <!-- VIEW C: COMMUNITY REGISTRATION FORM -->
       <section id="community-view" class="site-view view-hidden space-y-6">
         <div class="cyber-card rounded-2xl p-6">
           <h3 class="text-base font-black tracking-wider uppercase mb-2">Registro Oficial de Jugadores</h3>
@@ -273,7 +273,6 @@
       </section>
     </div>
 
-    <!-- ================= PRIVATE EXCLUSIVE ADMIN HUD (SCORE UPGRADE V2) ================= -->
     <div id="admin-container" class="view-hidden space-y-6">
       <div class="border border-[#ff002b] bg-[#0d0d12] rounded-2xl p-6 shadow-2xl relative">
         <div class="flex items-center justify-between border-b border-zinc-900 pb-4 mb-6">
@@ -284,7 +283,6 @@
           <span onclick="closeAdminHUD()" class="cursor-pointer px-2.5 py-1 rounded-md bg-green-950 text-green-400 font-mono text-[10px] font-bold tracking-wider border border-green-900 hover:bg-green-900 transition">CERRAR PANEL</span>
         </div>
 
-        <!-- STREAM STATUS DASHBOARD CONTROLLER TOGGLE -->
         <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-900 flex items-center justify-between mb-4">
           <span class="text-xs font-black uppercase text-zinc-300">Botón de Transmisión (TikTok)</span>
           <button type="button" onclick="toggleStreamStatusLive()" id="hud-live-toggle" class="px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-xs font-bold text-zinc-400 tracking-wider uppercase transition-all">Offline</button>
@@ -306,7 +304,6 @@
             </div>
           </div>
 
-          <!-- NEW V2 FIELD INTEGRATION: THE FINAL SCORE BOARD DECK -->
           <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-900/60 relative overflow-hidden">
             <h4 class="text-[10px] font-black uppercase text-zinc-400 tracking-widest text-center mb-3 border-b border-zinc-900 pb-1.5">Marcador Final Oficial</h4>
             <div class="flex items-center justify-center gap-6">
@@ -395,7 +392,6 @@
     </div>
   </main>
 
-  <!-- ================= APP-STYLE MOBILE NAVIGATION DOCK ================= -->
   <div class="md:hidden fixed bottom-0 left-0 right-0 bg-black/95 border-t border-zinc-950 px-4 py-3 backdrop-blur-lg z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
     <div class="flex justify-around items-center max-w-md mx-auto">
       <button onclick="switchView('home-view', event)" class="mobile-nav-btn text-[9px] font-black uppercase tracking-widest flex flex-col items-center gap-1.5 text-[#ff002b]">
@@ -410,18 +406,19 @@
     </div>
   </div>
 
-  <!-- ================= JAVASCRIPT FRONTEND ENGINES ================= -->
   <script>
+    // --- 1. THE SECRET ADMIN TRIGGER LOGIC ---
     let clickCount = 0;
     let clickTimer;
 
+    // Trigger is now placed strictly on the Logo container
     document.getElementById('secret-admin-trigger').addEventListener('click', () => {
       clickCount++;
       clearTimeout(clickTimer);
       if (clickCount >= 5) {
         document.getElementById('public-container').classList.add('view-hidden');
         document.getElementById('admin-container').classList.remove('view-hidden');
-        clickCount = 0;
+        clickCount = 0; 
       } else {
         clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
       }
@@ -432,11 +429,13 @@
       document.getElementById('public-container').classList.remove('view-hidden');
     }
 
+    // --- 2. INITIALIZATION ---
     document.addEventListener("DOMContentLoaded", () => {
       fetchDailySoccerFact();
       evaluateStreamingComponentState();
     });
 
+    // --- 3. TIKTOK LIVE / OFFLINE LOGIC ---
     function evaluateStreamingComponentState() {
       const heroCard = document.getElementById('live-hero-card');
       const badge = document.getElementById('live-badge');
@@ -451,6 +450,7 @@
         badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-[#ff002b]"></span> ¡ESTAMOS EN VIVO!`;
         headline.className = "text-2xl font-black tracking-tight mb-5 uppercase italic text-white";
         headline.innerText = "Accede a la Arena de Juego Ahora Mismo";
+        
         btn.className = "btn-live text-white inline-block px-10 py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all w-full sm:w-auto text-center";
         btn.innerText = "Entrar al Directo en TikTok";
         btn.href = "https://www.tiktok.com/@eldondelfc/live";
@@ -461,6 +461,7 @@
         badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span> Transmisión Inactiva`;
         headline.className = "text-2xl font-black tracking-tight mb-5 uppercase italic text-zinc-300";
         headline.innerText = "Consulta Mis Horarios";
+        
         btn.className = "btn-offline text-zinc-300 inline-block px-10 py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all w-full sm:w-auto text-center";
         btn.innerText = "Visita mi TikTok (Horarios en Bio)";
         btn.href = "https://www.tiktok.com/@eldondelfc";
@@ -481,6 +482,7 @@
       evaluateStreamingComponentState();
     }
 
+    // --- 4. VIEW SWITCHER ---
     function switchView(targetViewId, event) {
       document.querySelectorAll('.site-view').forEach(view => view.classList.add('view-hidden'));
       document.getElementById(targetViewId).classList.remove('view-hidden');
@@ -500,6 +502,7 @@
       }
     }
 
+    // --- 5. STRICT SOCCER WIKIPEDIA ENGINE ---
     function fetchDailySoccerFact() {
       const today = new Date();
       const mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -565,6 +568,7 @@
       });
     }
 
+    // --- 6. ADMIN HUD OPERATIONS ---
     function updatePossessionSliders(val) {
       document.getElementById('p1-poss-val').innerText = val + "%";
       document.getElementById('p2-poss-val').innerText = (100 - val) + "%";
