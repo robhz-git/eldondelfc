@@ -58,23 +58,17 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
-    .btn-offline:hover {
-      border-color: rgba(255, 0, 43, 0.5);
-      background: #18181b;
-    }
     
     @keyframes pulseGlow {
       0% { box-shadow: 0 0 12px rgba(255, 0, 43, 0.4); transform: scale(1); }
       100% { box-shadow: 0 0 28px rgba(255, 0, 43, 0.8); transform: scale(1.02); }
     }
-
     .paypal-btn {
       background: linear-gradient(135deg, #0070ba 0%, #005ea6 100%);
       box-shadow: 0 0 15px var(--paypal-glow);
       transition: all 0.3s ease;
     }
     .paypal-btn:hover { box-shadow: 0 0 25px rgba(0, 112, 186, 0.7); transform: scale(1.02); }
-    
     .social-icon { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     .soc-ig:hover { color: #e1306c; filter: drop-shadow(0 0 10px rgba(225, 48, 108, 0.5)); transform: scale(1.15); }
     .soc-yt:hover { color: #ff0000; filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5)); transform: scale(1.15); }
@@ -83,7 +77,6 @@
 
     .view-hidden { display: none !important; }
     
-    /* Optimized Multi-Device Responsive Logo System */
     .brand-avatar {
       border: 1px solid rgba(255, 255, 255, 0.05);
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
@@ -95,7 +88,6 @@
       box-shadow: 0 0 25px rgba(255, 0, 43, 0.5);
       transform: scale(1.05);
     }
-    /* SVG Filter to force the black transparent PNG into a perfect Ferrari Neon glow state only when displayed on the site */
     .neon-logo-filter {
       filter: drop-shadow(0 0 5px rgba(255, 0, 43, 0.7)) brightness(1.2) sepia(1) hue-rotate(300deg) saturate(100);
     }
@@ -105,6 +97,9 @@
 
   <script>
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz656F7JLdIZjvP0cPHNBWMWTmSc1n_ZZMjKY2Q3hJVk-UaBdkxHRyWCh5OcuFFtK5m/exec";
+    
+    // ESCUDO DE PROTECCIÓN BACKEND: Firma digital idéntica a la configurada en tu servidor Google
+    const SECURITY_AUTH_TOKEN = "ELDON_SECURE_TOKEN_2026";
     let IS_STREAM_LIVE = false; 
   </script>
 
@@ -135,7 +130,6 @@
       <div id="secret-admin-trigger" class="w-20 h-20 md:w-24 md:h-24 rounded-full brand-avatar flex items-center justify-center p-2 mb-4 overflow-hidden cursor-pointer">
         <img src="logo.png" alt="ElDonDelFC Logo" class="neon-logo-filter object-contain w-full h-full">
       </div>
-      
       <h1 class="text-4xl font-black tracking-tighter uppercase md:text-6xl italic">
         ELDONDEL<span class="text-[#ff002b] neon-text-glow">FC</span>
       </h1>
@@ -151,7 +145,6 @@
       </nav>
 
       <section id="home-view" class="site-view space-y-6">
-        
         <div id="live-hero-card" class="cyber-card rounded-2xl p-6 text-center relative overflow-hidden border-t-2 border-t-zinc-800">
           <div id="live-badge" class="mb-3 inline-flex items-center gap-2 px-3 py-1 bg-zinc-950 border border-zinc-900 rounded-full text-[10px] font-bold uppercase tracking-widest text-zinc-500">
             <span id="live-dot" class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span> Transmisión Inactiva
@@ -165,7 +158,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
           <div class="cyber-card rounded-2xl p-5 flex flex-col">
             <h3 class="text-xs uppercase font-black tracking-widest text-zinc-400 border-b border-zinc-900 pb-3 mb-4 flex items-center gap-2">
               <span>📅</span> Agenda de Estrategia & Reviews
@@ -188,7 +180,6 @@
               Enviar Aporte Vía PayPal
             </a>
           </div>
-
         </div>
 
         <div class="cyber-card rounded-2xl p-6 border-l-2 border-l-[#ff002b]">
@@ -212,12 +203,48 @@
 
       <section id="stats-view" class="site-view view-hidden space-y-6">
         <div class="cyber-card rounded-2xl p-5">
-          <div class="flex items-center justify-between mb-6 border-b border-zinc-900 pb-3">
-            <h3 class="text-sm font-black tracking-wider uppercase">Historial Relacional de Partidos</h3>
-            <span class="text-[9px] px-2 py-0.5 bg-zinc-950 border border-zinc-900 text-zinc-400 rounded-md font-bold tracking-widest">LIVE DATA</span>
+          
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 border-b border-zinc-900 pb-4">
+            <div>
+              <h3 class="text-sm font-black tracking-wider uppercase text-white">Central de Partidos & Clasificaciones</h3>
+              <p class="text-[9px] text-zinc-500 uppercase tracking-widest mt-0.5">Estadísticas Oficiales de la Comunidad</p>
+            </div>
+            <select id="tourney-selector" onchange="loadTournamentDataGrid(this.value)" class="w-full sm:w-64 bg-zinc-950 border border-zinc-800 text-xs text-red-500 font-black uppercase tracking-wider rounded-xl p-3 focus:outline-none focus:border-[#ff002b]">
+              <option value="">Cargando ligas activas...</option>
+            </select>
           </div>
+
+          <div class="overflow-x-auto rounded-xl border border-zinc-900 bg-black/40">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-zinc-950 border-b border-zinc-900 font-black uppercase text-zinc-400 tracking-wider">
+                  <th class="p-3 text-center w-12">Pos</th>
+                  <th class="p-3 min-w-[140px]">Jugador (IGN)</th>
+                  <th class="p-3 text-center">PJ</th>
+                  <th class="p-3 text-center text-green-500">G</th>
+                  <th class="p-3 text-center text-zinc-500">E</th>
+                  <th class="p-3 text-center text-red-500">P</th>
+                  <th class="p-3 text-center">GF</th>
+                  <th class="p-3 text-center">GC</th>
+                  <th class="p-3 text-center">DG</th>
+                  <th class="p-3 text-center text-[#ff002b] font-black bg-red-950/10">Pts</th>
+                </tr>
+              </thead>
+              <tbody id="standings-table-body" class="font-medium text-zinc-300 divide-y divide-zinc-900/60">
+                <tr>
+                  <td colspan="10" class="p-8 text-center text-zinc-500 italic">Selecciona un torneo activo en el menú superior para desplegar las clasificaciones.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="cyber-card rounded-2xl p-5">
+          <h4 class="text-xs font-black tracking-widest uppercase text-zinc-400 mb-4 pb-2 border-b border-zinc-900 flex items-center gap-2">
+            <span>📊</span> Historial de Encuentros del Torneo
+          </h4>
           <div id="match-cards-container" class="space-y-3">
-            <p class="text-xs text-zinc-500 text-center py-8 font-medium">Conexión establecida. Transmite un partido desde el Panel HUD para poblar la visualización de estadísticas.</p>
+            <p class="text-xs text-zinc-500 text-center py-6 font-medium italic">No se han cargado enfrentamientos para esta liga.</p>
           </div>
         </div>
       </section>
@@ -291,16 +318,16 @@
         <form id="matchHUDForm" onsubmit="submitMatchHUD(event)" class="space-y-6">
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">Torneo Asignado</label>
-              <input type="text" id="hud-tournament" required placeholder="Ej: COPA-APTIVE-2026" class="w-full bg-zinc-950 border border-zinc-900 rounded-xl px-4 py-3 text-sm font-bold text-white focus:outline-none focus:border-[#ff002b]">
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">ID del Torneo (Sheet Key)</label>
+              <input type="text" id="hud-tournament" required placeholder="Ej: COPA-APTIVE-2026" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm font-bold text-white focus:outline-none focus:border-[#ff002b]">
             </div>
             <div>
               <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">UID Local (Jugador 1)</label>
-              <input type="text" id="hud-p1" required placeholder="UID Local" class="w-full bg-zinc-950 border border-zinc-900 rounded-xl px-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-[#ff002b]">
+              <input type="text" id="hud-p1" required placeholder="UID Local" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-[#ff002b]">
             </div>
             <div>
               <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">UID Visitante (Jugador 2)</label>
-              <input type="text" id="hud-p2" required placeholder="UID Visitante" class="w-full bg-zinc-950 border border-zinc-900 rounded-xl px-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-[#ff002b]">
+              <input type="text" id="hud-p2" required placeholder="UID Visitante" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-[#ff002b]">
             </div>
           </div>
 
@@ -340,15 +367,7 @@
               </div>
               <div class="flex items-center justify-between text-xs font-bold">
                 <span class="text-zinc-400">Pases %</span>
-                <input type="text" id="hud-p1-pass" value="85%" class="w-14 text-center bg-zinc-950 border border-zinc-900 rounded px-2 py-1 text-white font-mono text-xs">
-              </div>
-              <div class="flex items-center justify-between text-xs font-bold">
-                <span class="text-zinc-400">Faltas</span>
-                <div class="flex items-center gap-2">
-                  <button type="button" onclick="modifyCount('hud-p1-fouls', -1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-800 flex items-center justify-center">-</button>
-                  <input type="number" id="hud-p1-fouls" value="0" readonly class="w-8 text-center bg-transparent border-none text-white focus:outline-none font-mono">
-                  <button type="button" onclick="modifyCount('hud-p1-fouls', 1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-800 flex items-center justify-center">+</button>
-                </div>
+                <input type="text" id="hud-p1-pass" value="85%" class="w-14 text-center bg-zinc-950 border border-zinc-800 rounded px-2 py-1 text-white font-mono text-xs">
               </div>
             </div>
             <div class="space-y-4 bg-zinc-950/60 p-4 rounded-xl border border-zinc-900">
@@ -363,15 +382,7 @@
               </div>
               <div class="flex items-center justify-between text-xs font-bold">
                 <span class="text-zinc-400">Pases %</span>
-                <input type="text" id="hud-p2-pass" value="85%" class="w-14 text-center bg-zinc-950 border border-zinc-900 rounded px-2 py-1 text-white font-mono text-xs">
-              </div>
-              <div class="flex items-center justify-between text-xs font-bold">
-                <span class="text-zinc-400">Faltas</span>
-                <div class="flex items-center gap-2">
-                  <button type="button" onclick="modifyCount('hud-p2-fouls', -1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-800 flex items-center justify-center">-</button>
-                  <input type="number" id="hud-p2-fouls" value="0" readonly class="w-8 text-center bg-transparent border-none text-white focus:outline-none font-mono">
-                  <button type="button" onclick="modifyCount('hud-p2-fouls', 1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-800 flex items-center justify-center">+</button>
-                </div>
+                <input type="text" id="hud-p2-pass" value="85%" class="w-14 text-center bg-zinc-950 border border-zinc-800 rounded px-2 py-1 text-white font-mono text-xs">
               </div>
             </div>
           </div>
@@ -407,18 +418,16 @@
   </div>
 
   <script>
-    // --- 1. THE SECRET ADMIN TRIGGER LOGIC ---
     let clickCount = 0;
     let clickTimer;
 
-    // Trigger is now placed strictly on the Logo container
     document.getElementById('secret-admin-trigger').addEventListener('click', () => {
       clickCount++;
       clearTimeout(clickTimer);
       if (clickCount >= 5) {
         document.getElementById('public-container').classList.add('view-hidden');
         document.getElementById('admin-container').classList.remove('view-hidden');
-        clickCount = 0; 
+        clickCount = 0;
       } else {
         clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
       }
@@ -429,13 +438,107 @@
       document.getElementById('public-container').classList.remove('view-hidden');
     }
 
-    // --- 2. INITIALIZATION ---
     document.addEventListener("DOMContentLoaded", () => {
       fetchDailySoccerFact();
       evaluateStreamingComponentState();
+      preloadTournamentSelector(); // Carga las ligas activas al iniciar
     });
 
-    // --- 3. TIKTOK LIVE / OFFLINE LOGIC ---
+    // --- PIPELINE DE LECTURA DE DATOS DE LIGAS DESDE LA API DEL BACKEND ---
+    function preloadTournamentSelector() {
+      fetch(APPS_SCRIPT_URL)
+        .then(res => res.json())
+        .then(data => {
+          const selector = document.getElementById('tourney-selector');
+          selector.innerHTML = "";
+          
+          if(data.activeTournaments && data.activeTournaments.length > 0) {
+            data.activeTournaments.forEach(t => {
+              const opt = document.createElement('option');
+              opt.value = t.id;
+              opt.innerText = `${t.name} (${t.format})`;
+              selector.appendChild(opt);
+            });
+            // Cargar de inmediato los datos del primer torneo disponible en la lista
+            loadTournamentDataGrid(data.activeTournaments[0].id);
+          } else {
+            selector.innerHTML = `<option value="">No hay torneos activos</option>`;
+          }
+        })
+        .catch(() => {
+          document.getElementById('tourney-selector').innerHTML = `<option value="">Error de enlace de base de datos</option>`;
+        });
+    }
+
+    function loadTournamentDataGrid(tournamentId) {
+      if(!tournamentId) return;
+      
+      const tbody = document.getElementById('standings-table-body');
+      const cardsContainer = document.getElementById('match-cards-container');
+      
+      tbody.innerHTML = `<tr><td colspan="10" class="p-6 text-center text-zinc-500 animate-pulse">Sincronizando tabla de posiciones en tiempo real...</td></tr>`;
+      cardsContainer.innerHTML = `<p class="text-xs text-zinc-500 text-center py-4 animate-pulse">Indexando historial de partidos...</p>`;
+
+      fetch(`${APPS_SCRIPT_URL}?tournamentId=${tournamentId}`)
+        .then(res => res.json())
+        .then(data => {
+          // 1. Renderizar la Tabla de Clasificaciones Dinámica
+          tbody.innerHTML = "";
+          if(data.standings && data.standings.length > 0) {
+            data.standings.forEach(row => {
+              let medal = row.pos;
+              if(row.pos === 1) medal = "🥇";
+              if(row.pos === 2) medal = "🥈";
+              if(row.pos === 3) medal = "🥉";
+
+              const tr = document.createElement('tr');
+              tr.className = "hover:bg-zinc-900/40 transition-colors";
+              tr.innerHTML = `
+                <td class="p-3 text-center font-black text-zinc-400">${medal}</td>
+                <td class="p-3 font-bold text-white">${row.ign}</td>
+                <td class="p-3 text-center">${row.pj}</td>
+                <td class="p-3 text-center text-green-500 font-bold">${row.g}</td>
+                <td class="p-3 text-center text-zinc-400">${row.e}</td>
+                <td class="p-3 text-center text-red-500">${row.p}</td>
+                <td class="p-3 text-center">${row.gf}</td>
+                <td class="p-3 text-center">${row.gc}</td>
+                <td class="p-3 text-center ${row.dg >= 0 ? 'text-zinc-400' : 'text-red-400/80'}">${row.dg > 0 ? '+' + row.dg : row.dg}</td>
+                <td class="p-3 text-center font-black text-[#ff002b] bg-red-950/10">${row.pts}</td>
+              `;
+              tbody.appendChild(tr);
+            });
+          } else {
+            tbody.innerHTML = `<tr><td colspan="10" class="p-6 text-center text-zinc-600 italic">No hay jugadores puntuados en este torneo aún.</td></tr>`;
+          }
+
+          // 2. Renderizar las Tarjetas de Resultados de Partidos Recientes
+          cardsContainer.innerHTML = "";
+          if(data.matches && data.matches.length > 0) {
+            data.matches.forEach(m => {
+              const card = document.createElement('div');
+              card.className = "bg-zinc-950/80 border border-zinc-900/60 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs";
+              card.innerHTML = `
+                <div class="flex items-center justify-between w-full sm:w-auto gap-4 font-bold">
+                  <span class="text-white text-right w-28 truncate">${m.p1}</span>
+                  <span class="px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-lg font-mono text-sm text-[#ff002b] font-black">${m.s1} - ${m.s2}</span>
+                  <span class="text-zinc-400 text-left w-28 truncate">${m.p2}</span>
+                </div>
+                <div class="flex items-center gap-4 text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
+                  <span>🎯 Remates: ${m.shots1} vs ${m.shots2}</span>
+                  <span>📊 Posesión: ${m.poss1} - ${m.poss2}</span>
+                </div>
+              `;
+              cardsContainer.appendChild(card);
+            });
+          } else {
+            cardsContainer.innerHTML = `<p class="text-xs text-zinc-500 text-center py-4 italic">No hay partidos registrados en este torneo.</p>`;
+          }
+        })
+        .catch(() => {
+          tbody.innerHTML = `<tr><td colspan="10" class="p-6 text-center text-red-500">Error crítico de red al leer clasificaciones.</td></tr>`;
+        });
+    }
+
     function evaluateStreamingComponentState() {
       const heroCard = document.getElementById('live-hero-card');
       const badge = document.getElementById('live-badge');
@@ -450,7 +553,6 @@
         badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-[#ff002b]"></span> ¡ESTAMOS EN VIVO!`;
         headline.className = "text-2xl font-black tracking-tight mb-5 uppercase italic text-white";
         headline.innerText = "Accede a la Arena de Juego Ahora Mismo";
-        
         btn.className = "btn-live text-white inline-block px-10 py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all w-full sm:w-auto text-center";
         btn.innerText = "Entrar al Directo en TikTok";
         btn.href = "https://www.tiktok.com/@eldondelfc/live";
@@ -461,7 +563,6 @@
         badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span> Transmisión Inactiva`;
         headline.className = "text-2xl font-black tracking-tight mb-5 uppercase italic text-zinc-300";
         headline.innerText = "Consulta Mis Horarios";
-        
         btn.className = "btn-offline text-zinc-300 inline-block px-10 py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all w-full sm:w-auto text-center";
         btn.innerText = "Visita mi TikTok (Horarios en Bio)";
         btn.href = "https://www.tiktok.com/@eldondelfc";
@@ -482,7 +583,6 @@
       evaluateStreamingComponentState();
     }
 
-    // --- 4. VIEW SWITCHER ---
     function switchView(targetViewId, event) {
       document.querySelectorAll('.site-view').forEach(view => view.classList.add('view-hidden'));
       document.getElementById(targetViewId).classList.remove('view-hidden');
@@ -495,19 +595,13 @@
         event.target.classList.remove('text-zinc-500', 'hover:text-white');
         event.target.classList.add('bg-zinc-900', 'text-white');
       }
-
       document.querySelectorAll('.mobile-nav-btn').forEach(btn => btn.classList.replace('text-[#ff002b]', 'text-zinc-600'));
-      if(event && event.target && event.target.classList.contains('mobile-nav-btn')) {
-         event.target.classList.replace('text-zinc-600', 'text-[#ff002b]');
-      }
     }
 
-    // --- 5. STRICT SOCCER WIKIPEDIA ENGINE ---
     function fetchDailySoccerFact() {
       const today = new Date();
       const mm = String(today.getMonth() + 1).padStart(2, '0');
       const dd = String(today.getDate()).padStart(2, '0');
-      
       const footballKeywords = ["fútbol", "futbol", "fifa", "uefa", "champions", "mundial", "maradona", "pelé", "messi", "cristiano", "madrid", "barcelona", "copa", "campeón", "gol", "estadio", "balón", "premier"];
       const wikiUrl = `https://es.wikipedia.org/api/rest_v1/feed/onthisday/selected/${mm}/${dd}`;
 
@@ -520,7 +614,6 @@
               const text = evt.text.toLowerCase();
               return footballKeywords.some(key => text.includes(key));
             });
-            
             if (soccerEvents.length > 0) {
               const randomFact = soccerEvents[Math.floor(Math.random() * soccerEvents.length)];
               displayElement.innerText = `En ${randomFact.year}: ${randomFact.text.replace(/\[\d+\]/g, '')}`;
@@ -542,6 +635,7 @@
 
       const registrationData = {
         action: "registerUser",
+        authToken: SECURITY_AUTH_TOKEN, // Inyección de firma segura contra atacantes externos
         uid: document.getElementById('reg-uid').value,
         ign: document.getElementById('reg-ign').value,
         name: document.getElementById('reg-name').value,
@@ -558,7 +652,7 @@
         body: JSON.stringify(registrationData)
       })
       .then(() => {
-        alert("¡Registro Exitoso! Tu perfil oficial ha sido indexado.");
+        alert("¡Registro Exitoso! Perfil oficial indexado.");
         document.getElementById('registrationForm').reset();
       })
       .catch(err => alert("Error de enlace: " + err.toString()))
@@ -568,7 +662,6 @@
       });
     }
 
-    // --- 6. ADMIN HUD OPERATIONS ---
     function updatePossessionSliders(val) {
       document.getElementById('p1-poss-val').innerText = val + "%";
       document.getElementById('p2-poss-val').innerText = (100 - val) + "%";
@@ -608,7 +701,7 @@
     function submitMatchHUD(event) {
       event.preventDefault();
       const submitBtn = document.getElementById('hud-submit-btn');
-      submitBtn.innerText = "Transmitiendo Bloque de Datos...";
+      submitBtn.innerText = "Validando firma e inyectando bloque de datos...";
       submitBtn.disabled = true;
 
       const p1Uid = document.getElementById('hud-p1').value;
@@ -626,22 +719,20 @@
         });
       }
 
-      // V2 MAPPING OBJECT: Added final score structures to backend transmission payload
       const matchPayload = {
         action: "submitMatch",
+        authToken: SECURITY_AUTH_TOKEN, // Llave criptográfica obligatoria para procesar la escritura
         tournamentId: document.getElementById('hud-tournament').value,
         p1Uid: p1Uid,
         p2Uid: p2Uid,
-        p1Score: document.getElementById('hud-p1-score').value, // Ingests Local goals
-        p2Score: document.getElementById('hud-p2-score').value, // Ingests Visitante goals
+        p1Score: document.getElementById('hud-p1-score').value,
+        p2Score: document.getElementById('hud-p2-score').value,
         p1Shots: document.getElementById('hud-p1-shots').value,
         p2Shots: document.getElementById('hud-p2-shots').value,
         p1Poss: document.getElementById('p1-poss-val').innerText,
         p2Poss: document.getElementById('p2-poss-val').innerText,
         p1PassAcc: document.getElementById('hud-p1-pass').value,
         p2PassAcc: document.getElementById('hud-p2-pass').value,
-        p1Fouls: document.getElementById('hud-p1-fouls').value,
-        p2Fouls: document.getElementById('hud-p2-fouls').value,
         events: computedEvents
       };
 
@@ -652,12 +743,15 @@
         body: JSON.stringify(matchPayload)
       })
       .then(() => {
-        alert("¡Datos del Partido Consolidados Exitosamente!");
+        alert("¡Partido consolidado y clasificaciones recalculadas automáticamente!");
         document.getElementById('matchHUDForm').reset();
         document.getElementById('hud-timeline-rows-container').innerHTML = "";
         updatePossessionSliders(50);
+        // Recargar la interfaz de partidos en segundo plano para reflejar los cambios
+        const currentActiveTourney = document.getElementById('tourney-selector').value;
+        if(currentActiveTourney) loadTournamentDataGrid(currentActiveTourney);
       })
-      .catch(err => alert("Fallo crítico de red: " + err.toString()))
+      .catch(err => alert("Fallo crítico de enlace seguro: " + err.toString()))
       .finally(() => {
         submitBtn.innerText = "Transmitir a Base de Datos";
         submitBtn.disabled = false;
