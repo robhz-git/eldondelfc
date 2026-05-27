@@ -7,85 +7,44 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
-      --bg-dark: #050508;
-      --glass-base: rgba(10, 10, 16, 0.75);
-      --glass-border: rgba(255, 255, 255, 0.08);
+      --bg-dark: #0a0a0f;
+      --card-dark: #121218;
+      --card-border: rgba(255, 0, 43, 0.12);
       --ferrari-neon: #ff002b;
-      --ferrari-glow: rgba(255, 0, 43, 0.4);
-      --paypal-blue: #0070ba;
+      --ferrari-glow: rgba(255, 0, 43, 0.3);
     }
     
-    /* CAPA DE FONDO INDUSTRIAL ESTILO LIMBO */
     body {
       background-color: var(--bg-dark);
-      background-image: url('background.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
       color: #f3f4f6;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
-    /* DISEÑO INDUSTRIAL GLASSMORPHISM (HUD LIMPIO) */
-    .glass-panel-hud {
-      background: var(--glass-base);
-      backdrop-filter: blur(12px) saturate(120%);
-      -webkit-backdrop-filter: blur(12px) saturate(120%);
-      border: 1px solid var(--glass-border);
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
-      position: relative;
+    .soft-card {
+      background-color: var(--card-dark);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
     }
 
-    /* BOTONES MECÁNICOS CON SENSACIÓN INTERACTIVA 3D */
-    .btn-tactile-glass {
-      background: rgba(20, 20, 30, 0.6);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-bottom: 4px solid #000000;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-      transition: all 0.1s ease;
-    }
-    .btn-tactile-glass:hover {
-      border-color: rgba(255, 0, 43, 0.4);
-      background: rgba(255, 0, 43, 0.05);
-    }
-    .btn-tactile-glass:active {
-      border-bottom-width: 1px;
-      transform: translateY(3px);
-    }
-
-    /* ESTADO ACTIVO NEÓN */
-    .btn-tactile-glass-active {
+    .neon-btn-active {
       background: linear-gradient(135deg, #ff002b 0%, #cc0022 100%);
-      border-color: #ff4d6d;
-      border-bottom: 4px solid #660011;
-      color: #ffffff !important;
-    }
-    .btn-tactile-glass-active:active {
-      border-bottom-width: 1px;
-      transform: translateY(3px);
-    }
-
-    .neon-text-glow { text-shadow: 0 0 15px var(--ferrari-glow); }
-    
-    .brand-avatar {
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(10, 10, 16, 0.8);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-      transition: all 0.3s ease;
-    }
-    .brand-avatar:hover {
-      border-color: var(--ferrari-neon);
-      box-shadow: 0 0 20px var(--ferrari-glow);
-    }
-    .neon-logo-filter {
-      filter: drop-shadow(0 0 4px rgba(255, 0, 43, 0.6)) brightness(1.1) sepia(1) hue-rotate(300deg) saturate(80);
+      box-shadow: 0 0 15px var(--ferrari-glow);
     }
 
     .view-hidden { display: none !important; }
+    
+    .brand-avatar {
+      border: 2px solid rgba(255, 0, 43, 0.3);
+      background-color: #050508;
+      transition: transform 0.2s ease;
+    }
+    .brand-avatar:hover {
+      transform: scale(1.05);
+      border-color: var(--ferrari-neon);
+    }
+    .neon-logo-filter {
+      filter: drop-shadow(0 0 4px rgba(255, 0, 43, 0.5)) brightness(1.1) sepia(1) hue-rotate(300deg) saturate(80);
+    }
   </style>
 </head>
 <body class="min-h-screen pb-24 md:pb-6 select-none">
@@ -96,133 +55,134 @@
     let IS_STREAM_LIVE = false; 
   </script>
 
-  <div class="w-full bg-[#0a0a0f]/90 border-b border-zinc-900 py-3 px-4 backdrop-blur-md shadow-2xl relative z-40">
+  <div class="w-full bg-black/60 border-b border-zinc-900 py-3 px-4 shadow-xl relative z-40">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs font-bold uppercase tracking-widest gap-2">
       <div class="flex items-center gap-2 text-[#ff002b] shrink-0 font-black">
         <span class="w-2 h-2 rounded-full bg-[#ff002b] shadow-[0_0_8px_#ff002b] animate-pulse"></span>
         📅 UN DÍA COMO HOY:
       </div>
-      <div id="daily-fact-display" class="text-zinc-300 text-center sm:text-right font-medium">
+      <div id="daily-fact-display" class="text-zinc-400 text-center sm:text-right font-medium">
         Sincronizando efemérides con el archivo histórico global...
       </div>
     </div>
   </div>
 
-  <div class="w-full bg-black/20 border-b border-white/5 backdrop-blur-xs py-2 px-4 relative z-40">
-    <div class="max-w-7xl mx-auto flex justify-center items-center gap-8 text-zinc-400 text-xs font-black tracking-wider uppercase">
-      <a href="https://www.instagram.com/eldondelfc" target="_blank" class="social-icon soc-ig flex items-center gap-1.5"><svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg><span>Instagram</span></a>
-      <a href="https://www.youtube.com/@eldondelfc" target="_blank" class="social-icon soc-yt flex items-center gap-1.5"><svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span>YouTube</span></a>
-      <a href="https://kick.com/eldondelfc" target="_blank" class="social-icon soc-kick flex items-center gap-1.5"><svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M1.5 0h6v6h3V3h3V0h9v9h-3V6h-3v3h3v3h-3v3h3v3h3v9h-9v-3h-3v-3h-3v6h-6v-24zm6 9H6v6h1.5v-6z"/></svg><span>Kick</span></a>
-      <a href="https://twitch.tv/eldondelfc" target="_blank" class="social-icon soc-twitch flex items-center gap-1.5"><svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg><span>Twitch</span></a>
+  <div class="w-full bg-black/20 border-b border-zinc-900/40 py-2 px-4 relative z-40">
+    <div class="max-w-7xl mx-auto flex justify-center items-center gap-8 text-zinc-500 text-xs font-black tracking-wider uppercase">
+      <a href="https://www.instagram.com/eldondelfc" target="_blank" class="hover:text-white transition-colors">Instagram</a>
+      <a href="https://www.youtube.com/@eldondelfc" target="_blank" class="hover:text-white transition-colors">YouTube</a>
+      <a href="https://kick.com/eldondelfc" target="_blank" class="hover:text-white transition-colors">Kick</a>
+      <a href="https://twitch.tv/eldondelfc" target="_blank" class="hover:text-white transition-colors">Twitch</a>
     </div>
   </div>
 
   <main class="max-w-md mx-auto px-4 pt-8 md:max-w-4xl relative z-30">
 
-    <header class="text-center my-8 flex flex-col items-center">
+    <header class="text-center my-6 flex flex-col items-center">
       <div id="secret-admin-trigger" class="w-24 h-24 md:w-28 md:h-28 rounded-full brand-avatar flex items-center justify-center p-3 mb-4 overflow-hidden cursor-pointer">
         <img src="logo.png" alt="ElDonDelFC Logo" class="neon-logo-filter object-contain w-full h-full">
       </div>
-      <h1 class="text-5xl font-black tracking-tighter uppercase md:text-7xl italic text-white">
-        ELDONDEL<span class="text-[#ff002b] neon-text-glow">FC</span>
+      <h1 class="text-4xl font-black tracking-tighter uppercase md:text-6xl italic text-white">
+        ELDONDEL<span class="text-[#ff002b] text-shadow-[0_0_10px_rgba(255,0,43,0.5)]">FC</span>
       </h1>
-      <p class="text-[10px] tracking-[0.4em] text-zinc-400 uppercase font-black mt-2">Core Ecosystem & Tournament Matrix</p>
+      <p class="text-[10px] tracking-[0.3em] text-zinc-500 uppercase font-bold mt-2">Core Ecosystem & Tournament Matrix</p>
     </header>
 
     <div id="public-container">
       
-      <nav class="hidden md:flex justify-center gap-4 mb-8 bg-black/40 p-2.5 rounded-2xl border border-white/5 shadow-2xl backdrop-blur-md">
-        <button onclick="switchView('home-view', event)" class="tab-btn btn-tactile-glass btn-tactile-glass-active px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest w-full">🎮 Dashboard</button>
-        <button onclick="switchView('stats-view', event)" class="tab-btn btn-tactile-glass px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-300 w-full">📊 Central de Partidos</button>
-        <button onclick="switchView('community-view', event)" class="tab-btn btn-tactile-glass px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-300 w-full">📬 Registro</button>
+      <nav class="hidden md:flex justify-center gap-4 mb-8 bg-zinc-900/40 p-2 rounded-xl border border-zinc-800">
+        <button onclick="switchView('home-view', event)" class="tab-btn px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider bg-zinc-800 text-white w-full transition-all">🎮 Dashboard</button>
+        <button onclick="switchView('stats-view', event)" class="tab-btn px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider text-zinc-400 hover:text-white w-full transition-all">📊 Central de Partidos</button>
+        <button onclick="switchView('community-view', event)" class="tab-btn px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-wider text-zinc-400 hover:text-white w-full transition-all">📬 Registro</button>
       </nav>
 
       <section id="home-view" class="site-view space-y-6">
-        <div id="live-hero-card" class="glass-panel-hud rounded-2xl p-6 text-center overflow-hidden">
-          <div id="live-badge" class="mb-4 inline-flex items-center gap-2 px-3 py-1 bg-black/60 border border-white/10 rounded-lg text-[10px] font-black uppercase tracking-widest text-zinc-400">
+        <div id="live-hero-card" class="soft-card rounded-xl p-6 text-center">
+          <div id="live-badge" class="mb-4 inline-flex items-center gap-2 px-3 py-1 bg-zinc-950 border border-zinc-800 rounded-md text-[10px] font-bold uppercase tracking-widest text-zinc-500">
             <span id="live-dot" class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span> Transmisión Inactiva
           </div>
-          <h2 id="live-headline" class="text-3xl font-black tracking-tight mb-6 uppercase italic text-zinc-200">Consulta Mis Horarios</h2>
+          <h2 id="live-headline" class="text-2xl font-black tracking-tight mb-5 uppercase italic text-zinc-300">Consulta Mis Horarios</h2>
           <div class="flex justify-center">
-            <a id="live-action-btn" href="https://www.tiktok.com/@eldondelfc" target="_blank" class="btn-tactile-glass text-zinc-300 inline-block px-12 py-4 rounded-xl font-black uppercase tracking-widest text-xs w-full sm:w-auto text-center">
+            <a id="live-action-btn" href="https://www.tiktok.com/@eldondelfc" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 inline-block px-10 py-3.5 rounded-xl font-black uppercase tracking-widest text-xs transition-all w-full sm:w-auto text-center shadow-md">
               Visita mi TikTok (Horarios en Bio)
             </a>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="glass-panel-hud rounded-2xl p-5 flex flex-col">
-            <h3 class="text-xs uppercase font-black tracking-widest text-zinc-300 border-b border-white/5 pb-3 mb-4 flex items-center gap-2">
+          <div class="soft-card rounded-xl p-5 flex flex-col">
+            <h3 class="text-xs uppercase font-black tracking-widest text-zinc-400 border-b border-zinc-800 pb-3 mb-4 flex items-center gap-2">
               <span>📅</span> Agenda de Estrategia & Reviews
             </h3>
-            <div class="bg-black/40 rounded-xl overflow-hidden border border-white/5 flex-1 relative min-h-[320px]">
+            <div class="bg-black/30 rounded-xl overflow-hidden border border-zinc-850 flex-1 relative min-h-[320px]">
               <iframe src="https://calendar.app.google/RSuhrXQsNccERDA39" class="absolute inset-0 w-full h-full border-none filter invert opacity-90 brightness-95" style="mix-blend-mode: lighten;"></iframe>
             </div>
           </div>
 
-          <div class="glass-panel-hud rounded-2xl p-5 flex flex-col justify-between border-l border-white/5">
+          <div class="soft-card rounded-xl p-5 flex flex-col justify-between border-r-2 border-r-[#0070ba]/40">
             <div>
-              <h3 class="text-xs uppercase font-black tracking-widest text-[#0070ba] border-b border-white/5 pb-3 mb-4 flex items-center gap-2 font-black">
+              <h3 class="text-xs uppercase font-black tracking-widest text-[#0070ba] border-b border-zinc-800 pb-3 mb-4 flex items-center gap-2 font-black">
                 <span>🪙</span> Apoyar al Canal
               </h3>
-              <p class="text-xs text-zinc-300 leading-relaxed font-semibold mb-6">
+              <p class="text-xs text-zinc-400 leading-relaxed font-semibold mb-6">
                 Impulsa el crecimiento tecnológico de la plataforma, la organización de torneos comunitarios de EA FC Mobile y el desarrollo continuo de herramientas exclusivas para la comunidad.
               </p>
             </div>
-            <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="btn-tactile-glass text-center text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl block bg-[#0070ba] border-b-[#003d66]">
+            <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="text-center text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl block bg-[#0070ba] hover:bg-[#005ea6] transition-colors shadow-lg">
               Enviar Aporte Vía PayPal
             </a>
           </div>
         </div>
 
-        <div class="glass-panel-hud rounded-2xl p-6 border-l-2 border-l-[#ff002b]">
+        <div class="soft-card rounded-xl p-6 border-l-2 border-l-[#ff002b]">
           <h3 class="text-sm font-black tracking-widest uppercase mb-2 flex items-center gap-2 text-white">
             <span>📬</span> Buzón de Estrategia & Sugerencias
           </h3>
-          <p class="text-xs text-zinc-400 mb-5 leading-normal font-medium">¿Tienes una táctica revolucionaria o alguna sugerencia para los próximos directos? Envía tus comentarios directamente a mi panel de control.</p>
+          <p class="text-xs text-zinc-400 mb-4 leading-normal font-medium">¿Tienes una táctica revolucionaria o alguna sugerencia para los próximos directos? Envía tus comentarios directamente a mi panel de control.</p>
           
           <form action="https://formspree.io/f/xwvzeoky" method="POST" class="space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <input type="text" name="name" required placeholder="Tu Nombre / IGN" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs font-bold uppercase tracking-wider focus:outline-none focus:border-[#ff002b] transition-all text-white">
-              <input type="email" name="_replyto" required placeholder="Tu Correo de Contacto" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs font-bold uppercase tracking-wider focus:outline-none focus:border-[#ff002b] transition-all text-white">
+              <input type="text" name="name" required placeholder="Tu Nombre / IGN" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all text-white">
+              <input type="email" name="_replyto" required placeholder="Tu Correo de Contacto" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all text-white">
             </div>
-            <textarea name="message" rows="3" required placeholder="Escribe detalladamente tu táctica o sugerencia de alineación..." class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs font-bold uppercase tracking-wider focus:outline-none focus:border-[#ff002b] transition-all text-white resize-none"></textarea>
-            <button type="submit" class="btn-tactile-glass btn-tactile-glass-active w-full py-3.5 rounded-xl font-black uppercase tracking-widest text-xs text-white">
-              Enviar Misión al Buzón
+            <textarea name="message" rows="3" required placeholder="Escribe detalladamente tu táctica o sugerencia de alineación..." class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#ff002b] transition-all text-white resize-none"></textarea>
+            <button type="submit" class="w-full py-3 rounded-xl font-black uppercase tracking-widest text-xs text-white neon-btn-active hover:brightness-110 transition-all">
+              Enviar Mensaje al Buzón
             </button>
           </form>
         </div>
       </section>
 
       <section id="stats-view" class="site-view view-hidden space-y-6">
-        <div class="glass-panel-hud rounded-2xl p-5">
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 border-b border-white/5 pb-4">
+        <div class="soft-card rounded-xl p-5">
+          
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 border-b border-zinc-800 pb-4">
             <div>
               <h3 class="text-sm font-black tracking-widest uppercase text-white">Central de Partidos & Clasificaciones</h3>
               <p class="text-[9px] text-zinc-500 uppercase tracking-widest mt-0.5 font-black">Estadísticas Oficiales de la Comunidad</p>
             </div>
-            <select id="tourney-selector" onchange="loadTournamentDataGrid(this.value)" class="w-full sm:w-64 bg-black/60 border border-white/10 text-xs text-red-500 font-black uppercase tracking-widest rounded-xl p-3.5 focus:outline-none focus:border-[#ff002b] cursor-pointer">
+            <select id="tourney-selector" onchange="loadTournamentDataGrid(this.value)" class="w-full sm:w-64 bg-zinc-950 border border-zinc-800 text-xs text-red-500 font-black uppercase tracking-widest rounded-xl p-3 focus:outline-none focus:border-[#ff002b] cursor-pointer">
               <option value="">Cargando ligas activas...</option>
             </select>
           </div>
 
-          <div class="overflow-x-auto rounded-xl border border-white/5 bg-black/20">
+          <div class="overflow-x-auto rounded-xl border border-zinc-800 bg-black/20">
             <table class="w-full text-left border-collapse text-xs font-mono">
               <thead>
-                <tr class="bg-black/50 border-b border-white/5 font-black uppercase text-zinc-400 tracking-wider text-[10px]">
+                <tr class="bg-zinc-950 border-b border-zinc-800 font-black uppercase text-zinc-400 tracking-wider text-[10px]">
                   <th class="p-3 text-center w-12">Pos</th>
                   <th class="p-3 min-w-[140px] font-sans">Jugador (IGN)</th>
                   <th class="p-3 text-center">PJ</th>
                   <th class="p-3 text-center text-green-500">G</th>
                   <th class="p-3 text-center text-zinc-500">E</th>
-                  <th class="p-3 text-center text-red-400">P</th>
+                  <th class="p-3 text-center text-red-500">P</th>
                   <th class="p-3 text-center">GF</th>
                   <th class="p-3 text-center">GC</th>
                   <th class="p-3 text-center">DG</th>
                   <th class="p-3 text-center text-red-500 font-black bg-red-950/20">Pts</th>
                 </tr>
               </thead>
-              <tbody id="standings-table-body" class="font-bold text-zinc-300 divide-y divide-white/5">
+              <tbody id="standings-table-body" class="font-bold text-zinc-300 divide-y divide-zinc-800/40">
                 <tr>
                   <td colspan="10" class="p-8 text-center text-zinc-500 italic font-sans">Selecciona un torneo activo en el menú superior para desplegar las clasificaciones.</td>
                 </tr>
@@ -231,8 +191,8 @@
           </div>
         </div>
 
-        <div class="glass-panel-hud rounded-2xl p-5">
-          <h4 class="text-xs font-black tracking-widest uppercase text-zinc-300 mb-4 pb-2 border-b border-white/5 flex items-center gap-2">
+        <div class="soft-card rounded-xl p-5">
+          <h4 class="text-xs font-black tracking-widest uppercase text-zinc-300 mb-4 pb-2 border-b border-zinc-800 flex items-center gap-2">
             <span>📊</span> Historial de Encuentros del Torneo
           </h4>
           <div id="match-cards-container" class="space-y-3">
@@ -242,33 +202,33 @@
       </section>
 
       <section id="community-view" class="site-view view-hidden space-y-6">
-        <div class="glass-panel-hud rounded-2xl p-6">
+        <div class="soft-card rounded-xl p-6">
           <h3 class="text-base font-black tracking-widest uppercase mb-2 text-white">Registro Oficial de Jugadores</h3>
           <p class="text-xs text-zinc-400 mb-6 leading-normal font-medium">Ingresa tus credenciales verificadas para formar parte de las tablas de clasificación, sorteos automatizados y ligas de streaming.</p>
           
           <form id="registrationForm" onsubmit="submitRegistration(event)" class="space-y-4">
             <div>
               <label class="block text-[10px] font-black uppercase tracking-wider text-zinc-400 mb-1.5">EA FC Unique ID (UID) <span class="text-[#ff002b]">*</span></label>
-              <input type="text" id="reg-uid" required placeholder="Ej: 100293849102" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs font-bold focus:outline-none focus:border-[#ff002b] transition-all font-mono text-white tracking-widest">
+              <input type="text" id="reg-uid" required placeholder="Ej: 100293849102" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs font-bold focus:outline-none focus:border-[#ff002b] transition-all font-mono text-white tracking-widest">
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-[10px] font-black uppercase tracking-wider text-zinc-400 mb-1.5">In-Game Name (IGN) <span class="text-[#ff002b]">*</span></label>
-                <input type="text" id="reg-ign" required placeholder="Tu Nombre en Juego" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs font-bold focus:outline-none focus:border-[#ff002b] transition-all text-white">
+                <input type="text" id="reg-ign" required placeholder="Tu Nombre en Juego" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs font-bold focus:outline-none focus:border-[#ff002b] transition-all text-white">
               </div>
               <div>
                 <label class="block text-[10px] font-black uppercase tracking-wider text-zinc-400 mb-1.5">Nombre Real</label>
-                <input type="text" id="reg-name" placeholder="Tu Nombre" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs font-bold focus:outline-none focus:border-[#ff002b] transition-all text-white">
+                <input type="text" id="reg-name" placeholder="Tu Nombre" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs font-bold focus:outline-none focus:border-[#ff002b] transition-all text-white">
               </div>
             </div>
             <div>
               <label class="block text-[10px] font-black uppercase tracking-wider text-zinc-400 mb-1.5">Correo Electrónico <span class="text-[#ff002b]">*</span></label>
-              <input type="email" id="reg-email" required placeholder="correo@ejemplo.com" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs font-bold focus:outline-none focus:border-[#ff002b] transition-all text-white">
+              <input type="email" id="reg-email" required placeholder="correo@ejemplo.com" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs font-bold focus:outline-none focus:border-[#ff002b] transition-all text-white">
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-[10px] font-black uppercase tracking-wider text-zinc-400 mb-1.5">Red Social Preferida</label>
-                <select id="reg-platform" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-[#ff002b] transition-all text-zinc-300 font-black tracking-widest uppercase">
+                <select id="reg-platform" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-[#ff002b] transition-all text-zinc-300 font-black tracking-widest uppercase">
                   <option value="TikTok">TikTok</option>
                   <option value="Twitch">Twitch</option>
                   <option value="Kick">Kick</option>
@@ -277,14 +237,14 @@
               </div>
               <div>
                 <label class="block text-[10px] font-black uppercase tracking-wider text-zinc-400 mb-1.5">Usuario de Red Social</label>
-                <input type="text" id="reg-handle" placeholder="Ej: eldon_oficial" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs font-bold focus:outline-none focus:border-[#ff002b] transition-all text-white">
+                <input type="text" id="reg-handle" placeholder="Ej: eldon_oficial" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs font-bold focus:outline-none focus:border-[#ff002b] transition-all text-white">
               </div>
             </div>
             <div class="flex items-center gap-3 py-2">
               <input type="checkbox" id="reg-creator" class="w-4 h-4 rounded accent-[#ff002b] bg-zinc-950 border-zinc-800">
               <label for="reg-creator" class="text-xs text-zinc-400 font-black select-none uppercase tracking-wider">¿Eres creador de contenido activo?</label>
             </div>
-            <button type="submit" id="reg-submit-btn" class="btn-tactile-glass btn-tactile-glass-active w-full py-4 rounded-xl font-black uppercase tracking-widest text-xs text-white mt-2">
+            <button type="submit" id="reg-submit-btn" class="w-full py-3.5 rounded-xl font-black uppercase tracking-widest text-xs text-white neon-btn-active hover:brightness-110 transition-all mt-2">
               Registrar Perfil Oficial
             </button>
           </form>
@@ -293,16 +253,16 @@
     </div>
 
     <div id="admin-container" class="view-hidden space-y-6">
-      <div class="border-2 border-[#ff002b] bg-[#07070a]/95 backdrop-blur-xl rounded-2xl p-6 shadow-2xl relative">
-        <div class="flex items-center justify-between border-b border-white/5 pb-4 mb-6">
+      <div class="border-2 border-[#ff002b] bg-[#121218] rounded-xl p-6 shadow-2xl relative">
+        <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-6">
           <div>
             <h2 class="text-lg font-black tracking-widest uppercase text-white">Panel de Ingesta de Partidos</h2>
             <p class="text-[9px] font-black text-[#ff002b] uppercase tracking-widest mt-0.5">Eldondelfc Core Administration Deck</p>
           </div>
-          <span onclick="closeAdminHUD()" class="cursor-pointer px-3 py-1.5 rounded-lg bg-green-950 text-green-400 font-mono text-[10px] font-black tracking-widest border border-green-900 hover:bg-green-900 transition uppercase">CERRAR PANEL</span>
+          <span onclick="closeAdminHUD()" class="cursor-pointer px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-red-500 font-mono text-[10px] font-black tracking-widest hover:bg-zinc-800 transition uppercase">CERRAR PANEL</span>
         </div>
 
-        <div class="bg-black/40 p-4 rounded-xl border border-white/5 flex items-center justify-between mb-4">
+        <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-800 flex items-center justify-between mb-4">
           <span class="text-xs font-black uppercase text-zinc-300 tracking-wider">Botón de Transmisión (TikTok)</span>
           <button type="button" onclick="toggleStreamStatusLive()" id="hud-live-toggle" class="px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-xs font-black text-zinc-400 tracking-widest uppercase transition-all">Offline</button>
         </div>
@@ -311,34 +271,34 @@
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label class="block text-[10px] font-black uppercase tracking-wider text-zinc-400 mb-1.5">ID del Torneo (Sheet Key)</label>
-              <input type="text" id="hud-tournament" required placeholder="Ej: COPA-APTIVE-2026" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs font-black text-white focus:outline-none focus:border-[#ff002b]">
+              <input type="text" id="hud-tournament" required placeholder="Ej: COPA-APTIVE-2026" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm font-black text-white focus:outline-none focus:border-[#ff002b]">
             </div>
             <div>
               <label class="block text-[10px] font-black uppercase tracking-wider text-zinc-400 mb-1.5">UID Local (Jugador 1)</label>
-              <input type="text" id="hud-p1" required placeholder="UID Local" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs font-mono text-white focus:outline-none focus:border-[#ff002b]">
+              <input type="text" id="hud-p1" required placeholder="UID Local" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-[#ff002b]">
             </div>
             <div>
               <label class="block text-[10px] font-black uppercase tracking-wider text-zinc-400 mb-1.5">UID Visitante (Jugador 2)</label>
-              <input type="text" id="hud-p2" required placeholder="UID Visitante" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs font-mono text-white focus:outline-none focus:border-[#ff002b]">
+              <input type="text" id="hud-p2" required placeholder="UID Visitante" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm font-mono text-white focus:outline-none focus:border-[#ff002b]">
             </div>
           </div>
 
-          <div class="bg-black/40 p-4 rounded-xl border border-white/5 relative overflow-hidden">
-            <h4 class="text-[10px] font-black uppercase text-zinc-400 tracking-widest text-center mb-3 border-b border-white/5 pb-1.5">Marcador Final Oficial</h4>
+          <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-800 relative overflow-hidden">
+            <h4 class="text-[10px] font-black uppercase text-zinc-400 tracking-widest text-center mb-3 border-b border-zinc-800 pb-1.5">Marcador Final Oficial</h4>
             <div class="flex items-center justify-center gap-6">
               <div class="text-center">
                 <span class="block text-[10px] font-black uppercase text-zinc-500 mb-1">Goles Local</span>
-                <input type="number" id="hud-p1-score" min="0" value="0" required class="w-16 h-12 bg-black/40 border border-white/10 rounded-xl text-center text-xl font-black text-[#ff002b] focus:outline-none focus:border-[#ff002b]">
+                <input type="number" id="hud-p1-score" min="0" value="0" required class="w-16 h-12 bg-zinc-900 border border-zinc-800 rounded-xl text-center text-xl font-black text-[#ff002b] focus:outline-none focus:border-[#ff002b]">
               </div>
               <div class="text-xl font-black text-zinc-600 mt-4">VS</div>
               <div class="text-center">
                 <span class="block text-[10px] font-black uppercase text-zinc-500 mb-1">Goles Visitante</span>
-                <input type="number" id="hud-p2-score" min="0" value="0" required class="w-16 h-12 bg-black/40 border border-white/10 rounded-xl text-center text-xl font-black text-white focus:outline-none focus:border-[#ff002b]">
+                <input type="number" id="hud-p2-score" min="0" value="0" required class="w-16 h-12 bg-zinc-900 border border-zinc-800 rounded-xl text-center text-xl font-black text-white focus:outline-none focus:border-[#ff002b]">
               </div>
             </div>
           </div>
 
-          <div class="bg-black/40 p-4 rounded-xl border border-white/5">
+          <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-800">
             <div class="flex justify-between text-xs font-bold uppercase tracking-wider mb-2">
               <span class="text-zinc-300">Posesión Local: <span id="p1-poss-val" class="text-[#ff002b]">50%</span></span>
               <span class="text-zinc-300">Posesión Visitante: <span id="p2-poss-val">50%</span></span>
@@ -347,47 +307,47 @@
           </div>
 
           <div class="grid grid-cols-2 gap-4">
-            <div class="space-y-4 bg-black/40 p-4 rounded-xl border border-white/5">
-              <h4 class="text-[10px] font-black uppercase text-[#ff002b] tracking-widest text-center border-b border-white/5 pb-1.5">Métricas Local</h4>
+            <div class="space-y-4 bg-zinc-950/60 p-4 rounded-xl border border-zinc-800">
+              <h4 class="text-[10px] font-black uppercase text-[#ff002b] tracking-widest text-center border-b border-zinc-800 pb-1.5">Métricas Local</h4>
               <div class="flex items-center justify-between text-xs font-bold">
                 <span class="text-zinc-400">Remates</span>
                 <div class="flex items-center gap-2">
-                  <button type="button" onclick="modifyCount('hud-p1-shots', -1)" class="w-7 h-7 bg-black/40 rounded-md border border-white/10 flex items-center justify-center">-</button>
+                  <button type="button" onclick="modifyCount('hud-p1-shots', -1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-800 flex items-center justify-center">-</button>
                   <input type="number" id="hud-p1-shots" value="0" readonly class="w-8 text-center bg-transparent border-none text-white focus:outline-none font-mono">
-                  <button type="button" onclick="modifyCount('hud-p1-shots', 1)" class="w-7 h-7 bg-black/40 rounded-md border border-white/10 flex items-center justify-center">+</button>
+                  <button type="button" onclick="modifyCount('hud-p1-shots', 1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-800 flex items-center justify-center">+</button>
                 </div>
               </div>
               <div class="flex items-center justify-between text-xs font-bold">
                 <span class="text-zinc-400">Pases %</span>
-                <input type="text" id="hud-p1-pass" value="85%" class="w-14 text-center bg-black/40 border border-white/10 rounded px-2 py-1 text-white font-mono text-xs">
+                <input type="text" id="hud-p1-pass" value="85%" class="w-14 text-center bg-zinc-900 border border-zinc-800 rounded px-2 py-1 text-white font-mono text-xs">
               </div>
             </div>
-            <div class="space-y-4 bg-black/40 p-4 rounded-xl border border-white/5">
-              <h4 class="text-[10px] font-black uppercase text-zinc-500 tracking-widest text-center border-b border-white/5 pb-1.5">Métricas Visitante</h4>
+            <div class="space-y-4 bg-zinc-950/60 p-4 rounded-xl border border-zinc-800">
+              <h4 class="text-[10px] font-black uppercase text-zinc-500 tracking-widest text-center border-b border-zinc-800 pb-1.5">Métricas Visitante</h4>
               <div class="flex items-center justify-between text-xs font-bold">
                 <span class="text-zinc-400">Remates</span>
                 <div class="flex items-center gap-2">
-                  <button type="button" onclick="modifyCount('hud-p2-shots', -1)" class="w-7 h-7 bg-black/40 rounded-md border border-white/10 flex items-center justify-center">-</button>
+                  <button type="button" onclick="modifyCount('hud-p2-shots', -1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-800 flex items-center justify-center">-</button>
                   <input type="number" id="hud-p2-shots" value="0" readonly class="w-8 text-center bg-transparent border-none text-white focus:outline-none font-mono">
-                  <button type="button" onclick="modifyCount('hud-p2-shots', 1)" class="w-7 h-7 bg-black/40 rounded-md border border-white/10 flex items-center justify-center">+</button>
+                  <button type="button" onclick="modifyCount('hud-p2-shots', 1)" class="w-7 h-7 bg-zinc-900 rounded-md border border-zinc-800 flex items-center justify-center">+</button>
                 </div>
               </div>
               <div class="flex items-center justify-between text-xs font-bold">
                 <span class="text-zinc-400">Pases %</span>
-                <input type="text" id="hud-p2-pass" value="85%" class="w-14 text-center bg-black/40 border border-white/10 rounded px-2 py-1 text-white font-mono text-xs">
+                <input type="text" id="hud-p2-pass" value="85%" class="w-14 text-center bg-zinc-900 border border-zinc-800 rounded px-2 py-1 text-white font-mono text-xs">
               </div>
             </div>
           </div>
 
-          <div class="bg-black/40 p-4 rounded-xl border border-white/5">
-            <div class="flex items-center justify-between border-b border-white/5 pb-2 mb-3">
+          <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-800">
+            <div class="flex items-center justify-between border-b border-zinc-800 pb-2 mb-3">
               <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-300">Línea de Tiempo (Eventos)</h4>
               <button type="button" onclick="addTimelineEventFormRow()" class="px-3 py-1 bg-zinc-900 hover:bg-zinc-850 rounded-md text-[10px] font-black uppercase tracking-widest text-zinc-300 border border-zinc-800">+ Añadir Evento</button>
             </div>
             <div id="hud-timeline-rows-container" class="space-y-2"></div>
           </div>
 
-          <button type="submit" id="hud-submit-btn" class="btn-tactile-glass btn-tactile-glass-active w-full py-4 rounded-xl font-black uppercase tracking-widest text-xs text-white">
+          <button type="submit" id="hud-submit-btn" class="w-full py-4 rounded-xl font-black uppercase tracking-widest text-xs text-white neon-btn-active hover:brightness-110 transition-all">
             Transmitir a Base de Datos
           </button>
         </form>
@@ -395,15 +355,15 @@
     </div>
   </main>
 
-  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-[#08080c]/90 border-t border-white/5 px-4 py-3.5 backdrop-blur-lg z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.9)]">
+  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-[#0e0e14] border-t border-zinc-800 px-4 py-3.5 z-50 shadow-2xl">
     <div class="flex justify-around items-center max-w-md mx-auto">
       <button onclick="switchView('home-view', event)" class="mobile-nav-btn text-[9px] font-black uppercase tracking-widest flex flex-col items-center gap-1 text-[#ff002b]">
         <span class="text-base">🎮</span>Home
       </button>
-      <button onclick="switchView('stats-view', event)" class="mobile-nav-btn text-[9px] font-black uppercase tracking-widest flex flex-col items-center gap-1 text-zinc-400">
+      <button onclick="switchView('stats-view', event)" class="mobile-nav-btn text-[9px] font-black uppercase tracking-widest flex flex-col items-center gap-1 text-zinc-500">
         <span class="text-base">📊</span>Partidos
       </button>
-      <button onclick="switchView('community-view', event)" class="mobile-nav-btn text-[9px] font-black uppercase tracking-widest flex flex-col items-center gap-1 text-zinc-400">
+      <button onclick="switchView('community-view', event)" class="mobile-nav-btn text-[9px] font-black uppercase tracking-widest flex flex-col items-center gap-1 text-zinc-500">
         <span class="text-base">📬</span>Registro
       </button>
     </div>
@@ -413,8 +373,11 @@
     let clickCount = 0;
     let clickTimer;
 
-    // Trigger limpio y funcional sobre tu logo circular
-    document.getElementById('secret-admin-trigger').addEventListener('click', function() {
+    // Disparador secreto blindado para mouse y entorno táctil móvil
+    const secretTrigger = document.getElementById('secret-admin-trigger');
+    
+    function processAdminClick(e) {
+      if(e) e.preventDefault();
       clickCount++;
       clearTimeout(clickTimer);
       if (clickCount >= 5) {
@@ -422,13 +385,12 @@
         document.getElementById('admin-container').classList.remove('view-hidden');
         clickCount = 0;
       } else {
-        clickTimer = setTimeout(function() { clickCount = 0; }, 2000);
+        clickTimer = setTimeout(function() { clickCount = 0; }, 1800);
       }
-    });
-
-    document.getElementById('secret-admin-trigger').addEventListener('touchstart', function() {
-      // Soporte táctil optimizado para celulares en stream
-    });
+    }
+    
+    secretTrigger.addEventListener('click', processAdminClick);
+    secretTrigger.addEventListener('touchstart', processAdminClick, { passive: false });
 
     function closeAdminHUD() {
       document.getElementById('admin-container').classList.add('view-hidden');
@@ -485,17 +447,21 @@
               if(row.pos === 3) medal = "🥉";
 
               const tr = document.createElement('tr');
-              tr.className = "hover:bg-white/5 transition-colors border-b border-white/5";
-              tr.innerHTML = '<td class="p-3 text-center font-black text-zinc-500">' + medal + '</td>' +
-                '<td class="p-3 font-bold text-white font-sans">' + row.ign + '</td>' +
-                '<td class="p-3 text-center">' + row.pj + '</td>' +
-                '<td class="p-3 text-center text-green-400 font-bold">' + row.g + '</td>' +
-                '<td class="p-3 text-center text-zinc-500">' + row.e + '</td>' +
-                '<td class="p-3 text-center text-red-400">' + row.p + '</td>' +
-                <td class="p-3 text-center">' + row.gf + '</td>' +
-                '<td class="p-3 text-center">' + row.gc + '</td>' +
-                '<td class="p-3 text-center">' + (row.dg > 0 ? '+' + row.dg : row.dg) + '</td>' +
-                '<td class="p-3 text-center font-black text-[#ff002b] bg-red-950/20">' + row.pts + '</td>';
+              tr.className = "hover:bg-zinc-900 border-b border-zinc-800/40 transition-colors";
+              
+              // Concatenación ultra-limpia y sanitizada sin errores de comillas
+              let htmlContent = '<td class="p-3 text-center font-black text-zinc-500">' + medal + '</td>';
+              htmlContent += '<td class="p-3 font-bold text-white font-sans">' + row.ign + '</td>';
+              htmlContent += '<td class="p-3 text-center">' + row.pj + '</td>';
+              htmlContent += '<td class="p-3 text-center text-green-400 font-bold">' + row.g + '</td>';
+              htmlContent += '<td class="p-3 text-center text-zinc-500">' + row.e + '</td>';
+              htmlContent += '<td class="p-3 text-center text-red-400">' + row.p + '</td>';
+              htmlContent += '<td class="p-3 text-center">' + row.gf + '</td>';
+              htmlContent += '<td class="p-3 text-center">' + row.gc + '</td>';
+              htmlContent += '<td class="p-3 text-center text-zinc-400">' + (row.dg > 0 ? '+' + row.dg : row.dg) + '</td>';
+              htmlContent += '<td class="p-3 text-center font-black text-[#ff002b] bg-red-950/20">' + row.pts + '</td>';
+              
+              tr.innerHTML = htmlContent;
               tbody.appendChild(tr);
             });
           } else {
@@ -506,16 +472,19 @@
           if(data.matches && data.matches.length > 0) {
             data.matches.forEach(function(m) {
               const card = document.createElement('div');
-              card.className = "bg-black/30 border border-white/5 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs backdrop-blur-xs";
-              card.innerHTML = '<div class="flex items-center justify-between w-full sm:w-auto gap-4 font-bold">' +
-                  '<span class="text-white text-right w-28 truncate font-sans">' + m.p1 + '</span>' +
-                  '<span class="px-3 py-1.5 bg-black/40 border border-white/10 rounded-lg font-mono text-sm text-[#ff002b] font-black shadow-inner">' + m.s1 + ' - ' + m.s2 + '</span>' +
-                  '<span class="text-zinc-400 text-left w-28 truncate font-sans">' + m.p2 + '</span>' +
-                '</div>' +
-                '<div class="flex items-center gap-4 text-[10px] text-zinc-400 uppercase tracking-widest font-black font-mono">' +
-                  '<span>🎯 Remates: ' + m.shots1 + ' vs ' + m.shots2 + '</span>' +
-                  '<span>📊 Posesión: ' + m.poss1 + ' - ' + m.poss2 + '</span>' +
-                '</div>';
+              card.className = "bg-zinc-900 border border-zinc-800 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs";
+              
+              let cardHtml = '<div class="flex items-center justify-between w-full sm:w-auto gap-4 font-bold">';
+              cardHtml += '<span class="text-white text-right w-28 truncate font-sans">' + m.p1 + '</span>';
+              cardHtml += '<span class="px-3 py-1.5 bg-zinc-950 border border-zinc-800 rounded-lg font-mono text-sm text-[#ff002b] font-black shadow-inner">' + m.s1 + ' - ' + m.s2 + '</span>';
+              cardHtml += '<span class="text-zinc-400 text-left w-28 truncate font-sans">' + m.p2 + '</span>';
+              cardHtml += '</div>';
+              cardHtml += '<div class="flex items-center gap-4 text-[10px] text-zinc-500 uppercase tracking-widest font-black font-mono">';
+              cardHtml += '<span>🎯 Remates: ' + m.shots1 + ' vs ' + m.shots2 + '</span>';
+              cardHtml += '<span>📊 Posesión: ' + m.poss1 + ' - ' + m.poss2 + '</span>';
+              cardHtml += '</div>';
+              
+              card.innerHTML = cardHtml;
               cardsContainer.appendChild(card);
             });
           } else {
@@ -536,22 +505,22 @@
 
       if (IS_STREAM_LIVE) {
         heroCard.style.borderColor = "rgba(255, 0, 43, 0.4)";
-        badge.className = "mb-4 inline-flex items-center gap-2 px-3 py-1 bg-red-950/40 border border-red-900 rounded-lg text-[10px] font-black uppercase tracking-widest text-red-400";
+        badge.className = "mb-4 inline-flex items-center gap-2 px-3 py-1 bg-red-950/40 border border-red-900 rounded-md text-[10px] font-black uppercase tracking-widest text-red-400";
         dot.className = "w-1.5 h-1.5 rounded-full bg-[#ff002b] shadow-[0_0_8px_#ff002b] animate-ping";
         badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-[#ff002b]"></span> ¡ESTAMOS EN VIVO!';
-        headline.className = "text-3xl font-black tracking-tight mb-6 uppercase italic text-white";
+        headline.className = "text-2xl font-black tracking-tight mb-6 uppercase italic text-white";
         headline.innerText = "Accede a la Arena de Juego Ahora Mismo";
-        btn.className = "btn-tactile-glass btn-tactile-glass-active text-white inline-block px-12 py-4 rounded-xl font-black uppercase tracking-widest text-xs text-center w-full sm:w-auto";
+        btn.className = "px-12 py-4 rounded-xl font-black uppercase tracking-widest text-xs text-center w-full sm:w-auto text-white neon-btn-active";
         btn.innerText = "Entrar al Directo en TikTok";
         btn.href = "https://www.tiktok.com/@eldondelfc/live";
       } else {
-        heroCard.style.borderColor = "rgba(255,255,255,0.04)";
-        badge.className = "mb-4 inline-flex items-center gap-2 px-3 py-1 bg-black/60 border border-white/10 rounded-lg text-[10px] font-black uppercase tracking-widest text-zinc-500";
+        heroCard.style.borderColor = "rgba(255,255,255,0.12)";
+        badge.className = "mb-4 inline-flex items-center gap-2 px-3 py-1 bg-zinc-950 border border-zinc-800 rounded-md text-[10px] font-bold uppercase tracking-widest text-zinc-500";
         dot.className = "w-1.5 h-1.5 rounded-full bg-zinc-600";
         badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span> Transmisión Inactiva';
-        headline.className = "text-3xl font-black tracking-tight mb-6 uppercase italic text-zinc-400";
+        headline.className = "text-2xl font-black tracking-tight mb-6 uppercase italic text-zinc-400";
         headline.innerText = "Consulta Mis Horarios";
-        btn.className = "btn-tactile-glass text-zinc-300 inline-block px-12 py-4 rounded-xl font-black uppercase tracking-widest text-xs text-center w-full sm:w-auto";
+        btn.className = "bg-zinc-800 hover:bg-zinc-700 text-zinc-300 inline-block px-12 py-4 rounded-xl font-black uppercase tracking-widest text-xs text-center w-full sm:w-auto";
         btn.innerText = "Visita mi TikTok (Horarios en Bio)";
         btn.href = "https://www.tiktok.com/@eldondelfc";
       }
@@ -574,14 +543,18 @@
       document.querySelectorAll('.site-view').forEach(function(view) { view.classList.add('view-hidden'); });
       document.getElementById(targetViewId).classList.remove('view-hidden');
       
-      document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('btn-tactile-glass-active'); });
-      document.querySelectorAll('.mobile-nav-btn').forEach(function(btn) { btn.classList.replace('text-[#ff002b]', 'text-zinc-400'); });
+      document.querySelectorAll('.tab-btn').forEach(function(btn) { 
+        btn.classList.remove('bg-zinc-800', 'text-white'); 
+        btn.classList.add('text-zinc-400', 'hover:text-white');
+      });
+      document.querySelectorAll('.mobile-nav-btn').forEach(function(btn) { btn.classList.replace('text-[#ff002b]', 'text-zinc-500'); });
       
       if (event && event.target && event.target.classList.contains('tab-btn')) {
-        event.target.classList.add('btn-tactile-glass-active');
+        event.target.classList.remove('text-zinc-400', 'hover:text-white');
+        event.target.classList.add('bg-zinc-800', 'text-white');
       }
       if (event && event.target && event.target.classList.contains('mobile-nav-btn')) {
-         event.target.classList.replace('text-zinc-400', 'text-[#ff002b]');
+         event.target.classList.replace('text-zinc-500', 'text-[#ff002b]');
       }
     }
 
@@ -605,7 +578,7 @@
               return;
             }
           }
-          displayElement.innerText = "La constancia en el entrenamiento define lo que sucede bajo las luces del estadio.";
+          displayElement.innerText = "Mantén el foco en la cancha y domina el juego.";
         })
         .catch(function() {
           document.getElementById('daily-fact-display').innerText = "Mantén el foco en la cancha y domina el juego.";
@@ -663,7 +636,7 @@
     function addTimelineEventFormRow() {
       const container = document.getElementById('hud-timeline-rows-container');
       const rowId = "row-" + Date.now();
-      const elementHtml = '<div id="' + rowId + '" class="flex items-center gap-2 bg-black/40 p-2.5 rounded-lg border border-white/10 text-xs">' +
+      const elementHtml = '<div id="' + rowId + '" class="flex items-center gap-2 bg-zinc-900 p-2.5 rounded-lg border border-zinc-800 text-xs">' +
           '<input type="number" placeholder="Min" class="evt-min w-12 bg-black border border-zinc-900 p-1.5 rounded text-center text-white font-mono font-bold">' +
           '<select class="evt-type bg-black border border-zinc-900 p-1.5 rounded text-zinc-300 font-black uppercase tracking-wider">' +
             '<option value="Goal">⚽ Gol</option>' +
@@ -726,7 +699,7 @@
         body: JSON.stringify(matchPayload)
       })
       .then(function() {
-        alert("¡Datos transmitidos con éxito al servidor blindado!");
+        alert("¡Partido consolidado y clasificaciones recalculadas automáticamente!");
         document.getElementById('matchHUDForm').reset();
         document.getElementById('hud-timeline-rows-container').innerHTML = "";
         updatePossessionSliders(50);
