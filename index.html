@@ -8,91 +8,61 @@
   <style>
     :root {
       --bg-dark: #050508;
-      --glass-base: rgba(10, 10, 16, 0.72);
-      --glass-border: rgba(255, 255, 255, 0.07);
+      --glass-base: rgba(10, 10, 16, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.08);
       --ferrari-neon: #ff002b;
       --ferrari-glow: rgba(255, 0, 43, 0.4);
       --paypal-blue: #0070ba;
     }
     
-    /* CAPA A: LÓGICA DE FONDO CINEMÁTICO ASÍNCRONO */
+    /* CAPA DE FONDO INDUSTRIAL ESTILO LIMBO */
     body {
       background-color: var(--bg-dark);
-      color: #f3f4f6;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      overflow-x: hidden;
-    }
-
-    /* Lienzo fijo de fondo que consume tu recurso local PNG estilo Limbo */
-    .limbo-bg-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       background-image: url('background.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      z-index: -10;
-      /* Filtro de atmósfera cinemática integrado por software */
-      filter: contrast(1.05) brightness(0.9);
+      background-attachment: fixed;
+      color: #f3f4f6;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
-    /* CAPA B: ARQUITECTURA INDUSTRIAL GLASSMORPHISM (Módulo Esmerilado) */
+    /* DISEÑO INDUSTRIAL GLASSMORPHISM (HUD LIMPIO) */
     .glass-panel-hud {
       background: var(--glass-base);
-      backdrop-filter: blur(14px) saturate(140%);
-      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      backdrop-filter: blur(12px) saturate(120%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%);
       border: 1px solid var(--glass-border);
       border-top: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 
-        0 30px 60px -15px rgba(0, 0, 0, 0.85),
-        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
       position: relative;
     }
-    
-    /* Indicadores Geométricos de Esquina (Estilo HUD de Videojuegos) */
-    .glass-panel-hud::before, .glass-panel-hud::after {
-      content: '';
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      border-color: rgba(255, 255, 255, 0.2);
-      pointer-events: none;
-    }
-    .glass-panel-hud::before { top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; }
-    .glass-panel-hud::after { bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; }
 
-    /* CAPA C: BOTONES TÁCTILES MECÁNICOS 3D EN CRISTAL */
+    /* BOTONES MECÁNICOS CON SENSACIÓN INTERACTIVA 3D */
     .btn-tactile-glass {
-      background: rgba(20, 20, 30, 0.5);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(20, 20, 30, 0.6);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-bottom: 4px solid rgba(5, 5, 8, 0.8);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-      transition: all 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+      border-bottom: 4px solid #000000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      transition: all 0.1s ease;
     }
     .btn-tactile-glass:hover {
-      border-color: rgba(255, 0, 43, 0.35);
-      background: rgba(255, 0, 43, 0.04);
-      box-shadow: 0 0 20px rgba(255, 0, 43, 0.15);
-      color: #ffffff;
+      border-color: rgba(255, 0, 43, 0.4);
+      background: rgba(255, 0, 43, 0.05);
     }
     .btn-tactile-glass:active {
       border-bottom-width: 1px;
       transform: translateY(3px);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
 
-    /* Estado de Activación de Botón (Plexo de Fibra de Neón) */
+    /* ESTADO ACTIVO NEÓN */
     .btn-tactile-glass-active {
-      background: linear-gradient(180deg, rgba(255, 0, 43, 0.8) 0%, rgba(179, 0, 30, 0.8) 100%);
+      background: linear-gradient(135deg, #ff002b 0%, #cc0022 100%);
       border-color: #ff4d6d;
       border-bottom: 4px solid #660011;
       color: #ffffff !important;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
     }
     .btn-tactile-glass-active:active {
       border-bottom-width: 1px;
@@ -104,13 +74,12 @@
     .brand-avatar {
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(10, 10, 16, 0.8);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      transition: all 0.3s ease;
     }
     .brand-avatar:hover {
       border-color: var(--ferrari-neon);
-      box-shadow: 0 0 25px var(--ferrari-glow);
-      transform: scale(1.05);
+      box-shadow: 0 0 20px var(--ferrari-glow);
     }
     .neon-logo-filter {
       filter: drop-shadow(0 0 4px rgba(255, 0, 43, 0.6)) brightness(1.1) sepia(1) hue-rotate(300deg) saturate(80);
@@ -119,18 +88,16 @@
     .view-hidden { display: none !important; }
   </style>
 </head>
-<body class="min-h-screen pb-24 md:pb-6 tracking-wide select-none">
+<body class="min-h-screen pb-24 md:pb-6 select-none">
 
-  <div class="limbo-bg-canvas"></div>
-
-  <script {sandbox: 'allow-scripts'}>
+  <script>
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz656F7JLdIZjvP0cPHNBWMWTmSc1n_ZZMjKY2Q3hJVk-UaBdkxHRyWCh5OcuFFtK5m/exec";
     const SECURITY_AUTH_TOKEN = "ELDON_SECURE_TOKEN_2026";
     let IS_STREAM_LIVE = false; 
   </script>
 
-  <div class="w-full bg-[#0a0a0f]/80 border-b border-zinc-900/60 py-3 px-4 backdrop-blur-md shadow-2xl relative z-40">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-[11px] font-bold uppercase tracking-widest gap-2">
+  <div class="w-full bg-[#0a0a0f]/90 border-b border-zinc-900 py-3 px-4 backdrop-blur-md shadow-2xl relative z-40">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs font-bold uppercase tracking-widest gap-2">
       <div class="flex items-center gap-2 text-[#ff002b] shrink-0 font-black">
         <span class="w-2 h-2 rounded-full bg-[#ff002b] shadow-[0_0_8px_#ff002b] animate-pulse"></span>
         📅 UN DÍA COMO HOY:
@@ -141,7 +108,7 @@
     </div>
   </div>
 
-  <div class="w-full bg-black/10 border-b border-white/5 backdrop-blur-xs py-2 px-4 relative z-40">
+  <div class="w-full bg-black/20 border-b border-white/5 backdrop-blur-xs py-2 px-4 relative z-40">
     <div class="max-w-7xl mx-auto flex justify-center items-center gap-8 text-zinc-400 text-xs font-black tracking-wider uppercase">
       <a href="https://www.instagram.com/eldondelfc" target="_blank" class="social-icon soc-ig flex items-center gap-1.5"><svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg><span>Instagram</span></a>
       <a href="https://www.youtube.com/@eldondelfc" target="_blank" class="social-icon soc-yt flex items-center gap-1.5"><svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span>YouTube</span></a>
@@ -164,14 +131,13 @@
 
     <div id="public-container">
       
-      <nav class="hidden md:flex justify-center gap-4 mb-8 bg-black/30 p-2.5 rounded-2xl border border-white/5 shadow-2xl backdrop-blur-md">
+      <nav class="hidden md:flex justify-center gap-4 mb-8 bg-black/40 p-2.5 rounded-2xl border border-white/5 shadow-2xl backdrop-blur-md">
         <button onclick="switchView('home-view', event)" class="tab-btn btn-tactile-glass btn-tactile-glass-active px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest w-full">🎮 Dashboard</button>
         <button onclick="switchView('stats-view', event)" class="tab-btn btn-tactile-glass px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-300 w-full">📊 Central de Partidos</button>
         <button onclick="switchView('community-view', event)" class="tab-btn btn-tactile-glass px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-300 w-full">📬 Registro</button>
       </nav>
 
       <section id="home-view" class="site-view space-y-6">
-        
         <div id="live-hero-card" class="glass-panel-hud rounded-2xl p-6 text-center overflow-hidden">
           <div id="live-badge" class="mb-4 inline-flex items-center gap-2 px-3 py-1 bg-black/60 border border-white/10 rounded-lg text-[10px] font-black uppercase tracking-widest text-zinc-400">
             <span id="live-dot" class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span> Transmisión Inactiva
@@ -185,7 +151,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
           <div class="glass-panel-hud rounded-2xl p-5 flex flex-col">
             <h3 class="text-xs uppercase font-black tracking-widest text-zinc-300 border-b border-white/5 pb-3 mb-4 flex items-center gap-2">
               <span>📅</span> Agenda de Estrategia & Reviews
@@ -195,7 +160,7 @@
             </div>
           </div>
 
-          <div class="glass-panel-hud rounded-2xl p-5 flex flex-col justify-between border-r-2 border-r-[#0070ba]/30">
+          <div class="glass-panel-hud rounded-2xl p-5 flex flex-col justify-between border-l border-white/5">
             <div>
               <h3 class="text-xs uppercase font-black tracking-widest text-[#0070ba] border-b border-white/5 pb-3 mb-4 flex items-center gap-2 font-black">
                 <span>🪙</span> Apoyar al Canal
@@ -204,7 +169,7 @@
                 Impulsa el crecimiento tecnológico de la plataforma, la organización de torneos comunitarios de EA FC Mobile y el desarrollo continuo de herramientas exclusivas para la comunidad.
               </p>
             </div>
-            <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="btn-tactile-glass text-center text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl block bg-gradient-to-b from-[#0070ba]/80 to-[#005ea6]/80 border-b-[#003d66]">
+            <a href="https://www.paypal.com/donate/?hosted_button_id=2STH9NBG4KHQ6" target="_blank" class="btn-tactile-glass text-center text-white font-black uppercase tracking-widest text-xs py-4 rounded-xl block bg-[#0070ba] border-b-[#003d66]">
               Enviar Aporte Vía PayPal
             </a>
           </div>
@@ -223,7 +188,7 @@
             </div>
             <textarea name="message" rows="3" required placeholder="Escribe detalladamente tu táctica o sugerencia de alineación..." class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs font-bold uppercase tracking-wider focus:outline-none focus:border-[#ff002b] transition-all text-white resize-none"></textarea>
             <button type="submit" class="btn-tactile-glass btn-tactile-glass-active w-full py-3.5 rounded-xl font-black uppercase tracking-widest text-xs text-white">
-              Enviar Mensaje al Buzón
+              Enviar Misión al Buzón
             </button>
           </form>
         </div>
@@ -231,7 +196,6 @@
 
       <section id="stats-view" class="site-view view-hidden space-y-6">
         <div class="glass-panel-hud rounded-2xl p-5">
-          
           <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 border-b border-white/5 pb-4">
             <div>
               <h3 class="text-sm font-black tracking-widest uppercase text-white">Central de Partidos & Clasificaciones</h3>
@@ -251,7 +215,7 @@
                   <th class="p-3 text-center">PJ</th>
                   <th class="p-3 text-center text-green-500">G</th>
                   <th class="p-3 text-center text-zinc-500">E</th>
-                  <th class="p-3 text-center text-red-500">P</th>
+                  <th class="p-3 text-center text-red-400">P</th>
                   <th class="p-3 text-center">GF</th>
                   <th class="p-3 text-center">GC</th>
                   <th class="p-3 text-center">DG</th>
@@ -431,7 +395,7 @@
     </div>
   </main>
 
-  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-[#08080c]/85 border-t border-white/5 px-4 py-3.5 backdrop-blur-lg z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.9)]">
+  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-[#08080c]/90 border-t border-white/5 px-4 py-3.5 backdrop-blur-lg z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.9)]">
     <div class="flex justify-around items-center max-w-md mx-auto">
       <button onclick="switchView('home-view', event)" class="mobile-nav-btn text-[9px] font-black uppercase tracking-widest flex flex-col items-center gap-1 text-[#ff002b]">
         <span class="text-base">🎮</span>Home
@@ -445,11 +409,12 @@
     </div>
   </div>
 
-  <script {sandbox: 'allow-scripts'}>
+  <script>
     let clickCount = 0;
     let clickTimer;
 
-    document.getElementById('secret-admin-trigger').addEventListener('click', () => {
+    // Trigger limpio y funcional sobre tu logo circular
+    document.getElementById('secret-admin-trigger').addEventListener('click', function() {
       clickCount++;
       clearTimeout(clickTimer);
       if (clickCount >= 5) {
@@ -457,8 +422,12 @@
         document.getElementById('admin-container').classList.remove('view-hidden');
         clickCount = 0;
       } else {
-        clickTimer = setTimeout(() => { clickCount = 0; }, 2000);
+        clickTimer = setTimeout(function() { clickCount = 0; }, 2000);
       }
+    });
+
+    document.getElementById('secret-admin-trigger').addEventListener('touchstart', function() {
+      // Soporte táctil optimizado para celulares en stream
     });
 
     function closeAdminHUD() {
@@ -466,7 +435,7 @@
       document.getElementById('public-container').classList.remove('view-hidden');
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", function() {
       fetchDailySoccerFact();
       evaluateStreamingComponentState();
       preloadTournamentSelector();
@@ -474,24 +443,24 @@
 
     function preloadTournamentSelector() {
       fetch(APPS_SCRIPT_URL)
-        .then(res => res.json())
-        .then(data => {
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
           const selector = document.getElementById('tourney-selector');
           selector.innerHTML = "";
           if(data.activeTournaments && data.activeTournaments.length > 0) {
-            data.activeTournaments.forEach(t => {
+            data.activeTournaments.forEach(function(t) {
               const opt = document.createElement('option');
               opt.value = t.id;
-              opt.innerText = `${t.name} (${t.format})`;
+              opt.innerText = t.name + " (" + t.format + ")";
               selector.appendChild(opt);
             });
             loadTournamentDataGrid(data.activeTournaments[0].id);
           } else {
-            selector.innerHTML = `<option value="">No hay torneos activos</option>`;
+            selector.innerHTML = '<option value="">No hay torneos activos</option>';
           }
         })
-        .catch(() => {
-          document.getElementById('tourney-selector').innerHTML = `<option value="">Error de enlace de base de datos</option>`;
+        .catch(function() {
+          document.getElementById('tourney-selector').innerHTML = '<option value="">Error de enlace de base de datos</option>';
         });
     }
 
@@ -501,15 +470,15 @@
       const tbody = document.getElementById('standings-table-body');
       const cardsContainer = document.getElementById('match-cards-container');
       
-      tbody.innerHTML = `<tr><td colspan="10" class="p-6 text-center text-zinc-500 animate-pulse font-sans">Sincronizando tabla de posiciones en tiempo real...</td></tr>`;
-      cardsContainer.innerHTML = `<p class="text-xs text-zinc-500 text-center py-4 animate-pulse italic">Indexando historial de partidos...</p>`;
+      tbody.innerHTML = '<tr><td colspan="10" class="p-6 text-center text-zinc-500 animate-pulse font-sans">Sincronizando tabla de posiciones en tiempo real...</td></tr>';
+      cardsContainer.innerHTML = '<p class="text-xs text-zinc-500 text-center py-4 animate-pulse italic">Indexando historial de partidos...</p>';
 
-      fetch(`${APPS_SCRIPT_URL}?tournamentId=${tournamentId}`)
-        .then(res => res.json())
-        .then(data => {
+      fetch(APPS_SCRIPT_URL + "?tournamentId=" + tournamentId)
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
           tbody.innerHTML = "";
           if(data.standings && data.standings.length > 0) {
-            data.standings.forEach(row => {
+            data.standings.forEach(function(row) {
               let medal = row.pos;
               if(row.pos === 1) medal = "🥇";
               if(row.pos === 2) medal = "🥈";
@@ -517,48 +486,44 @@
 
               const tr = document.createElement('tr');
               tr.className = "hover:bg-white/5 transition-colors border-b border-white/5";
-              tr.innerHTML = `
-                <td class="p-3 text-center font-black text-zinc-500">${medal}</td>
-                <td class="p-3 font-bold text-white font-sans">${row.ign}</td>
-                <td class="p-3 text-center">${row.pj}</td>
-                <td class="p-3 text-center text-green-400 font-bold">${row.g}</td>
-                <td class="p-3 text-center text-zinc-500">${row.e}</td>
-                <td class="p-3 text-center text-red-400">${row.p}</td>
-                <td class="p-3 text-center">${row.gf}</td>
-                <td class="p-3 text-center">${row.gc}</td>
-                <td class="p-3 text-center ${row.dg >= 0 ? 'text-zinc-400' : 'text-red-400/80'}">${row.dg > 0 ? '+' + row.dg : row.dg}</td>
-                <td class="p-3 text-center font-black text-[#ff002b] bg-red-950/20">${row.pts}</td>
-              `;
+              tr.innerHTML = '<td class="p-3 text-center font-black text-zinc-500">' + medal + '</td>' +
+                '<td class="p-3 font-bold text-white font-sans">' + row.ign + '</td>' +
+                '<td class="p-3 text-center">' + row.pj + '</td>' +
+                '<td class="p-3 text-center text-green-400 font-bold">' + row.g + '</td>' +
+                '<td class="p-3 text-center text-zinc-500">' + row.e + '</td>' +
+                '<td class="p-3 text-center text-red-400">' + row.p + '</td>' +
+                <td class="p-3 text-center">' + row.gf + '</td>' +
+                '<td class="p-3 text-center">' + row.gc + '</td>' +
+                '<td class="p-3 text-center">' + (row.dg > 0 ? '+' + row.dg : row.dg) + '</td>' +
+                '<td class="p-3 text-center font-black text-[#ff002b] bg-red-950/20">' + row.pts + '</td>';
               tbody.appendChild(tr);
             });
           } else {
-            tbody.innerHTML = `<tr><td colspan="10" class="p-6 text-center text-zinc-600 italic font-sans">No hay jugadores puntuados en este torneo aún.</td></tr>`;
+            tbody.innerHTML = '<tr><td colspan="10" class="p-6 text-center text-zinc-600 italic font-sans">No hay jugadores puntuados en este torneo aún.</td></tr>';
           }
 
           cardsContainer.innerHTML = "";
           if(data.matches && data.matches.length > 0) {
-            data.matches.forEach(m => {
+            data.matches.forEach(function(m) {
               const card = document.createElement('div');
               card.className = "bg-black/30 border border-white/5 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs backdrop-blur-xs";
-              card.innerHTML = `
-                <div class="flex items-center justify-between w-full sm:w-auto gap-4 font-bold">
-                  <span class="text-white text-right w-28 truncate font-sans">${m.p1}</span>
-                  <span class="px-3 py-1.5 bg-black/40 border border-white/10 rounded-lg font-mono text-sm text-[#ff002b] font-black shadow-inner">${m.s1} - ${m.s2}</span>
-                  <span class="text-zinc-400 text-left w-28 truncate font-sans">${m.p2}</span>
-                </div>
-                <div class="flex items-center gap-4 text-[10px] text-zinc-400 uppercase tracking-widest font-black font-mono">
-                  <span>🎯 Remates: ${m.shots1} vs ${m.shots2}</span>
-                  <span>📊 Posesión: ${m.poss1} - ${m.poss2}</span>
-                </div>
-              `;
+              card.innerHTML = '<div class="flex items-center justify-between w-full sm:w-auto gap-4 font-bold">' +
+                  '<span class="text-white text-right w-28 truncate font-sans">' + m.p1 + '</span>' +
+                  '<span class="px-3 py-1.5 bg-black/40 border border-white/10 rounded-lg font-mono text-sm text-[#ff002b] font-black shadow-inner">' + m.s1 + ' - ' + m.s2 + '</span>' +
+                  '<span class="text-zinc-400 text-left w-28 truncate font-sans">' + m.p2 + '</span>' +
+                '</div>' +
+                '<div class="flex items-center gap-4 text-[10px] text-zinc-400 uppercase tracking-widest font-black font-mono">' +
+                  '<span>🎯 Remates: ' + m.shots1 + ' vs ' + m.shots2 + '</span>' +
+                  '<span>📊 Posesión: ' + m.poss1 + ' - ' + m.poss2 + '</span>' +
+                '</div>';
               cardsContainer.appendChild(card);
             });
           } else {
-            cardsContainer.innerHTML = `<p class="text-xs text-zinc-500 text-center py-4 italic">No hay partidos registrados en este torneo.</p>`;
+            cardsContainer.innerHTML = '<p class="text-xs text-zinc-500 text-center py-4 italic">No hay partidos registrados en este torneo.</p>';
           }
         })
-        .catch(() => {
-          tbody.innerHTML = `<tr><td colspan="10" class="p-6 text-center text-red-500 font-sans">Error crítico de red al leer clasificaciones.</td></tr>`;
+        .catch(function() {
+          tbody.innerHTML = '<tr><td colspan="10" class="p-6 text-center text-red-500 font-sans">Error crítico de red al leer clasificaciones.</td></tr>';
         });
     }
 
@@ -573,10 +538,9 @@
         heroCard.style.borderColor = "rgba(255, 0, 43, 0.4)";
         badge.className = "mb-4 inline-flex items-center gap-2 px-3 py-1 bg-red-950/40 border border-red-900 rounded-lg text-[10px] font-black uppercase tracking-widest text-red-400";
         dot.className = "w-1.5 h-1.5 rounded-full bg-[#ff002b] shadow-[0_0_8px_#ff002b] animate-ping";
-        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-[#ff002b]"></span> ¡ESTAMOS EN VIVO!`;
+        badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-[#ff002b]"></span> ¡ESTAMOS EN VIVO!';
         headline.className = "text-3xl font-black tracking-tight mb-6 uppercase italic text-white";
         headline.innerText = "Accede a la Arena de Juego Ahora Mismo";
-        
         btn.className = "btn-tactile-glass btn-tactile-glass-active text-white inline-block px-12 py-4 rounded-xl font-black uppercase tracking-widest text-xs text-center w-full sm:w-auto";
         btn.innerText = "Entrar al Directo en TikTok";
         btn.href = "https://www.tiktok.com/@eldondelfc/live";
@@ -584,10 +548,9 @@
         heroCard.style.borderColor = "rgba(255,255,255,0.04)";
         badge.className = "mb-4 inline-flex items-center gap-2 px-3 py-1 bg-black/60 border border-white/10 rounded-lg text-[10px] font-black uppercase tracking-widest text-zinc-500";
         dot.className = "w-1.5 h-1.5 rounded-full bg-zinc-600";
-        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span> Transmisión Inactiva`;
+        badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-zinc-600"></span> Transmisión Inactiva';
         headline.className = "text-3xl font-black tracking-tight mb-6 uppercase italic text-zinc-400";
         headline.innerText = "Consulta Mis Horarios";
-        
         btn.className = "btn-tactile-glass text-zinc-300 inline-block px-12 py-4 rounded-xl font-black uppercase tracking-widest text-xs text-center w-full sm:w-auto";
         btn.innerText = "Visita mi TikTok (Horarios en Bio)";
         btn.href = "https://www.tiktok.com/@eldondelfc";
@@ -597,7 +560,6 @@
     function toggleStreamStatusLive() {
       const toggleBtn = document.getElementById('hud-live-toggle');
       IS_STREAM_LIVE = !IS_STREAM_LIVE;
-      
       if(IS_STREAM_LIVE) {
         toggleBtn.innerText = "Live / Online";
         toggleBtn.className = "px-4 py-2 bg-red-950/40 border border-red-900 rounded-lg text-xs font-black text-red-400 tracking-widest uppercase transition-all shadow-[0_0_10px_rgba(255,0,43,0.3)]";
@@ -609,16 +571,15 @@
     }
 
     function switchView(targetViewId, event) {
-      document.querySelectorAll('.site-view').forEach(view => view.classList.add('view-hidden'));
+      document.querySelectorAll('.site-view').forEach(function(view) { view.classList.add('view-hidden'); });
       document.getElementById(targetViewId).classList.remove('view-hidden');
       
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('btn-tactile-glass-active'));
-      document.querySelectorAll('.mobile-nav-btn').forEach(btn => btn.classList.replace('text-[#ff002b]', 'text-zinc-400'));
+      document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('btn-tactile-glass-active'); });
+      document.querySelectorAll('.mobile-nav-btn').forEach(function(btn) { btn.classList.replace('text-[#ff002b]', 'text-zinc-400'); });
       
       if (event && event.target && event.target.classList.contains('tab-btn')) {
         event.target.classList.add('btn-tactile-glass-active');
       }
-      // Sincronización del dock móvil
       if (event && event.target && event.target.classList.contains('mobile-nav-btn')) {
          event.target.classList.replace('text-zinc-400', 'text-[#ff002b]');
       }
@@ -629,26 +590,24 @@
       const mm = String(today.getMonth() + 1).padStart(2, '0');
       const dd = String(today.getDate()).padStart(2, '0');
       const footballKeywords = ["fútbol", "futbol", "fifa", "uefa", "champions", "mundial", "maradona", "pelé", "messi", "cristiano", "madrid", "barcelona", "copa", "campeón", "gol", "estadio", "balón", "premier"];
-      const wikiUrl = `https://es.wikipedia.org/api/rest_v1/feed/onthisday/selected/${mm}/${dd}`;
-
-      fetch(wikiUrl)
-        .then(res => res.json())
-        .then(data => {
+      
+      fetch("https://es.wikipedia.org/api/rest_v1/feed/onthisday/selected/" + mm + "/" + dd)
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
           const displayElement = document.getElementById('daily-fact-display');
           if (data.selected && data.selected.length > 0) {
-            const soccerEvents = data.selected.filter(evt => {
-              const text = evt.text.toLowerCase();
-              return footballKeywords.some(key => text.includes(key));
+            const soccerEvents = data.selected.filter(function(evt) {
+              return footballKeywords.some(function(key) { return evt.text.toLowerCase().includes(key); });
             });
             if (soccerEvents.length > 0) {
               const randomFact = soccerEvents[Math.floor(Math.random() * soccerEvents.length)];
-              displayElement.innerText = `En ${randomFact.year}: ${randomFact.text.replace(/\[\d+\]/g, '')}`;
+              displayElement.innerText = "En " + randomFact.year + ": " + randomFact.text.replace(/\[\d+\]/g, '');
               return;
             }
           }
           displayElement.innerText = "La constancia en el entrenamiento define lo que sucede bajo las luces del estadio.";
         })
-        .catch(() => {
+        .catch(function() {
           document.getElementById('daily-fact-display').innerText = "Mantén el foco en la cancha y domina el juego.";
         });
     }
@@ -677,12 +636,12 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registrationData)
       })
-      .then(() => {
+      .then(function() {
         alert("¡Registro Exitoso! Perfil oficial indexado.");
         document.getElementById('registrationForm').reset();
       })
-      .catch(err => alert("Error de enlace: " + err.toString()))
-      .finally(() => {
+      .catch(function(err) { alert("Error de enlace: " + err.toString()); })
+      .finally(function() {
         submitBtn.innerText = "Registrar Perfil Oficial";
         submitBtn.disabled = false;
       });
@@ -704,22 +663,20 @@
     function addTimelineEventFormRow() {
       const container = document.getElementById('hud-timeline-rows-container');
       const rowId = "row-" + Date.now();
-      const elementHtml = `
-        <div id="${rowId}" class="flex items-center gap-2 bg-black/40 p-2.5 rounded-lg border border-white/10 text-xs">
-          <input type="number" placeholder="Min" class="evt-min w-12 bg-black border border-zinc-900 p-1.5 rounded text-center text-white font-mono font-bold">
-          <select class="evt-type bg-black border border-zinc-900 p-1.5 rounded text-zinc-300 font-black uppercase tracking-wider">
-            <option value="Goal">⚽ Gol</option>
-            <option value="Yellow_Card">🟨 Tarjeta</option>
-            <option value="Red_Card">🟥 Expulsión</option>
-          </select>
-          <select class="evt-side bg-black border border-zinc-900 p-1.5 rounded text-zinc-300 font-black uppercase tracking-wider">
-            <option value="P1">Local</option>
-            <option value="P2">Visita</option>
-          </select>
-          <input type="text" placeholder="Jugador Virtual" class="evt-player flex-1 bg-black border border-zinc-900 p-1.5 rounded text-white font-bold">
-          <button type="button" onclick="document.getElementById('${rowId}').remove()" class="text-zinc-600 hover:text-[#ff002b] font-black px-2">✕</button>
-        </div>
-      `;
+      const elementHtml = '<div id="' + rowId + '" class="flex items-center gap-2 bg-black/40 p-2.5 rounded-lg border border-white/10 text-xs">' +
+          '<input type="number" placeholder="Min" class="evt-min w-12 bg-black border border-zinc-900 p-1.5 rounded text-center text-white font-mono font-bold">' +
+          '<select class="evt-type bg-black border border-zinc-900 p-1.5 rounded text-zinc-300 font-black uppercase tracking-wider">' +
+            '<option value="Goal">⚽ Gol</option>' +
+            '<option value="Yellow_Card">🟨 Tarjeta</option>' +
+            '<option value="Red_Card">🟥 Expulsión</option>' +
+          '</select>' +
+          '<select class="evt-side bg-black border border-zinc-900 p-1.5 rounded text-zinc-300 font-black uppercase tracking-wider">' +
+            '<option value="P1">Local</option>' +
+            '<option value="P2">Visita</option>' +
+          '</select>' +
+          '<input type="text" placeholder="Jugador Virtual" class="evt-player flex-1 bg-black border border-zinc-900 p-1.5 rounded text-white font-bold">' +
+          '<button type="button" onclick="document.getElementById(\'' + rowId + '\').remove()" class="text-zinc-600 hover:text-[#ff002b] font-black px-2">✕</button>' +
+        '</div>';
       container.insertAdjacentHTML('beforeend', elementHtml);
     }
 
@@ -734,4 +691,54 @@
       const eventRows = document.getElementById('hud-timeline-rows-container').children;
       const computedEvents = [];
       
-      for (let row of
+      for (let i = 0; i < eventRows.length; i++) {
+        let row = eventRows[i];
+        let sideValue = row.querySelector('.evt-side').value;
+        computedEvents.push({
+          playerUid: sideValue === "P1" ? p1Uid : p2Uid,
+          type: row.querySelector('.evt-type').value,
+          minute: row.querySelector('.evt-min').value || 0,
+          playerName: row.querySelector('.evt-player').value || "Unknown Player"
+        });
+      }
+
+      const matchPayload = {
+        action: "submitMatch",
+        authToken: SECURITY_AUTH_TOKEN,
+        tournamentId: document.getElementById('hud-tournament').value,
+        p1Uid: p1Uid,
+        p2Uid: p2Uid,
+        p1Score: document.getElementById('hud-p1-score').value,
+        p2Score: document.getElementById('hud-p2-score').value,
+        p1Shots: document.getElementById('hud-p1-shots').value,
+        p2Shots: document.getElementById('hud-p2-shots').value,
+        p1Poss: document.getElementById('p1-poss-val').innerText,
+        p2Poss: document.getElementById('p2-poss-val').innerText,
+        p1PassAcc: document.getElementById('hud-p1-pass').value,
+        p2PassAcc: document.getElementById('hud-p2-pass').value,
+        events: computedEvents
+      };
+
+      fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(matchPayload)
+      })
+      .then(function() {
+        alert("¡Datos transmitidos con éxito al servidor blindado!");
+        document.getElementById('matchHUDForm').reset();
+        document.getElementById('hud-timeline-rows-container').innerHTML = "";
+        updatePossessionSliders(50);
+        const currentActiveTourney = document.getElementById('tourney-selector').value;
+        if(currentActiveTourney) loadTournamentDataGrid(currentActiveTourney);
+      })
+      .catch(function(err) { alert("Error de enlace: " + err.toString()); })
+      .finally(function() {
+        submitBtn.innerText = "Transmitir a Base de Datos";
+        submitBtn.disabled = false;
+      });
+    }
+  </script>
+</body>
+</html>
